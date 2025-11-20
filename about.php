@@ -539,7 +539,11 @@ $teamMembers = [
             </div>
         </section>
         
+        <!-- Team Section -->
         <section class="team-section">
+            <div class="team-star-1"></div>
+            <div class="team-star-2"></div>
+
             <div class="team-container">
                 <div class="team-title-box">
                     <h2 class="team-title">Meet the<br>Team</h2>
@@ -558,6 +562,19 @@ $teamMembers = [
                         </div>
                     <?php endforeach; ?>
                 </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2 class="cta-title">Ready to Join the Buzz?</h2>
+            <p class="cta-text">
+                Be part of the BuzzarFeed community — discover stalls, write reviews, and<br>
+                connect with fellow foodies.
+            </p>
+            <div class="cta-buttons">
+                <a href="<?= BASE_URL ?>signup" class="cta-btn primary">Sign Up Now</a>
+                <a href="<?= BASE_URL ?>stalls" class="cta-btn secondary">Explore Stalls</a>
             </div>
         </section>
     </main>
