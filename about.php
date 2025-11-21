@@ -39,12 +39,15 @@ $teamMembers = [
     <meta name="description" content="<?= htmlspecialchars($pageDescription) ?>">
     <title><?= htmlspecialchars($pageTitle) ?></title>
     
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
     
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
+    <!-- CSS Architecture -->
     <link rel="stylesheet" href="assets/css/variables.css">
     <link rel="stylesheet" href="assets/css/base.css">
     <link rel="stylesheet" href="assets/css/styles.css">
@@ -474,12 +477,18 @@ $teamMembers = [
 </head>
 <body>
     <!-- Header -->
-    <nav style="padding:20px; text-align:center; background:#f0f0f0;">HEADER COMPONENT</nav>
+    <?php include __DIR__ . '/includes/header.php'; ?>
     
     <!-- Main Content -->
     <main>
         <!-- Hero Section -->
         <section class="hero-section">
+            <!-- Decorative Shapes -->
+            <div class="deco-shape green-1"></div>
+            <div class="deco-shape green-2"></div>
+            <div class="deco-shape orange-1"></div>
+            <div class="deco-shape orange-2"></div>
+
             <div class="hero-content">
                 <h1 class="hero-title">
                     Everything <span class="icon-stall"><i class="fas fa-store"></i></span> You<br>
@@ -579,6 +588,10 @@ $teamMembers = [
         </section>
     </main>
 
-    <footer style="padding:20px; text-align:center; background:#f0f0f0;">FOOTER COMPONENT</footer>
+    <!-- Footer -->
+    <?php include __DIR__ . '/includes/footer.php'; ?>
+    
+    <!-- JavaScript -->
+    <script type="module" src="<?= JS_URL ?>/app.js"></script>
 </body>
 </html>
