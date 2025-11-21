@@ -131,11 +131,65 @@ $nearbyStalls = array_slice($stalls, 0, 3);
             <p>Locate stalls, filter by food type, and never miss a hidden gem at "the bazaar"</p>
         </section>
         
-        <!-- Placeholders for next phases -->
-        <div style="text-align:center; padding: 50px; background: #f5f5f5; color: #999;">
-            [Filters, Map, and Nearby Stalls will be implemented here]
-        </div>
-    </main>
+        <!-- Category Filters -->
+        <section class="filters-section">
+            <div class="category-filters">
+                <a href="?category=all" class="filter-btn <?= empty($category) || $category === 'all' ? 'active' : '' ?>">
+                    <span class="filter-icon">🍽️</span>
+                    All stalls
+                </a>
+                <?php 
+                $categoryIcons = [
+                    'Beverages' => '🥤',
+                    'Rice Meals' => '🍛',
+                    'Snacks' => '🍿',
+                    'Street Food' => '🌮',
+                    'Fast Food' => '🍔',
+                    'Pastries' => '🥐',
+                    'Others' => '🍴'
+                ];
+                foreach ($allCategories as $cat): 
+                    if ($cat === 'All stalls') continue;
+                    $icon = $categoryIcons[$cat] ?? '🍴';
+                ?>
+                    <a href="?category=<?= urlencode($cat) ?>" class="filter-btn <?= $category === $cat ? 'active' : '' ?>">
+                        <span class="filter-icon"><?= $icon ?></span>
+                        <?= Helpers::escape($cat) ?>
+                    </a>
+                <?php endforeach; ?>
+            </div>
+        </section>
+        
+        <!-- Map Section -->
+        <section class="map-section">
+            <div class="map-container-wrapper">
+                <h2 class="map-title">Map</h2>
+                <div class="map-container" id="mapContainer">
+                    <img src="<?= IMAGES_URL ?>/maps.png" alt="BGC Night Market Map" class="map-image" id="mapImage">
+                    
+                    <?php foreach ($stallsWithLocation as $stall): ?>
+                        <div class="map-pin" 
+                             style="left: <?= $stall['latitude'] ?>%; top: <?= $stall['longitude'] ?>%;"
+                             data-stall-id="<?= $stall['id'] ?>"
+                             data-stall-name="<?= Helpers::escape($stall['name']) ?>"
+                             data-stall-desc="<?= Helpers::escape(substr($stall['description'], 0, 100)) ?>"
+                             data-stall-rating="<?= $stall['rating'] ?>"
+                             data-stall-categories="<?= Helpers::escape(implode(', ', array_slice($stall['categories'], 0, 2))) ?>">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                    <?php endforeach; ?>
+                    
+                    <!-- Stall Info Tooltip -->
+                    <div class="stall-tooltip hidden" id="stallTooltip">
+                        <h4 class="tooltip-name"></h4>
+                        <div class="tooltip-categories"></div>
+                        <div class="tooltip-rating"></div>
+                        <p class="tooltip-desc"></p>
+                        <button class="tooltip-view-btn" onclick="viewStall()">View Stall</button>
+                    </div>
+                </div>
+            </div>
+        </section>
     
     <!-- Footer -->
     <?php include __DIR__ . '/includes/footer.php'; ?>
