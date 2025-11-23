@@ -165,9 +165,11 @@ $allCategories = $standardCategories;
                                     <?= Helpers::escape($stall['description']) ?>
                                 </p>
                                 
+                                <!-- 
                                 <a href="stall-detail.php?id=<?= $stall['id'] ?>" class="btn-see-more">
-                                    See More <i class="fas fa-arrow-right"></i>
+                                    See More <i class="fas fa-arrow-right">See More</i>
                                 </a>
+                                -->
                             </div>
                         </div>
                     <?php endforeach; ?>
