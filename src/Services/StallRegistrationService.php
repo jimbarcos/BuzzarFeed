@@ -22,5 +22,22 @@ class StallRegistrationService
     {
         $this->db = Database::getInstance();
     }
-    
+
+    /**
+     * Check if user has a pending application
+     * 
+     * @param int $userId
+     * @return bool
+     */
+    public function hasPendingApplication(int $userId): bool
+    {
+        $pendingApp = $this->db->querySingle(
+            "SELECT application_id FROM applications 
+             WHERE user_id = ? AND current_status_id = 1",
+            [$userId]
+        );
+        
+        return !empty($pendingApp);
+    }
+
 }
