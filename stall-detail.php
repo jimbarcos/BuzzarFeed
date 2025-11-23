@@ -7,6 +7,276 @@
  * @package BuzzarFeed
  * @version 1.0
  */
+
+require_once __DIR__ . '/bootstrap.php';
+
+use BuzzarFeed\Utils\Helpers;
+use BuzzarFeed\Utils\Session;
+use BuzzarFeed\Utils\Database;
+
+Session::start();
+
+$db = Database::getInstance();
+$stallId = Helpers::get('id');
+
+if (!$stallId) {
+    Helpers::redirect('stalls.php');
+    exit;
+}
+
+// Fetch stall details with location and owner name
+$stall = $db->querySingle(
+    "SELECT fs.*, sl.address, sl.latitude, sl.longitude, u.name as owner_name
+     FROM food_stalls fs
+     LEFT JOIN stall_locations sl ON fs.stall_id = sl.stall_id
+     LEFT JOIN users u ON fs.owner_id = u.user_id
+     WHERE fs.stall_id = ? AND fs.is_active = 1",
+    [$stallId]
+);
+
+if (!$stall) {
+    Session::setFlash('Stall not found.', 'error');
+    Helpers::redirect('stalls.php');
+    exit;
+}
+
+// Decode food categories
+$categories = !empty($stall['food_categories']) ? json_decode($stall['food_categories'], true) : [];
+
+// Fetch menu items
+$menuItems = $db->query(
+    "SELECT * FROM menu_items WHERE stall_id = ? AND is_available = 1 ORDER BY category_id, name",
+    [$stallId]
+);
+
+// Group menu items by category
+$groupedMenuItems = [];
+foreach ($menuItems as $item) {
+    $categoryName = $item['category_id'] ? 'Category ' . $item['category_id'] : 'Uncategorized';
+    if (!isset($groupedMenuItems[$categoryName])) {
+        $groupedMenuItems[$categoryName] = [];
+    }
+    $groupedMenuItems[$categoryName][] = $item;
+}
+
+// Get filter and sort parameters
+$filterRating = Helpers::get('rating', '');
+$sortBy = Helpers::get('sort', 'newest');
+
+// Build WHERE clause for rating filter
+$whereClause = "r.stall_id = ?";
+$params = [$stallId];
+
+if (!empty($filterRating) && $filterRating !== 'all') {
+    $whereClause .= " AND r.rating = ?";
+    $params[] = $filterRating;
+}
+
+// Build ORDER BY clause for sorting
+$orderClause = match($sortBy) {
+    'oldest' => 'r.created_at ASC',
+    'highest' => 'r.rating DESC, r.created_at DESC',
+    'lowest' => 'r.rating ASC, r.created_at DESC',
+    'most_liked' => 'like_count DESC, r.created_at DESC',
+    'most_disliked' => 'dislike_count DESC, r.created_at DESC',
+    default => 'r.created_at DESC' // newest
+};
+
+// Fetch reviews with user information and reaction counts
+$reviews = $db->query(
+    "SELECT r.*, u.name as username, u.profile_image,
+     (SELECT COUNT(*) FROM review_reactions WHERE review_id = r.review_id AND reaction_type = 'like') as like_count,
+     (SELECT COUNT(*) FROM review_reactions WHERE review_id = r.review_id AND reaction_type = 'dislike') as dislike_count
+     FROM reviews r
+     LEFT JOIN users u ON r.user_id = u.user_id
+     WHERE $whereClause
+     ORDER BY $orderClause",
+    $params
+);
+
+// Get user's reactions if logged in
+$userReactions = [];
+if (Session::isLoggedIn()) {
+    $userReactionsData = $db->query(
+        "SELECT review_id, reaction_type FROM review_reactions WHERE user_id = ?",
+        [Session::get('user_id')]
+    );
+    foreach ($userReactionsData as $reaction) {
+        $userReactions[$reaction['review_id']] = $reaction['reaction_type'];
+    }
+}
+
+// Calculate rating statistics
+$ratingStats = $db->querySingle(
+    "SELECT 
+        COUNT(*) as total_reviews,
+        AVG(rating) as average_rating,
+        SUM(CASE WHEN rating = 5 THEN 1 ELSE 0 END) as five_star,
+        SUM(CASE WHEN rating = 4 THEN 1 ELSE 0 END) as four_star,
+        SUM(CASE WHEN rating = 3 THEN 1 ELSE 0 END) as three_star,
+        SUM(CASE WHEN rating = 2 THEN 1 ELSE 0 END) as two_star,
+        SUM(CASE WHEN rating = 1 THEN 1 ELSE 0 END) as one_star
+     FROM reviews WHERE stall_id = ?",
+    [$stallId]
+);
+
+$totalReviews = $ratingStats['total_reviews'] ?? 0;
+$averageRating = $totalReviews > 0 ? round($ratingStats['average_rating'], 1) : 0;
+
+// Handle review submission
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $action = Helpers::post('action');
+    
+    if ($action === 'submit_review') {
+        if (!Session::isLoggedIn()) {
+            Session::setFlash('Please log in to write a review.', 'error');
+        } elseif (Session::get('user_id') == $stall['owner_id']) {
+            Session::setFlash('You cannot review your own stall.', 'error');
+        } else {
+            $rating = Helpers::post('rating');
+            $title = Helpers::post('review_title');
+            $comment = Helpers::post('review_comment');
+            $anonymous = Helpers::post('anonymous') === 'on';
+            
+            // Validate rating
+            if (empty($rating) || $rating < 1 || $rating > 5) {
+                Session::setFlash('Please select a rating between 1 and 5 stars.', 'error');
+                Helpers::redirect('stall-detail.php?id=' . $stallId . '&tab=reviews');
+                exit;
+            }
+            
+            try {
+                $db->execute(
+                    "INSERT INTO reviews (stall_id, user_id, rating, title, comment, is_anonymous, created_at, updated_at)
+                     VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW())",
+                    [$stallId, Session::get('user_id'), $rating, $title, $comment, $anonymous ? 1 : 0]
+                );
+                
+                Session::setFlash('Review submitted successfully!', 'success');
+                Helpers::redirect('stall-detail.php?id=' . $stallId . '&tab=reviews');
+                exit;
+            } catch (\Exception $e) {
+                $error = "Error submitting review: " . $e->getMessage();
+                Session::setFlash($error, 'error');
+                Helpers::redirect('stall-detail.php?id=' . $stallId . '&tab=reviews');
+                exit;
+            }
+        }
+    }
+    
+    if ($action === 'update_review') {
+        if (!Session::isLoggedIn()) {
+            Session::setFlash('Please log in to update your review.', 'error');
+        } else {
+            $reviewId = Helpers::post('review_id');
+            $rating = Helpers::post('rating');
+            $title = Helpers::post('review_title');
+            $comment = Helpers::post('review_comment');
+            $anonymous = Helpers::post('anonymous') === 'on';
+            
+            try {
+                $db->execute(
+                    "UPDATE reviews SET rating = ?, title = ?, comment = ?, is_anonymous = ?, updated_at = NOW()
+                     WHERE review_id = ? AND user_id = ?",
+                    [$rating, $title, $comment, $anonymous ? 1 : 0, $reviewId, Session::get('user_id')]
+                );
+                
+                Session::setFlash('Review updated successfully!', 'success');
+                Helpers::redirect('stall-detail.php?id=' . $stallId . '&tab=reviews');
+                exit;
+            } catch (\Exception $e) {
+                Session::setFlash('Error updating review: ' . $e->getMessage(), 'error');
+                Helpers::redirect('stall-detail.php?id=' . $stallId . '&tab=reviews');
+                exit;
+            }
+        }
+    }
+    
+    if ($action === 'delete_review') {
+        if (!Session::isLoggedIn()) {
+            Session::setFlash('Please log in to delete your review.', 'error');
+        } else {
+            $reviewId = Helpers::post('review_id');
+            
+            try {
+                $db->execute(
+                    "DELETE FROM reviews WHERE review_id = ? AND user_id = ?",
+                    [$reviewId, Session::get('user_id')]
+                );
+                
+                Session::setFlash('Review deleted successfully!', 'success');
+                Helpers::redirect('stall-detail.php?id=' . $stallId . '&tab=reviews');
+                exit;
+            } catch (\Exception $e) {
+                Session::setFlash('Error deleting review: ' . $e->getMessage(), 'error');
+                Helpers::redirect('stall-detail.php?id=' . $stallId . '&tab=reviews');
+                exit;
+            }
+        }
+    }
+    
+    if ($action === 'react_review') {
+        if (!Session::isLoggedIn()) {
+            echo json_encode(['success' => false, 'message' => 'Please log in to react']);
+            exit;
+        }
+        
+        $reviewId = Helpers::post('review_id');
+        $reactionType = Helpers::post('reaction_type');
+        
+        try {
+            // Check if user already reacted
+            $existingReaction = $db->querySingle(
+                "SELECT * FROM review_reactions WHERE review_id = ? AND user_id = ?",
+                [$reviewId, Session::get('user_id')]
+            );
+            
+            if ($existingReaction) {
+                if ($existingReaction['reaction_type'] === $reactionType) {
+                    // Remove reaction if same type
+                    $db->execute(
+                        "DELETE FROM review_reactions WHERE review_id = ? AND user_id = ?",
+                        [$reviewId, Session::get('user_id')]
+                    );
+                } else {
+                    // Update to new reaction type
+                    $db->execute(
+                        "UPDATE review_reactions SET reaction_type = ? WHERE review_id = ? AND user_id = ?",
+                        [$reactionType, $reviewId, Session::get('user_id')]
+                    );
+                }
+            } else {
+                // Add new reaction
+                $db->execute(
+                    "INSERT INTO review_reactions (review_id, user_id, reaction_type) VALUES (?, ?, ?)",
+                    [$reviewId, Session::get('user_id'), $reactionType]
+                );
+            }
+            
+            // Get updated counts
+            $counts = $db->querySingle(
+                "SELECT 
+                    (SELECT COUNT(*) FROM review_reactions WHERE review_id = ? AND reaction_type = 'like') as like_count,
+                    (SELECT COUNT(*) FROM review_reactions WHERE review_id = ? AND reaction_type = 'dislike') as dislike_count",
+                [$reviewId, $reviewId]
+            );
+            
+            echo json_encode([
+                'success' => true,
+                'like_count' => $counts['like_count'],
+                'dislike_count' => $counts['dislike_count']
+            ]);
+            exit;
+        } catch (\Exception $e) {
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+            exit;
+        }
+    }
+}
+
+$pageTitle = Helpers::escape($stall['name']) . " - BuzzarFeed";
+$pageDescription = Helpers::escape($stall['description']);
+$currentTab = Helpers::get('tab', 'menu');
 ?>
 <!DOCTYPE html>
 <html lang="en">
