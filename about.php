@@ -8,11 +8,10 @@
  * @version 1.0
  */
 
-// [FE] TODO: Uncomment these once Backend sets up bootstrap
-// require_once __DIR__ . '/bootstrap.php';
-// use BuzzarFeed\Utils\Helpers;
-// use BuzzarFeed\Utils\Session;
-// Session::start();
+require_once __DIR__ . '/bootstrap.php';
+
+use BuzzarFeed\Utils\Helpers;
+use BuzzarFeed\Utils\Session;
 
 $pageTitle = "About Us - BuzzarFeed";
 $pageDescription = "Everything you need to know about BuzzarFeed - Your digital guide to the flavors of the BGC Night Market Bazaar";
@@ -36,8 +35,11 @@ $teamMembers = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?= htmlspecialchars($pageDescription) ?>">
-    <title><?= htmlspecialchars($pageTitle) ?></title>
+    <meta name="description" content="<?= Helpers::escape($pageDescription) ?>">
+    <title><?= Helpers::escape($pageTitle) ?></title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="<?= IMAGES_URL ?>/favicon.png">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,10 +50,12 @@ $teamMembers = [
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- CSS Architecture -->
-    <link rel="stylesheet" href="assets/css/variables.css">
-    <link rel="stylesheet" href="assets/css/base.css">
-    <link rel="stylesheet" href="assets/css/styles.css">
-    <link rel="stylesheet" href="assets/css/about.css">
+    <link rel="stylesheet" href="<?= CSS_URL ?>/variables.css">
+    <link rel="stylesheet" href="<?= CSS_URL ?>/base.css">
+    <link rel="stylesheet" href="<?= CSS_URL ?>/components/button.css">
+    <link rel="stylesheet" href="<?= CSS_URL ?>/components/dropdown.css">
+    <link rel="stylesheet" href="<?= CSS_URL ?>/styles.css">
+    <link rel="stylesheet" href="<?= CSS_URL ?>/about.css">
 </head>
 <body>
     <!-- Header -->
@@ -60,7 +64,9 @@ $teamMembers = [
     <!-- Main Content -->
     <main>
         <?php include __DIR__ . '/sections/about/HeroSection.php'; ?>
+        <hr class="section-divider" />
         <?php include __DIR__ . '/sections/about/AboutSection.php'; ?>
+        <hr class="section-divider" />
         <?php include __DIR__ . '/sections/about/TeamSection.php'; ?>
         <?php include __DIR__ . '/sections/about/CTASection.php'; ?>
     </main>
