@@ -202,4 +202,64 @@ class ApplicationService
             $application['map_y'] ?? null
         ]);
     }
+
+    /**
+     * Update application status
+     * 
+     * @param int $applicationId
+     * @param int $statusId
+     * @return void
+     */
+    private function updateApplicationStatus(int $applicationId, int $statusId): void
+    {
+        $this->db->execute(
+            "UPDATE applications SET current_status_id = ? WHERE application_id = ?",
+            [$statusId, $applicationId]
+        );
+    }
+    
+    /**
+     * Update user timestamp
+     * 
+     * @param int $userId
+     * @return void
+     */
+    private function updateUserTimestamp(int $userId): void
+    {
+        $this->db->execute(
+            "UPDATE users SET updated_at = NOW() WHERE user_id = ?",
+            [$userId]
+        );
+    }
+    
+    /**
+     * Delete application files
+     * 
+     * @param array $application
+     * @return void
+     */
+    private function deleteApplicationFiles(array $application): void
+    {
+        $uploadDir = __DIR__ . '/../../';
+        $filesToDelete = [
+            $application['bir_registration_path'],
+            $application['business_permit_path'],
+            $application['dti_sec_path'],
+            $application['stall_logo_path']
+        ];
+        
+        foreach ($filesToDelete as $filePath) {
+            if ($filePath && file_exists($uploadDir . $filePath)) {
+                unlink($uploadDir . $filePath);
+            }
+        }
+        
+        // Delete the directory if empty
+        if (!empty($application['bir_registration_path'])) {
+            $appDir = dirname($uploadDir . $application['bir_registration_path']);
+            if (is_dir($appDir) && count(scandir($appDir)) == 2) {
+                rmdir($appDir);
+            }
+        }
+    }
 }
