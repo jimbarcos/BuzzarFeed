@@ -262,4 +262,52 @@ class ApplicationService
             }
         }
     }
+
+    /**
+     * Send approval email to applicant
+     * 
+     * @param array $application
+     * @param string $reviewNotes
+     * @return void
+     */
+    private function sendApprovalEmail(array $application, string $reviewNotes): void
+    {
+        try {
+            $emailService = EmailService::getInstance();
+            $emailService->sendApplicationApprovalEmail(
+                $application['email'],
+                $application['name'],
+                $application['stall_name'],
+                $reviewNotes
+            );
+            error_log("Application approval email sent to: {$application['email']}");
+        } catch (\Exception $e) {
+            error_log("Failed to send approval email: " . $e->getMessage());
+            // Don't throw exception - email failure shouldn't stop the approval process
+        }
+    }
+    
+    /**
+     * Send decline email to applicant
+     * 
+     * @param array $application
+     * @param string $reviewNotes
+     * @return void
+     */
+    private function sendDeclineEmail(array $application, string $reviewNotes): void
+    {
+        try {
+            $emailService = EmailService::getInstance();
+            $emailService->sendApplicationDeclineEmail(
+                $application['email'],
+                $application['name'],
+                $application['stall_name'],
+                $reviewNotes
+            );
+            error_log("Application decline email sent to: {$application['email']}");
+        } catch (\Exception $e) {
+            error_log("Failed to send decline email: " . $e->getMessage());
+            // Don't throw exception - email failure shouldn't stop the decline process
+        }
+    }
 }
