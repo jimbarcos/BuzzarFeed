@@ -135,4 +135,61 @@ class StallRegistrationService
         return 'uploads/applications/' . $stallSlug . '/' . $filename;
     }
 
+     /**
+     * Create stall application
+     * 
+     * @param int $userId
+     * @param array $data Application data
+     * @param array $filePaths Uploaded file paths
+     * @return int Application ID
+     * @throws \Exception
+     */
+    public function createApplication(int $userId, array $data, array $filePaths): int
+    {
+        $query = "INSERT INTO applications 
+            (user_id, stall_name, stall_description, location, food_categories, 
+             bir_registration_path, business_permit_path, dti_sec_path, stall_logo_path,
+             map_x, map_y, current_status_id, created_at) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, NOW())";
+        
+        $this->db->execute($query, [
+            $userId,
+            $data['stall_name'],
+            $data['description'],
+            $data['location'],
+            json_encode($data['categories']),
+            $filePaths['bir_registration'] ?? null,
+            $filePaths['business_permit'] ?? null,
+            $filePaths['dti_sec'] ?? null,
+            $filePaths['stall_logo'] ?? null,
+            $data['map_x'] ?? null,
+            $data['map_y'] ?? null
+        ]);
+        
+        return $this->db->lastInsertId();
+    }
+    
+    /**
+     * Delete application files (rollback on error)
+     * 
+     * @param array $filePaths
+     * @return void
+     */
+    public function deleteApplicationFiles(array $filePaths): void
+    {
+        foreach ($filePaths as $path) {
+            if ($path && file_exists(__DIR__ . '/../../' . $path)) {
+                unlink(__DIR__ . '/../../' . $path);
+            }
+        }
+        
+        // Try to remove directory if empty
+        if (!empty($filePaths)) {
+            $firstPath = reset($filePaths);
+            $dir = dirname(__DIR__ . '/../../' . $firstPath);
+            if (is_dir($dir) && count(scandir($dir)) == 2) {
+                rmdir($dir);
+            }
+        }
+    }
 }
