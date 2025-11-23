@@ -158,4 +158,48 @@ class ApplicationService
         $this->updateApplicationStatus($applicationId, 3);
         return true;
     }
+
+    /**
+     * Create food stall from application data
+     * 
+     * @param array $application
+     * @return int Stall ID
+     */
+    private function createFoodStall(array $application): int
+    {
+        $query = "INSERT INTO food_stalls 
+            (owner_id, name, description, logo_path, food_categories, is_active, created_at) 
+            VALUES (?, ?, ?, ?, ?, 1, NOW())";
+        
+        $this->db->execute($query, [
+            $application['user_id'],
+            $application['stall_name'],
+            $application['stall_description'],
+            $application['stall_logo_path'],
+            $application['food_categories']
+        ]);
+        
+        return $this->db->lastInsertId();
+    }
+    
+    /**
+     * Create stall location from application data
+     * 
+     * @param int $stallId
+     * @param array $application
+     * @return void
+     */
+    private function createStallLocation(int $stallId, array $application): void
+    {
+        $query = "INSERT INTO stall_locations 
+            (stall_id, address, latitude, longitude, created_at) 
+            VALUES (?, ?, ?, ?, NOW())";
+        
+        $this->db->execute($query, [
+            $stallId,
+            $application['location'],
+            $application['map_x'] ?? null,
+            $application['map_y'] ?? null
+        ]);
+    }
 }
