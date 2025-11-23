@@ -111,4 +111,51 @@ class ApplicationService
             throw $e;
         }
     }
+
+    /**
+     * Decline an application and clean up files
+     * 
+     * @param int $applicationId
+     * @param string $reviewNotes
+     * @return bool
+     * @throws \Exception
+     */
+    public function declineApplication(int $applicationId, string $reviewNotes = ''): bool
+    {
+        $application = $this->getApplicationById($applicationId);
+        
+        if (!$application) {
+            throw new \Exception('Application not found');
+        }
+        
+        try {
+            // Delete uploaded files
+            $this->deleteApplicationFiles($application);
+            
+            // Delete application from database
+            $this->db->execute(
+                "DELETE FROM applications WHERE application_id = ?",
+                [$applicationId]
+            );
+            
+            // Send decline email
+            $this->sendDeclineEmail($application, $reviewNotes);
+            
+            return true;
+        } catch (\Exception $e) {
+            throw $e;
+        }
+    }
+    
+    /**
+     * Archive/hide an application
+     * 
+     * @param int $applicationId
+     * @return bool
+     */
+    public function archiveApplication(int $applicationId): bool
+    {
+        $this->updateApplicationStatus($applicationId, 3);
+        return true;
+    }
 }
