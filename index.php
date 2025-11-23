@@ -1,24 +1,33 @@
 <?php
 /**
- * BuzzarFeed - Homepage
- * 
- * Main landing page for the BuzzarFeed food blog and review platform
- * Displays hero section, featured stalls, reviews, and signup CTAs
- * 
+ * BuzzarFeed - Homepage (Using Modular Architecture)
+ *
+ * Main landing page using new component system
+ * Following ISO 9241: Maintainability, Reusability, Extensibility
+ *
  * @package BuzzarFeed
- * @version 1.0
+ * @version 2.0
  * @author BuzzarFeed Development Team
- * @date October 2025
+ * @date November 2025
  */
 
-// Start session for user authentication
-session_start();
+// Enable error display for debugging
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
-// Include configuration and database connection (when implemented)
-// require_once 'includes/config.php';
-// require_once 'includes/db.php';
+try {
+    require_once __DIR__ . '/bootstrap.php';
+} catch (Exception $e) {
+    die("Bootstrap Error: " . $e->getMessage() . " in " . $e->getFile() . " on line " . $e->getLine());
+}
 
-// Page title for SEO
+use BuzzarFeed\Sections\Home\HeroSection;
+use BuzzarFeed\Sections\Home\FeaturedStallsSection;
+use BuzzarFeed\Sections\Home\ReviewsSection;
+use BuzzarFeed\Components\Common\Button;
+use BuzzarFeed\Utils\Helpers;
+
+// Page metadata
 $pageTitle = "BuzzarFeed - Discover the Flavors of BGC Night Market";
 $pageDescription = "Explore food stalls, menus, and honest reviews from fellow food lovers at BGC Night Market Bazaar";
 ?>
@@ -27,240 +36,99 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="<?php echo $pageDescription; ?>">
+    <meta name="description" content="<?php echo Helpers::escape($pageDescription); ?>">
     <meta name="keywords" content="BGC Night Market, food stalls, food reviews, Manila food blog, bazaar food">
     <meta name="author" content="BuzzarFeed">
-    
-    <title><?php echo $pageTitle; ?></title>
-    
+
+    <title><?php echo Helpers::escape($pageTitle); ?></title>
+
     <!-- Favicon -->
-    <link rel="icon" type="image/png" href="assets/images/favicon.png">
-    
+    <link rel="icon" type="image/png" href="<?php echo IMAGES_URL; ?>favicon.png">
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://api.fontshare.com/v2/css?f[]=geist@400,500,600,700&display=swap" rel="stylesheet">
-    
+
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="<?php echo CSS_URL; ?>variables.css">
+    <link rel="stylesheet" href="<?php echo CSS_URL; ?>base.css">
+    <link rel="stylesheet" href="<?php echo CSS_URL; ?>components/button.css">
+    <link rel="stylesheet" href="<?php echo CSS_URL; ?>components/dropdown.css">
+    <link rel="stylesheet" href="<?php echo CSS_URL; ?>styles.css">
 </head>
 <body>
     <!-- Header Navigation -->
-    <?php include 'includes/header.php'; ?>
+    <?php include INCLUDES_PATH . '/header.php'; ?>
 
     <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="container hero-container">
-            <div class="hero-content">
-                <h1 class="hero-title">
-                    Discover the Flavors<br>
-                    of <span class="highlight-orange">BGC Night Market</span>
-                </h1>
-                <p class="hero-description">
-                    Taste. Try. Savor. Explore top stalls, menus, and honest reviews from fellow food lovers<br>
-                    — at BGC Night Market.
-                </p>
-                <a href="#featured-stalls" class="btn btn-primary btn-discover">
-                    <i class="fas fa-utensils"></i> Discover Stalls
-                </a>
-            </div>
-            <div class="hero-image">
-                <!-- Placeholder for polaroid-style images -->
-                <div class="polaroid-container">
-                    <div class="polaroid polaroid-1">
-                        <div class="polaroid-img"></div>
-                    </div>
-                    <div class="polaroid polaroid-2">
-                        <div class="polaroid-img"></div>
-                    </div>
-                    <div class="polaroid polaroid-3">
-                        <div class="polaroid-img"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+    <?php
+    $heroSection = new HeroSection([
+        'title' => 'Discover the Flavors<br>of <span class="highlight-orange">BGC Night Market</span>',
+        'description' => 'Taste. Try. Savor. Explore top stalls, menus, and honest reviews from fellow food lovers — at BGC Night Market.',
+        'ctaText' => 'Discover Stalls',
+        'ctaLink' => '#featured-stalls'
+    ]);
+    echo $heroSection->render();
+    ?>
 
     <!-- Featured Brands Carousel -->
     <section class="brands-carousel">
         <div class="container">
             <p class="carousel-tagline">
-                <span class="highlight-orange">From local favorites to</span> <span class="highlight-green">hidden gems</span> 
+                <span class="highlight-orange">From local favorites to</span> <span class="highlight-green">hidden gems</span>
                 <span class="highlight-orange">— discover them here.</span>
             </p>
-            
+
             <div class="carousel-wrapper">
                 <button class="carousel-btn carousel-prev" aria-label="Previous">
                     <i class="fas fa-chevron-left"></i>
                 </button>
-                
+
                 <div class="carousel-container">
                     <div class="carousel-track">
-                        <!-- Carousel items - these would be populated from database -->
+                        <?php for ($i = 0; $i < 4; $i++): ?>
                         <div class="carousel-item">
-                            <i class="fas fa-star star-icon"></i>
+                            <img src="<?php echo IMAGES_URL; ?>star.svg" alt="Featured brand star" class="star-icon">
                             <span class="brand-logo">Logo/brand</span>
                         </div>
-                        <div class="carousel-item">
-                            <i class="fas fa-star star-icon"></i>
-                            <span class="brand-logo">Logo/brand</span>
-                        </div>
-                        <div class="carousel-item">
-                            <i class="fas fa-star star-icon"></i>
-                            <span class="brand-logo">Logo/brand</span>
-                        </div>
-                        <div class="carousel-item">
-                            <i class="fas fa-star star-icon"></i>
-                            <span class="brand-logo">Logo/brand</span>
-                        </div>
+                        <?php endfor; ?>
                     </div>
                 </div>
-                
+
                 <button class="carousel-btn carousel-next" aria-label="Next">
                     <i class="fas fa-chevron-right"></i>
                 </button>
             </div>
-            
+
             <div class="carousel-dots">
-                <span class="dot active"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
-                <span class="dot"></span>
+                <?php for ($i = 0; $i < 4; $i++): ?>
+                <span class="dot <?php echo $i === 0 ? 'active' : ''; ?>"></span>
+                <?php endfor; ?>
             </div>
         </div>
     </section>
 
     <!-- Featured Stalls Section -->
-    <section id="featured-stalls" class="featured-stalls">
-        <div class="container">
-            <div class="section-header-stalls">
-                <h2 class="section-title">
-                    <span class="highlight-green">Explore</span> featured<br>stalls
-                </h2>
-                <p class="section-subtitle">
-                    <i class="fas fa-map-marker-alt"></i> Terra 28th, 28th St. corner 7th Ave. BGC
-                </p>
-                <a href="stalls.php" class="btn btn-secondary btn-browse">
-                    Browse <i class="fas fa-arrow-up-right-from-square"></i>
-                </a>
-            </div>
-
-            <div class="stalls-grid">
-                <!-- Featured Stall Card 1 -->
-                <article class="stall-card">
-                    <div class="stall-card-header">
-                        <div class="stall-image-placeholder"></div>
-                    </div>
-                    <div class="stall-card-overlay">
-                        <h3 class="stall-label-name">Kape Kuripot</h3>
-                        <p class="stall-label-hours">
-                            <i class="far fa-clock"></i> Monday to Saturday 09:00 to 18:00
-                        </p>
-                        <p class="stall-label-description">
-                            Lorem ipsum dolor sit amet. Est magnam possimus in odio quis sed assumenda odio quis impedit.
-                        </p>
-                    </div>
-                    <a href="stall-details.php?id=1" class="btn btn-success stall-card-action">
-                        View details
-                    </a>
-                </article>
-
-                <!-- Featured Stall Card 2 -->
-                <article class="stall-card">
-                    <div class="stall-card-header">
-                        <div class="stall-image-placeholder"></div>
-                    </div>
-                    <div class="stall-card-overlay">
-                        <h3 class="stall-label-name">Kape Kuripot</h3>
-                        <p class="stall-label-hours">
-                            <i class="far fa-clock"></i> Monday to Saturday 09:00 to 18:00
-                        </p>
-                        <p class="stall-label-description">
-                            Lorem ipsum dolor sit amet. Est magnam possimus in odio quis sed assumenda odio quis impedit.
-                        </p>
-                    </div>
-                    <a href="stall-details.php?id=2" class="btn btn-success stall-card-action">
-                        View details
-                    </a>
-                </article>
-            </div>
-        </div>
-    </section>
+    <?php
+    $featuredStallsSection = new FeaturedStallsSection([
+        'title' => '<span class="highlight-green">Explore</span> featured<br>stalls',
+        'location' => 'Terra 28th, 28th St. corner 7th Ave. BGC'
+    ]);
+    echo $featuredStallsSection->render();
+    ?>
 
     <!-- Reviews Section -->
-    <section class="reviews-section">
-        <div class="container">
-            <h2 class="section-title centered">
-                See what foodies are <span class="highlight-green">raving</span> about...
-            </h2>
-
-            <div class="reviews-grid">
-                <!-- Review Card 1 -->
-                <article class="review-card">
-                    <div class="reviewer-avatar"></div>
-                    <div class="review-content">
-                        <h4 class="reviewer-name">Sirap pochi•</h4>
-                        <p class="review-text">
-                            "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua et dolore et labore sit ipsum."
-                        </p>
-                        <div class="review-footer">
-                            <div class="review-rating">
-                                <span class="rating-value">4.9</span>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <a href="#" class="btn btn-secondary btn-sm">
-                                Read more <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Review Card 2 -->
-                <article class="review-card">
-                    <div class="reviewer-avatar"></div>
-                    <div class="review-content">
-                        <h4 class="reviewer-name">H think homemade yung patty sa Yunie•</h4>
-                        <p class="review-text">
-                            "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua et dolore et labore sit ipsum."
-                        </p>
-                        <div class="review-footer">
-                            <div class="review-rating">
-                                <span class="rating-value">4.9</span>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <a href="#" class="btn btn-secondary btn-sm">
-                                Read more <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-
-                <!-- Review Card 3 -->
-                <article class="review-card">
-                    <div class="reviewer-avatar"></div>
-                    <div class="review-content">
-                        <h4 class="reviewer-name">Sirap pochi•</h4>
-                        <p class="review-text">
-                            "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua et dolore et labore sit ipsum."
-                        </p>
-                        <div class="review-footer">
-                            <div class="review-rating">
-                                <span class="rating-value">4.9</span>
-                                <i class="fas fa-star"></i>
-                            </div>
-                            <a href="#" class="btn btn-secondary btn-sm">
-                                Read more <i class="fas fa-arrow-right"></i>
-                            </a>
-                        </div>
-                    </div>
-                </article>
-            </div>
-        </div>
-    </section>
+    <?php
+    $reviewsSection = new ReviewsSection([
+        'title' => 'See what foodies are <span class="highlight-green">raving</span> about...'
+    ]);
+    echo $reviewsSection->render();
+    ?>
 
     <!-- Join BuzzarFeed CTA Section -->
     <section class="join-section">
@@ -280,9 +148,14 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
                         <li><i class="fas fa-check"></i> Engage with the foodies</li>
                         <li><i class="fas fa-check"></i> Discover hidden food stalls</li>
                     </ul>
-                    <a href="signup.php?type=user" class="btn btn-primary btn-join">
-                        Get started
-                    </a>
+                    <?php
+                    echo (new Button([
+                        'text' => 'Get started',
+                        'href' => 'signup.php?type=user',
+                        'variant' => Button::VARIANT_PRIMARY,
+                        'class' => 'btn-join'
+                    ]))->render();
+                    ?>
                 </article>
 
                 <!-- Food Stall Owner Card -->
@@ -297,18 +170,23 @@ $pageDescription = "Explore food stalls, menus, and honest reviews from fellow f
                         <li><i class="fas fa-check"></i> Rate food stall operation</li>
                         <li><i class="fas fa-check"></i> Receive full time feature</li>
                     </ul>
-                    <a href="signup.php?type=owner" class="btn btn-primary btn-join">
-                        Get started
-                    </a>
+                    <?php
+                    echo (new Button([
+                        'text' => 'Get started',
+                        'href' => 'signup.php?type=owner',
+                        'variant' => Button::VARIANT_PRIMARY,
+                        'class' => 'btn-join'
+                    ]))->render();
+                    ?>
                 </article>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <?php include 'includes/footer.php'; ?>
+    <?php include INCLUDES_PATH . '/footer.php'; ?>
 
     <!-- JavaScript -->
-    <script src="assets/js/main.js"></script>
+    <script src="<?php echo JS_URL; ?>main.js"></script>
 </body>
 </html>
