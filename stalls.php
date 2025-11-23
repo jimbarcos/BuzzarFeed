@@ -111,7 +111,7 @@ $allCategories = $standardCategories;
             <?php else: ?>
                 <div class="stalls-grid">
                     <?php foreach ($stalls as $stall): ?>
-                        <div class="stall-card">
+                        <a href="stall-detail.php?id=<?= $stall['id'] ?>" class="stall-card">
                             <?php if (!empty($stall['image'])): ?>
                                 <img src="<?= BASE_URL . Helpers::escape($stall['image']) ?>" alt="<?= Helpers::escape($stall['name']) ?>" class="stall-image">
                             <?php else: ?>
@@ -164,14 +164,8 @@ $allCategories = $standardCategories;
                                 <p class="stall-description">
                                     <?= Helpers::escape($stall['description']) ?>
                                 </p>
-                                
-                                <!-- 
-                                <a href="stall-detail.php?id=<?= $stall['id'] ?>" class="btn-see-more">
-                                    See More <i class="fas fa-arrow-right">See More</i>
-                                </a>
-                                -->
                             </div>
-                        </div>
+                        </a>
                     <?php endforeach; ?>
                 </div>
             <?php endif; ?>
