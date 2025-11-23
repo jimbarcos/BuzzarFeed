@@ -77,4 +77,62 @@ class StallRegistrationService
         return $errors;
     }
 
+    /**
+     * Validate uploaded file
+     * 
+     * @param array $file $_FILES array element
+     * @param string $fieldName Field name for error messages
+     * @param bool $required Whether file is required
+     * @return array|null Error array or null if valid
+     */
+    public function validateFile(array $file, string $fieldName, bool $required = true): ?array
+    {
+        if (!isset($file['tmp_name']) || empty($file['tmp_name'])) {
+            return $required ? [$fieldName => ucfirst(str_replace('_', ' ', $fieldName)) . ' is required'] : null;
+        }
+        
+        $allowedTypes = ['application/pdf', 'image/jpeg', 'image/png', 'image/jpg'];
+        if (!in_array($file['type'], $allowedTypes)) {
+            return [$fieldName => 'Only PDF and image files are allowed'];
+        }
+        
+        if ($file['size'] > 5 * 1024 * 1024) { // 5MB
+            return [$fieldName => 'File must be less than 5MB'];
+        }
+        
+        return null;
+    }
+    
+    /**
+     * Upload file for stall application
+     * 
+     * @param array $file $_FILES array element
+     * @param string $stallName
+     * @param string $fieldName
+     * @return string Uploaded file path
+     * @throws \Exception
+     */
+    public function uploadFile(array $file, string $stallName, string $fieldName): string
+    {
+        // Generate unique directory for this application
+        $stallSlug = Helpers::slugify($stallName) . '_' . uniqid();
+        $uploadDir = __DIR__ . '/../../uploads/applications/' . $stallSlug . '/';
+        
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0755, true);
+        }
+        
+        // Generate filename
+        $extension = pathinfo($file['name'], PATHINFO_EXTENSION);
+        $filename = $fieldName . '.' . $extension;
+        $filepath = $uploadDir . $filename;
+        
+        // Move uploaded file
+        if (!move_uploaded_file($file['tmp_name'], $filepath)) {
+            throw new \Exception("Failed to upload " . $fieldName);
+        }
+        
+        return 'uploads/applications/' . $stallSlug . '/' . $filename;
+    }
+
 }
