@@ -56,4 +56,59 @@ class ApplicationService
              ORDER BY a.created_at DESC"
         );
     }
+
+    /**
+     * Approve an application and create the food stall
+     * 
+     * Steps:
+     *  1. Validate and fetch the application.
+     *  2. Start DB transaction.
+     *  3. Create the food stall and location.
+     *  4. Update application + user timestamp.
+     *  5. Commit transaction.
+     *  6. Send approval email (outside transaction).
+     * 
+     * @param int $applicationId
+     * @param string $reviewNotes
+     * @return bool
+     * @throws \Exception
+     */
+    public function approveApplication(int $applicationId, string $reviewNotes = ''): bool
+    {
+        $application = $this->getApplicationById($applicationId);
+        
+        if (!$application) {
+            throw new \Exception('Application not found');
+        }
+        
+        try {
+            // Start transaction
+            $this->db->execute("START TRANSACTION");
+            
+            // Create food stall
+            $stallId = $this->createFoodStall($application);
+            
+            // Create stall location
+            if (!empty($application['location'])) {
+                $this->createStallLocation($stallId, $application);
+            }
+            
+            // Update application status to approved (2)
+            $this->updateApplicationStatus($applicationId, 2);
+            
+            // Update user timestamp
+            $this->updateUserTimestamp($application['user_id']);
+            
+            // Commit transaction
+            $this->db->execute("COMMIT");
+            
+            // Send approval email
+            $this->sendApprovalEmail($application, $reviewNotes);
+            
+            return true;
+        } catch (\Exception $e) {
+            $this->db->execute("ROLLBACK");
+            throw $e;
+        }
+    }
 }
