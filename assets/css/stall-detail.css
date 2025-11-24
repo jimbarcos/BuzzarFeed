@@ -17,15 +17,16 @@
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
-    background-color: white;
+    padding: .50rem .75rem;
+    background-color: transparent;
     color: var(--dark-gray);
-    border: 2px solid var(--primary-green);
-    border-radius: 8px;
-    font-size: 1rem;
+    border: 2px solid var(--dark-gray);
+    border-radius: 10px;
+    font-size: .75rem;
     font-weight: 600;
     text-decoration: none;
     transition: all 0.3s ease;
+    margin-bottom: 15px;
 }
 
 .back-btn:hover {
@@ -35,9 +36,15 @@
 
 /* Stall Header */
 .stall-header {
-    background: linear-gradient(135deg, var(--primary-orange) 0%, #d65520 100%);
-    padding: 3rem 0;
-    color: white;
+    background-color: var(--beige);
+    color: #3b3b3b;
+    border: 3px solid #3B3B3B;
+    border-radius: 10px;
+    max-width: 1200px;
+    width: 100%;
+    padding: 40px 50px;
+    margin: 50px auto;
+    box-shadow: 10px 10px 0px rgba(59, 59, 59, 1);
 }
 
 .stall-header-content {
@@ -75,17 +82,18 @@
 }
 
 .stall-info h1 {
-    font-size: 2.5rem;
+    font-size: 42px;
     font-weight: 700;
-    margin-bottom: 1rem;
-    color: white;
+    margin-bottom: 10px;
+    color: #3b3b3b;
+    letter-spacing: -0.5px;
 }
 
 .stall-description {
     font-size: 1.125rem;
     line-height: 1.6;
     margin-bottom: 1.5rem;
-    color: var(--beige);
+    color: #3b3b3b;
 }
 
 .stall-categories-list {
@@ -96,61 +104,87 @@
 }
 
 .category-badge {
-    padding: 0.5rem 1rem;
+    padding: 0.3rem 1rem;
     background-color: var(--primary-green);
-    color: white;
+    color: #feeed5;
     border-radius: 20px;
     font-size: 0.9375rem;
     font-weight: 600;
+    border: 2px solid #3B3B3B;
+    border-radius: 20px;
+    box-shadow: 2px 2px 0px rgba(59, 59, 59, 1);
 }
 
 .stall-meta {
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 16px;
 }
 
-.meta-item {
+.stall-meta .meta-item {
+    display: grid;
+    grid-template-columns: 30px 200px 1fr;
+    gap: 8px;
+    align-items: center;
+}
+
+.stall-meta .meta-item i {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    font-size: 1rem;
-    color: white;
+    justify-content: center;
+    width: 30px;
+    height: 100%;
 }
 
-.meta-item i {
-    font-size: 1.25rem;
-    color: var(--beige);
-    width: 24px;
-    text-align: center;
+.meta-label {
+    font-weight: 600;
+    color: #666;
 }
+
+.meta-value {
+    font-weight: 500;
+    color: #2C2C2C;
+}
+
+
+/* Remove or override container padding specifically for this section */
+.stall-header .container {
+    padding-left: 0;
+    /* removes the default container padding */
+}
+
 
 /* Tabs Section */
 .tabs-section {
-    background-color: var(--beige);
+    background-color: #d65520;
     padding: 0;
-    border-bottom: 3px solid var(--primary-green);
 }
 
 .tabs {
     display: flex;
     gap: 0;
+    border-bottom: 3px solid var(--primary-green);
+    margin-bottom: 40px;
+    border-bottom: 3px solid #3b3b3b;
 }
 
 .tab-btn {
     flex: 1;
     max-width: 200px;
     padding: 1.25rem 2rem;
-    background-color: var(--beige);
-    color: var(--dark-gray);
-    border: none;
-    cursor: pointer;
+    background-color: #FEEED5;
+    color: #2C2C2C;
+    border: 3px solid #2C2C2C;
+    border-bottom: none;
     font-size: 1.0625rem;
     font-weight: 600;
-    text-decoration: none;
     text-align: center;
+    cursor: pointer;
+    text-decoration: none;
     transition: all 0.3s ease;
-    border-right: 1px solid rgba(0, 0, 0, 0.1);
+    margin-right: -2px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .tab-btn:hover {
@@ -166,15 +200,24 @@
 /* Tab Content */
 .tab-content-section {
     padding: 3rem 0;
-    background-color: var(--beige);
+    background-color: #d65520;
     min-height: 50vh;
 }
 
+.tab-content-section .container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
 .content-card {
-    background-color: white;
-    padding: 2.5rem;
+    background-color: #feeed5;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    border: 3px solid#3B3B3B;
+    max-width: 1200px;
+    width: 100%;
+    padding: 40px 50px;
+    margin: auto;
+    box-shadow: 10px 10px 0px rgba(59, 59, 59, 1);
 }
 
 .content-title {
@@ -219,7 +262,6 @@
     color: var(--dark-gray);
     margin-bottom: 1.5rem;
     padding-bottom: 0.75rem;
-    border-bottom: 2px solid var(--primary-orange);
 }
 
 .menu-items-grid {
@@ -230,8 +272,9 @@
 
 .menu-item-card {
     background-color: white;
-    border: 2px solid var(--primary-green);
-    border-radius: 12px;
+    border: 3px solid #3b3b3b;
+    border-radius: 10px;
+    box-shadow: 3px 3px 0px rgba(59, 59, 59, 1);
     overflow: hidden;
     transition: all 0.3s ease;
 }
