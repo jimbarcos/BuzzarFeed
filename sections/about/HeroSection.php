@@ -2,11 +2,12 @@
 // Hero Section partial for about page
 ?>
 <section class="hero-section">
-    <!-- Decorative Shapes -->
-    <div class="deco-shape green-1"></div>
-    <div class="deco-shape green-2"></div>
-    <div class="deco-shape orange-1"></div>
-    <div class="deco-shape orange-2"></div>
+    <div class="deco-shape hero-left">
+        <img src="<?= IMAGES_URL ?>/about/about-hero-left.png" alt="">
+    </div>
+    <div class="deco-shape hero-right">
+        <img src="<?= IMAGES_URL ?>/about/about-hero-right.png" alt="">
+    </div>
     
     <div class="hero-content">
         <h1 class="hero-title">
