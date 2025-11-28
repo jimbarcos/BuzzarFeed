@@ -68,6 +68,7 @@ $teamMembers = [
         <?php include __DIR__ . '/sections/about/AboutSection.php'; ?>
         <hr class="section-divider" />
         <?php include __DIR__ . '/sections/about/TeamSection.php'; ?>
+        <hr class="section-divider" />
         <?php include __DIR__ . '/sections/about/CTASection.php'; ?>
     </main>
 
