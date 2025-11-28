@@ -16,19 +16,19 @@ use BuzzarFeed\Utils\Session;
 $pageTitle = "About Us - BuzzarFeed";
 $pageDescription = "Everything you need to know about BuzzarFeed - Your digital guide to the flavors of the BGC Night Market Bazaar";
 
-// Hardcoded team members 
 $teamMembers = [
-    ['name' => 'Juan Dela Cruz', 'position' => 'Member'],
-    ['name' => 'Juan Dela Cruzs', 'position' => 'Member'],
-    ['name' => 'Juan Dela Cruz', 'position' => 'Member'],
-    ['name' => 'Juan Dela Cruz', 'position' => 'Member'],
-    ['name' => 'Juan Dela Cruz', 'position' => 'Member'],
-    ['name' => 'Juan Dela Cruz', 'position' => 'Member'],
-    ['name' => 'Juan Dela Cruz', 'position' => 'Member'],
-    ['name' => 'Juan Dela Cruz', 'position' => 'Member'],
-    ['name' => 'Juan Dela Cruz', 'position' => 'Member'],
-    ['name' => 'Juan Dela Cruz', 'position' => 'Member'],
+    ['name' => 'Chrysler Dele B. Ordas', 'position' => 'Project Manager'],
+    ['name' => 'Jimalyn B. Del Rosario', 'position' => 'Business Analyst'],
+    ['name' => 'Princess Jane C. Drama', 'position' => 'UI/UX Designer'],
+    ['name' => 'Jim Aerol Barcos', 'position' => 'Backend Developer'],
+    ['name' => 'Acelle Krislette L. Rosales', 'position' => 'Backend Developer'],
+    ['name' => 'Regina S. Bonifacio', 'position' => 'Backend Developer'],
+    ['name' => 'John Lloyd S. Legaspi', 'position' => 'Frontend Developer'],
+    ['name' => 'Kyla Mae N. Valoria', 'position' => 'Frontend Developer'],
+    ['name' => 'Xavier B. Rolle', 'position' => 'Quality Assurance Engineer'],
+    ['name' => 'Ernest Matthew L. Maravilla', 'position' => 'Documentation Specialist'],
 ];
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -68,6 +68,7 @@ $teamMembers = [
         <?php include __DIR__ . '/sections/about/AboutSection.php'; ?>
         <hr class="section-divider" />
         <?php include __DIR__ . '/sections/about/TeamSection.php'; ?>
+        <hr class="section-divider" />
         <?php include __DIR__ . '/sections/about/CTASection.php'; ?>
     </main>
 
