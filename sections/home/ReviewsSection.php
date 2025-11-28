@@ -78,8 +78,7 @@ class ReviewsSection extends BaseComponent {
             'text' => 'Read more',
             'href' => '#',
             'variant' => Button::VARIANT_OUTLINE,
-            'class' => 'review-readmore',
-            'icon' => 'fas fa-arrow-right'
+            'class' => 'review-readmore'
         ]);
 
         return '

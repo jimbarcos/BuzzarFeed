@@ -54,8 +54,7 @@ class FeaturedStallsSection extends BaseComponent {
             'text' => 'Browse',
             'href' => 'stalls.php',
             'variant' => Button::VARIANT_SECONDARY,
-            'class' => 'btn-browse',
-            'icon' => 'fas fa-arrow-up-right-from-square'
+            'class' => 'btn-browse'
         ]);
 
         $html = '
