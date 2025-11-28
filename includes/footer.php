@@ -38,16 +38,6 @@ $currentYear = date('Y');
                         </a>
                     </li>
                     <li>
-                        <a href="categories.php" class="footer-link">
-                            Categories
-                        </a>
-                    </li>
-                    <li>
-                        <a href="featured.php" class="footer-link">
-                            Featured Stalls
-                        </a>
-                    </li>
-                    <li>
                         <a href="map.php" class="footer-link">
                             Bazaar Map
                         </a>
@@ -61,7 +51,7 @@ $currentYear = date('Y');
                 <ul class="footer-links">
                     <?php if (isset($_SESSION['user_id'])): ?>
                         <li>
-                            <a href="profile.php" class="footer-link">
+                            <a href="my-account.php" class="footer-link">
                                 My Profile
                             </a>
                         </li>
