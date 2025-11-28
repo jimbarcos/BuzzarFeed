@@ -431,7 +431,6 @@ $currentTab = Helpers::get('tab', 'menu');
 
                  <?php else: ?>
                     <!-- Reviews Tab -->
-                    <div class="content-card">
                         <h2 class="content-title">Reviews & Ratings</h2>
                         
                         <!-- Rating Summary -->
@@ -468,18 +467,12 @@ $currentTab = Helpers::get('tab', 'menu');
                                 <div class="total-ratings"><?= $totalReviews ?> Ratings</div>
                             </div>
                         </div>
-                        
-                        <!-- Write Review Button -->
-                        <?php if (Session::isLoggedIn() && Session::get('user_id') != $stall['owner_id']): ?>
-                            <button class="btn-write-review" onclick="openReviewModal()">
-                                <i class="fas fa-pen"></i> Write a Review
-                            </button>
-                        <?php endif; ?>
+        
                         
                         <!-- Filters and Sort -->
+                        <div class="review-controls">
                         <div class="review-filters">
                             <div class="filter-group">
-                                <label>Filter by Rating:</label>
                                 <select id="ratingFilter" onchange="applyFilters()">
                                     <option value="all" <?= $filterRating === '' || $filterRating === 'all' ? 'selected' : '' ?>>All Ratings</option>
                                     <option value="5" <?= $filterRating === '5' ? 'selected' : '' ?>>★★★★★ (5)</option>
@@ -488,9 +481,10 @@ $currentTab = Helpers::get('tab', 'menu');
                                     <option value="2" <?= $filterRating === '2' ? 'selected' : '' ?>>★★ (2)</option>
                                     <option value="1" <?= $filterRating === '1' ? 'selected' : '' ?>>★ (1)</option>
                                 </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
                             </div>
+
                             <div class="filter-group">
-                                <label>Sort by:</label>
                                 <select id="sortFilter" onchange="applyFilters()">
                                     <option value="newest" <?= $sortBy === 'newest' ? 'selected' : '' ?>>Newest First</option>
                                     <option value="oldest" <?= $sortBy === 'oldest' ? 'selected' : '' ?>>Oldest First</option>
@@ -499,8 +493,18 @@ $currentTab = Helpers::get('tab', 'menu');
                                     <option value="most_liked" <?= $sortBy === 'most_liked' ? 'selected' : '' ?>>Most Liked</option>
                                     <option value="most_disliked" <?= $sortBy === 'most_disliked' ? 'selected' : '' ?>>Most Disliked</option>
                                 </select>
+                                <i class="fas fa-chevron-down select-arrow"></i>
                             </div>
                         </div>
+                        
+                        <!-- Write review button -->
+                        <?php if (Session::isLoggedIn() && Session::get('user_id') != $stall['owner_id']): ?>
+                            <button class="btn-write-review" onclick="openReviewModal()">
+                                <i class="fas fa-pen"></i> Write a Review
+                            </button>
+                        <?php endif; ?>
+                    </div>
+
                         
                         <!-- Reviews List -->
                         <div class="reviews-list">
