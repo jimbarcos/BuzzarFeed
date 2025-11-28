@@ -8,75 +8,28 @@
  * @version 1.0
  */
 
-// --- TEMPORARY: Mock Dependencies (Delete when bootstrap.php is ready) ---
-define('IMAGES_URL', 'assets/images');
-define('CSS_URL', 'assets/css');
-define('JS_URL', 'assets/js');
-define('BASE_URL', 'index.php');
+require_once __DIR__ . '/bootstrap.php';
 
-class Helpers {
-    public static function escape($str) {
-        return htmlspecialchars($str ?? '', ENT_QUOTES, 'UTF-8');
-    }
-    public static function get($key, $default = '') {
-        return $_GET[$key] ?? $default;
-    }
-}
-// -----------------------------------------------------------------------------------
+use BuzzarFeed\Utils\Helpers;
+use BuzzarFeed\Utils\Session;
+use BuzzarFeed\Services\StallService;
+
+Session::start();
 
 $pageTitle = "Stall Map - BuzzarFeed";
 $pageDescription = "Find food stalls on the interactive map";
 
-// --- MOCK DATA: Stalls (Simulating Database) ---
-$mockStalls = [
-    [
-        'id' => 1,
-        'name' => 'Mama Lou\'s Grill',
-        'description' => 'Best BBQ in town with secret sauce. We serve fresh cuts daily.',
-        'latitude' => 20, 
-        'longitude' => 40,
-        'categories' => ['Street Food', 'Rice Meals'],
-        'rating' => 4.5,
-        'reviews' => 12,
-        'hours' => '10:00 AM - 9:00 PM',
-        'image' => 'stall1.jpg' // Ensure you have a placeholder or leave empty
-    ],
-    [
-        'id' => 2,
-        'name' => 'Sweet Corner',
-        'description' => 'Traditional pastries and sweet drinks.',
-        'latitude' => 60,
-        'longitude' => 30,
-        'categories' => ['Pastries', 'Beverages'],
-        'rating' => 4.8,
-        'reviews' => 8,
-        'hours' => '8:00 AM - 6:00 PM',
-        'image' => ''
-    ],
-    [
-        'id' => 3,
-        'name' => 'Burger Bros',
-        'description' => 'Juicy smashed burgers.',
-        'latitude' => 40,
-        'longitude' => 70,
-        'categories' => ['Fast Food'],
-        'rating' => 4.2,
-        'reviews' => 20,
-        'hours' => '12:00 PM - 10:00 PM',
-        'image' => ''
-    ]
-];
+// Initialize service
+$stallService = new StallService();
 
 // Get filter parameters
 $category = Helpers::get('category', '');
 
 // Fetch stalls based on filters
 if (!empty($category) && $category !== 'all') {
-    $stalls = array_filter($mockStalls, function($stall) use ($category) {
-        return in_array($category, $stall['categories']);
-    });
+    $stalls = $stallService->getStallsByCategory($category);
 } else {
-    $stalls = $mockStalls;
+    $stalls = $stallService->getAllActiveStalls();
 }
 
 // Define standard food categories
@@ -91,7 +44,6 @@ $stallsWithLocation = array_filter($stalls, function($stall) {
 // Get nearby stalls (random 3 for now, can be enhanced with geolocation)
 $nearbyStalls = array_slice($stalls, 0, 3);
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -104,12 +56,12 @@ $nearbyStalls = array_slice($stalls, 0, 3);
     <link rel="icon" type="image/png" href="<?= IMAGES_URL ?>/favicon.png">
     
     <!-- Google Fonts -->
-    <link rel="preconnect" href="[https://fonts.googleapis.com](https://fonts.googleapis.com)">
-    <link rel="preconnect" href="[https://fonts.gstatic.com](https://fonts.gstatic.com)" crossorigin>
-    <link href="[https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap](https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap)" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
     
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css)">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- CSS -->
     <link rel="stylesheet" href="<?= CSS_URL ?>/variables.css">
@@ -190,7 +142,7 @@ $nearbyStalls = array_slice($stalls, 0, 3);
                 </div>
             </div>
         </section>
-
+        
         <!-- Nearby Stalls Section -->
         <section class="nearby-section">
             <h2 class="nearby-title">Nearby Food Stalls</h2>
@@ -272,7 +224,7 @@ $nearbyStalls = array_slice($stalls, 0, 3);
         const mapPins = document.querySelectorAll('.map-pin');
         const tooltip = document.getElementById('stallTooltip');
         let currentStallId = null;
-        
+
         mapPins.forEach(pin => {
             pin.addEventListener('mouseenter', function(e) {
                 const stallName = this.dataset.stallName;
@@ -280,43 +232,88 @@ $nearbyStalls = array_slice($stalls, 0, 3);
                 const stallRating = parseFloat(this.dataset.stallRating);
                 const stallCategories = this.dataset.stallCategories;
                 currentStallId = this.dataset.stallId;
-                
+
                 // Update tooltip content
                 tooltip.querySelector('.tooltip-name').textContent = stallName;
                 tooltip.querySelector('.tooltip-categories').innerHTML = 
                     stallCategories.split(', ').map(cat => 
-                        `<span class="tooltip-cat">${cat}</span>`
+                        `<span class=\"tooltip-cat\">${cat}</span>`
                     ).join('');
-                
+
                 // Generate stars
                 const fullStars = Math.floor(stallRating);
                 const hasHalf = (stallRating - fullStars) >= 0.5;
                 let starsHtml = '';
                 for (let i = 0; i < fullStars; i++) {
-                    starsHtml += '<i class="fas fa-star"></i>';
+                    starsHtml += '<i class=\"fas fa-star\"></i>';
                 }
                 if (hasHalf) {
-                    starsHtml += '<i class="fas fa-star-half-alt"></i>';
+                    starsHtml += '<i class=\"fas fa-star-half-alt\"></i>';
                 }
                 for (let i = fullStars + (hasHalf ? 1 : 0); i < 5; i++) {
-                    starsHtml += '<i class="far fa-star"></i>';
+                    starsHtml += '<i class=\"far fa-star\"></i>';
                 }
-                
+
                 tooltip.querySelector('.tooltip-rating').innerHTML = 
-                    `<div class="tooltip-stars">${starsHtml}</div>` +
+                    `<div class=\"tooltip-stars\">${starsHtml}</div>` +
                     `<span>${stallRating > 0 ? stallRating.toFixed(1) : 'No ratings'}</span>`;
-                
+
                 tooltip.querySelector('.tooltip-desc').textContent = stallDesc + '...';
-                
-                // Position tooltip near the pin
+
+                // Smart positioning: always show below if any part would be outside the top edge
                 const rect = this.getBoundingClientRect();
                 const containerRect = document.getElementById('mapContainer').getBoundingClientRect();
-                
-                tooltip.style.left = (rect.left - containerRect.left + rect.width / 2) + 'px';
-                tooltip.style.top = (rect.top - containerRect.top - 10) + 'px';
+                // Temporarily show tooltip to get accurate dimensions
+                tooltip.classList.remove('hidden');
+                tooltip.style.visibility = 'hidden';
+                const tooltipHeight = tooltip.offsetHeight || 120;
+                const tooltipWidth = tooltip.offsetWidth || 300;
+                tooltip.style.visibility = '';
+                tooltip.classList.add('hidden');
+
+                let left = (rect.left - containerRect.left + rect.width / 2);
+                let topAbove = rect.top - containerRect.top - 10;
+                let topBelow = rect.bottom - containerRect.top + 10;
+
+                let showAbove = true;
+                // If tooltip would overflow top edge, show below
+                if (topAbove - tooltipHeight < 0) {
+                    showAbove = false;
+                }
+
+                // Default transform and margin
+                let transform = showAbove ? 'translate(-50%, -100%)' : 'translate(-50%, 10px)';
+                let marginTop = showAbove ? '-15px' : '0';
+                let top = showAbove ? topAbove : topBelow;
+
+                // Check left/right overflow and adjust
+                let adjustedLeft = left;
+                const minLeft = tooltipWidth / 2 + 8; // 8px padding
+                const maxLeft = containerRect.width - tooltipWidth / 2 - 8;
+                if (left < minLeft) {
+                    adjustedLeft = minLeft;
+                    // Only shift vertically, keep horizontal close to pin
+                    transform = showAbove ? 'translate(0, -100%)' : 'translate(0, 0)';
+                    // Reduce gap for left edge
+                    topAbove = rect.top - containerRect.top - 2;
+                    topBelow = rect.bottom - containerRect.top + 2;
+                    top = showAbove ? topAbove : topBelow;
+                } else if (left > maxLeft) {
+                    adjustedLeft = maxLeft;
+                    transform = showAbove ? 'translate(-100%, -100%)' : 'translate(-100%, 0)';
+                    // Reduce gap for right edge
+                    topAbove = rect.top - containerRect.top - 2;
+                    topBelow = rect.bottom - containerRect.top + 2;
+                    top = showAbove ? topAbove : topBelow;
+                }
+
+                tooltip.style.transform = transform;
+                tooltip.style.marginTop = marginTop;
+                tooltip.style.left = adjustedLeft + 'px';
+                tooltip.style.top = top + 'px';
                 tooltip.classList.remove('hidden');
             });
-            
+
             pin.addEventListener('mouseleave', function() {
                 // Delay hiding to allow moving to tooltip
                 setTimeout(() => {
@@ -326,17 +323,16 @@ $nearbyStalls = array_slice($stalls, 0, 3);
                 }, 100);
             });
         });
-        
+
         tooltip.addEventListener('mouseleave', function() {
             this.classList.add('hidden');
         });
-        
+
         function viewStall() {
             if (currentStallId) {
                 window.location.href = `stall-detail.php?id=${currentStallId}`;
             }
         }
     </script>
-    
 </body>
 </html>

@@ -134,7 +134,7 @@ $isAdmin = $isLoggedIn && $userType === 'admin';
                     <div class="user-dropdown">
                         <div class="user-dropdown-btn" id="userDropdownBtn" role="button" tabindex="0">
                             <span class="user-name"><?= htmlspecialchars($userName) ?></span>
-                            <span class="dropdown-arrow" aria-hidden="true"></span>
+                            <span class="dropdown-arrow" aria-hidden="true">▼</span>
                         </div>
                         <ul class="dropdown-menu" id="userDropdownMenu">
                             <li>
@@ -144,7 +144,7 @@ $isAdmin = $isLoggedIn && $userType === 'admin';
                             </li>
                             <?php if ($userType === 'food_stall_owner'): ?>
                                 <li>
-                                    <a href="<?= BASE_URL ?>my-stall.php" class="dropdown-item">
+                                    <a href="<?= BASE_URL ?>manage-stall.php" class="dropdown-item">
                                         <i class="fas fa-store"></i> My Stall
                                     </a>
                                 </li>
