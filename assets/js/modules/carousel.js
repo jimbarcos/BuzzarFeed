@@ -111,4 +111,57 @@ export class Carousel {
     }
     this.updateCarousel();
   }
+
+  updateCarousel() {
+    this.isAnimating = true;
+
+    const itemWidth = 250;
+    const gap = 48;
+    const offset =
+      this.currentSlide * (itemWidth + gap) * this.options.itemsPerSlide;
+
+    this.track.style.transform = `translateX(-${offset}px)`;
+
+    // Update dots
+    this.dots.forEach((dot, index) => {
+      dot.classList.toggle("active", index === this.currentSlide);
+    });
+
+    setTimeout(() => {
+      this.isAnimating = false;
+    }, 300);
+  }
+
+  getItemsPerSlide() {
+    const width = window.innerWidth;
+    if (width < 768) return 1;
+    if (width < 1024) return 2;
+    return 3;
+  }
+
+  startAutoPlay() {
+    this.stopAutoPlay();
+    this.autoPlayTimer = setInterval(() => {
+      this.navigate("next");
+    }, this.options.autoPlayInterval);
+  }
+
+  stopAutoPlay() {
+    if (this.autoPlayTimer) {
+      clearInterval(this.autoPlayTimer);
+      this.autoPlayTimer = null;
+    }
+  }
+
+  debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+      const later = () => {
+        clearTimeout(timeout);
+        func(...args);
+      };
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+    };
+  }
 }
