@@ -581,7 +581,8 @@
     max-width: 600px;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    border: 2px solid #3b3b3b;
+    box-shadow: 6px 6px 0px #3b3b3b;
     animation: modalSlideIn 0.3s ease;
 }
 
@@ -606,7 +607,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 1.5rem;
-    border-bottom: 2px solid var(--beige);
+    border-bottom: 2px solid #3B3B3B;
 }
 
 .modal-header h3 {
@@ -651,7 +652,7 @@
     width: 100%;
     padding: 0.875rem 1.125rem;
     font-size: 1rem;
-    border: 2px solid #ddd;
+    border: 2px solid #3b3b3b;
     border-radius: 8px;
     font-family: 'Sora', sans-serif;
     transition: border-color 0.3s ease;
@@ -671,7 +672,8 @@
     display: flex;
     gap: 0.5rem;
     font-size: 2rem;
-    color: var(--primary-orange);
+    color: #FFAE1B;
+    -webkit-text-stroke: 1px #3b3b3b;
     cursor: pointer;
 }
 
@@ -681,7 +683,7 @@
 
 .star-rating-input i.hover,
 .star-rating-input i.fas {
-    color: var(--primary-orange);
+    color: #FFAE1B;
     transform: scale(1.1);
 }
 
@@ -703,10 +705,10 @@
 
 .modal-footer {
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
     gap: 1rem;
     padding: 1.5rem;
-    border-top: 2px solid var(--beige);
+    border-top: 2px solid var(--dark-gray);
 }
 
 .btn-cancel,
@@ -724,15 +726,18 @@
     text-decoration: none;
     display: inline-block;
     text-align: center;
+    border: 1px solid #3b3b3b;
+    box-shadow: 0px 3px 0px #3b3b3b;
 }
 
 .btn-cancel {
-    background-color: #6c757d;
-    color: white;
+    background-color: white;
+    color: #3b3b3b;
 }
 
 .btn-cancel:hover {
-    background-color: #5a6268;
+    background-color: #DD452A;
+    color: white;
 }
 
 .btn-submit-review {
@@ -741,7 +746,7 @@
 }
 
 .btn-submit-review:hover {
-    background-color: #d65520;
+    background-color: #3d8239;
 }
 
 .btn-primary {
