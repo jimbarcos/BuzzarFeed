@@ -139,13 +139,41 @@ if (Helpers::isPost() && Helpers::post('action') === 'delete_account') {
             // Begin transaction
             $db->beginTransaction();
 
-            // Delete user data
-            // Note: CASCADE delete will automatically remove:
-            // - Stall applications (applications table)
-            // - Food stalls (food_stalls table)
-            // - Reviews (reviews table)
-            // - Session tokens (session_tokens table)
-            // - Reset tokens (reset_tokens table)
+            // Delete related records in the correct order (child to parent)
+            
+            // 1. Delete reviews written by this user
+            $db->execute("DELETE FROM reviews WHERE user_id = ?", [$userId]);
+            
+            // 2. Delete stall applications
+            $db->execute("DELETE FROM applications WHERE user_id = ?", [$userId]);
+            
+            // 3. Get all stalls owned by this user
+            $ownedStalls = $db->query("SELECT stall_id FROM food_stalls WHERE owner_id = ?", [$userId]);
+            
+            if (!empty($ownedStalls)) {
+                $stallIds = array_column($ownedStalls, 'stall_id');
+                $placeholders = implode(',', array_fill(0, count($stallIds), '?'));
+                
+                // Delete reviews on owned stalls
+                $db->execute("DELETE FROM reviews WHERE stall_id IN ($placeholders)", $stallIds);
+                
+                // Delete stall locations
+                $db->execute("DELETE FROM stall_locations WHERE stall_id IN ($placeholders)", $stallIds);
+                
+                // Delete menu items
+                $db->execute("DELETE FROM menu_items WHERE stall_id IN ($placeholders)", $stallIds);
+                
+                // Delete food stalls
+                $db->execute("DELETE FROM food_stalls WHERE stall_id IN ($placeholders)", $stallIds);
+            }
+            
+            // 4. Delete session tokens
+            $db->execute("DELETE FROM session_tokens WHERE user_id = ?", [$userId]);
+            
+            // 5. Delete reset tokens
+            $db->execute("DELETE FROM reset_tokens WHERE user_id = ?", [$userId]);
+            
+            // 6. Finally, delete the user
             $db->execute("DELETE FROM users WHERE user_id = ?", [$userId]);
 
             // Commit transaction
@@ -161,7 +189,7 @@ if (Helpers::isPost() && Helpers::post('action') === 'delete_account') {
         } catch (\Exception $e) {
             $db->rollback();
             error_log("Account Deletion Error: " . $e->getMessage());
-            $errors[] = "Failed to delete account. Please try again or contact support.";
+            $errors[] = "Failed to delete account. Please try again or contact support. Error: " . $e->getMessage();
         }
     }
     $activeTab = 'danger';

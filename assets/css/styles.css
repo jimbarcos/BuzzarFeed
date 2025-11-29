@@ -661,12 +661,6 @@ p {
     position: relative;
 }
 
-.stall-image-placeholder {
-    position: absolute;
-    inset: 0;
-    background: url('../images/Kape-Kuripot.jpg') center/cover no-repeat;
-}
-
 .stall-card-overlay {
     position: relative;
     padding: 1rem 1rem 1.35rem;
@@ -765,13 +759,42 @@ p {
     position: relative;
 }
 
+.review-header-row {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+}
+
 .reviewer-avatar {
     width: 65px;
     height: 65px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.95);
     flex-shrink: 0;
-    margin-bottom: 0.5rem;
+    overflow: hidden;
+}
+
+.review-stall-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.review-stall-name {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.85);
+    margin: 2px 0 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.review-stall-name i {
+    flex-shrink: 0;
+    font-size: 0.8rem;
 }
 
 .review-content {
