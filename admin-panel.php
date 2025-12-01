@@ -297,6 +297,19 @@ $pageDescription = "Manage stall applications and moderate reviews";
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             
+
+            // --- Auto-select Pending Applications tab only ONCE per browser visit ---
+            if (!window.sessionStorage.getItem('adminPanelPendingTabClicked')) {
+                const urlParams = new URLSearchParams(window.location.search);
+                if (urlParams.get('tab') !== 'pending-applications') {
+                    const pendingTabBtn = document.querySelector('.tab-btn[href="?tab=pending-applications"]');
+                    if (pendingTabBtn) {
+                        pendingTabBtn.click();
+                        window.sessionStorage.setItem('adminPanelPendingTabClicked', 'true');
+                    }
+                }
+            }
+
             // --- A. PAGINATION LOGIC ---
             const itemsPerPage = 10;
             let currentPage = 1;

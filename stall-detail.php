@@ -346,7 +346,7 @@ $currentTab = Helpers::get('tab', 'menu');
                                 <div class="meta-item">
                                     <i class="fas fa-user"></i>
                                     <span class="meta-label">Owner:</span>
-                                    <span class="meta-value"><?= Helpers::escape($stall['name']) ?></span>
+                                     <span class="meta-value"><?= Helpers::escape($stall['owner_name'] ?? $stall['name'] ?? 'Unknown') ?></span>
                                 </div>
                                 <div class="meta-item">
                                     <i class="fas fa-map-marker-alt"></i>
