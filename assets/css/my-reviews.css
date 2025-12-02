@@ -74,7 +74,7 @@ main.reviews-container {
 
 .page-link.active {
     background-color: var(--color-primary-green);
-    color: white;
+    color: var(--color-primary-green);
 }
 
 .review-card {
@@ -96,7 +96,7 @@ main.reviews-container {
     gap: 1rem;
     margin-bottom: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 3px solid var(--color-border);
+    border-bottom: 3px solid #2C2C2C;
 }
 
 .stall-logo {
@@ -104,7 +104,7 @@ main.reviews-container {
     height: 60px;
     border-radius: 8px;
     object-fit: cover;
-    border: 2px solid var(--color-border);
+    border: 2px solid #2C2C2C;
 }
 
 .review-header-info {
@@ -173,7 +173,7 @@ main.reviews-container {
     align-items: center;
     justify-content: space-between;
     padding-top: 1rem;
-    border-top: 3px solid var(--color-border);
+    border-top: 3px solid #2C2C2C;
 }
 
 .review-stats {
@@ -256,7 +256,7 @@ main.reviews-container {
     display: inline-block;
     padding: 0.75rem 1.5rem;
     background-color: var(--color-primary-green);
-    color: white;
+    color: var(--color-primary-green);
     text-decoration: none;
     border: 3px solid #2C2C2C;
     border-radius: 0;
@@ -276,13 +276,13 @@ main.reviews-container {
 
 /* Like button should be green background (scoped) */
 .reviews-container .stat-badge.likes {
-    background-color: var(--color-primary-green);
-    border-color: var(--color-primary-green);
+    background-color: transparent;
+    border-color: #2C2C2C;
 }
 
 .reviews-container .stat-badge.likes i,
 .reviews-container .stat-badge.likes .count {
-    color: white;
+    color: #4A9A4A;
 }
 
 /* Dislike button styling */

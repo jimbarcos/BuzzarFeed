@@ -291,7 +291,7 @@ if (Helpers::isPost()) {
 
                     <?php if ($success): ?>
                         <div class="alert alert-success">
-                            <p style="margin: 0;"><?= Helpers::escape($success) ?></p>
+                            <p style="margin: 0; color: var(--color-primary-beige);"><?= Helpers::escape($success) ?></p>
                         </div>
                     <?php endif; ?>
 
