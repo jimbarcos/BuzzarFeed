@@ -5,7 +5,6 @@ use BuzzarFeed\Utils\Helpers;
 ?>
 <section class="team-section">
     <div class="team-container">
-        <!-- Row 1: 3 members -->
         <?php for ($i = 0; $i < 3 && $i < count($teamMembers); $i++): ?>
             <div class="team-member">
                 <div class="member-photo">
@@ -18,15 +17,13 @@ use BuzzarFeed\Utils\Helpers;
             </div>
         <?php endfor; ?>
         
-        <!-- Title box (right side of row 1) -->
         <div class="team-title-box">
             <h2 class="team-title">
                 Meet the<br>
                 Team
             </h2>
         </div>
-        
-        <!-- Row 2: Star icon then 3 members -->
+
         <div class="team-star-1">
             <img src="assets/images/about/about-hexadecagon-2.png" alt="Orange star decoration">
         </div>
@@ -43,7 +40,6 @@ use BuzzarFeed\Utils\Helpers;
             </div>
         <?php endfor; ?>
         
-        <!-- Row 3: 4 members -->
         <?php for ($i = 6; $i < 10 && $i < count($teamMembers); $i++): ?>
             <div class="team-member">
                 <div class="member-photo">
@@ -56,8 +52,7 @@ use BuzzarFeed\Utils\Helpers;
             </div>
         <?php endfor; ?>
     </div>
-    
-    <!-- Floating star on the right -->
+
     <div class="team-star-2">
         <img src="assets/images/about/about-hexadecagon-2.png" alt="Orange star decoration">
     </div>
