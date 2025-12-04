@@ -73,7 +73,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         Session::setFlash('Error: ' . $e->getMessage(), 'error');
     }
 
-    Helpers::redirect('admin-panel.php?tab=pending-applications');
+    Helpers::redirect('admin-panel.php?tab=pending-applications#main-tabs');
     exit;
 }
 
@@ -98,18 +98,14 @@ $pageDescription = "Manage stall applications and moderate reviews";
     <meta name="description" content="<?= Helpers::escape($pageDescription) ?>">
     <title><?= Helpers::escape($pageTitle) ?></title>
 
-    <!-- Favicon -->
     <link rel="icon" type="image/png" href="<?= IMAGES_URL ?>/favicon.png">
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- CSS -->
     <link rel="stylesheet" href="<?= CSS_URL ?>/variables.css">
     <link rel="stylesheet" href="<?= CSS_URL ?>/base.css">
     <link rel="stylesheet" href="<?= CSS_URL ?>/components/button.css">
@@ -154,13 +150,14 @@ $pageDescription = "Manage stall applications and moderate reviews";
         </div>
 
         <!-- Tabs -->
-        <div class="tabs-container">
+        <div class="tabs-container" id="main-tabs">
             <div class="tabs">
-                <a href="?tab=pending-applications"
+                <a href="?tab=pending-applications#main-tabs"
                     class="tab-btn <?= $currentTab === 'pending-applications' ? 'active' : '' ?>">
                     Pending Applications
                 </a>
-                <a href="?tab=recent-reviews" class="tab-btn <?= $currentTab === 'recent-reviews' ? 'active' : '' ?>">
+                <a href="?tab=recent-reviews#main-tabs"
+                    class="tab-btn <?= $currentTab === 'recent-reviews' ? 'active' : '' ?>">
                     Recent Reviews for Moderation
                 </a>
             </div>
@@ -169,94 +166,138 @@ $pageDescription = "Manage stall applications and moderate reviews";
         <!-- Content -->
         <div class="content-container">
             <?php if ($currentTab === 'pending-applications'): ?>
-            <div class="tabs-and-content-container">
-                <div class="section-title-container">
-                    <h2 class="section-title">Pending Applications</h2>
-                </div>
-                
-                <div class="tab-content-area">
-                <?php if (Session::get('flash_message')): ?>
-                    <?php 
-                    $flashMessage = Session::getFlash();
-                    $flashType = Session::get('flash_type', 'success');
-                    ?>
-                    <div class="flash-message <?= $flashType ?>">
-                        <?= Helpers::escape(is_array($flashMessage) ? $flashMessage['message'] ?? '' : $flashMessage) ?>
+                <div class="tabs-and-content-container">
+                    <div class="section-title-container">
+                        <h2 class="section-title">Pending Applications</h2>
                     </div>
-                <?php endif; ?>
-                
-                <?php if (empty($pendingApps)): ?>
-                    <div class="empty-state">
-                        <i class="fas fa-inbox"></i>
-                        <h3>No Pending Applications</h3>
-                        <p>All applications have been reviewed.</p>
-                    </div>
-                <?php else: ?>
-                    
-                    <div class="applications-list">
-                        <div class="grid-layout list-header">
-                            <div class="header-cell center">ID</div>
-                            <div class="header-cell">Stall Name</div>
-                            <div class="header-cell">Owner</div>
-                            <div class="header-cell">Location</div>
-                            <div class="header-cell">Category</div>
-                            <div class="header-cell center">Date</div>
-                            <div class="header-cell">Action</div>
-                        </div>
 
-                        <?php foreach ($pendingApps as $app): ?>
-                            <div class="grid-layout list-row">
-                                <div class="data-cell center"><?= str_pad($app['application_id'], 2, '0', STR_PAD_LEFT) ?></div>
-                                <div class="data-cell" title="<?= Helpers::escape($app['stall_name']) ?>">
-                                    <?= Helpers::escape($app['stall_name']) ?>
-                                </div>
-                                <div class="data-cell" title="<?= Helpers::escape($app['applicant_name']) ?>">
-                                    <?= Helpers::escape($app['applicant_name']) ?>
-                                </div>
-                                <div class="data-cell" title="<?= Helpers::escape($app['location']) ?>">
-                                    <?= Helpers::escape($app['location']) ?>
-                                </div>
-                                <div class="data-cell">
-                                    <?php
-                                    $categories = json_decode($app['food_categories'], true);
-                                    if (is_array($categories)) {
-                                        echo Helpers::escape(implode(', ', array_slice($categories, 0, 2)));
-                                        if (count($categories) > 2) echo '...';
-                                    } else {
-                                        echo 'N/A';
-                                    }
-                                    ?>
-                                </div>
-                                <div class="data-cell center"><?= date('n/j/y', strtotime($app['created_at'])) ?></div>
-                                <div class="cell-actions">
-                                    <button type="button" class="btn-view view-application-trigger" data-id="<?= $app['application_id'] ?>">
-    View Details
-</button>
-                                    
-        
-                                </div>
+                    <div class="tab-content-area">
+                        <?php if (Session::get('flash_message')): ?>
+                            <?php
+                            $flashMessage = Session::getFlash();
+                            $flashType = Session::get('flash_type', 'success');
+                            ?>
+                            <div class="flash-message <?= $flashType ?>">
+                                <?= Helpers::escape(is_array($flashMessage) ? $flashMessage['message'] ?? '' : $flashMessage) ?>
                             </div>
-                        <?php endforeach; ?>
-                    </div>
-                        
-                    <div class="pagination">
-    <button class="pagination-btn" id="prevBtn" disabled>
-        <i class="fas fa-chevron-left"></i>
-    </button>
-    <button class="pagination-btn" id="nextBtn">
-        <i class="fas fa-chevron-right"></i>
-    </button>
-</div>
-                <?php endif; ?>
-                </div>
-            </div>
-            
+                        <?php endif; ?>
+
+                        <?php if (empty($pendingApps)): ?>
+                            <div class="empty-state">
+                                <i class="fas fa-inbox"></i>
+                                <h3>No Pending Applications</h3>
+                                <p>All applications have been reviewed.</p>
+                            </div>
+                        <?php else: ?>
+
+                            <div class="applications-list">
+                                <div class="grid-layout list-header">
+                                    <div class="header-cell center">ID</div>
+                                    <div class="header-cell">Stall Name</div>
+                                    <div class="header-cell">Owner</div>
+                                    <div class="header-cell">Location</div>
+                                    <div class="header-cell">Category</div>
+                                    <div class="header-cell center">Date</div>
+                                    <div class="header-cell">Action</div>
+                                </div>
+
+                                <?php foreach ($pendingApps as $app): ?>
+                                    <div class="application-entry">
+                                        
+                                        <div class="grid-layout list-row">
+                                            <div class="data-cell center"><?= str_pad($app['application_id'], 2, '0', STR_PAD_LEFT) ?>
+                                            </div>
+                                            <div class="data-cell" title="<?= Helpers::escape($app['stall_name']) ?>">
+                                                <?= Helpers::escape($app['stall_name']) ?>
+                                            </div>
+                                            <div class="data-cell" title="<?= Helpers::escape($app['applicant_name']) ?>">
+                                                <?= Helpers::escape($app['applicant_name']) ?>
+                                            </div>
+                                            <div class="data-cell" title="<?= Helpers::escape($app['location']) ?>">
+                                                <?= Helpers::escape($app['location']) ?>
+                                            </div>
+                                            <div class="data-cell">
+                                                <?php
+                                                $categories = json_decode($app['food_categories'], true);
+                                                if (is_array($categories)) {
+                                                    echo Helpers::escape(implode(', ', array_slice($categories, 0, 2)));
+                                                    if (count($categories) > 2)
+                                                        echo '...';
+                                                } else {
+                                                    echo 'N/A';
+                                                }
+                                                ?>
+                                            </div>
+                                            <div class="data-cell center"><?= date('n/j/y', strtotime($app['created_at'])) ?></div>
+                                            <div class="cell-actions">
+                                                <button type="button" class="btn-view view-application-trigger"
+                                                    data-id="<?= $app['application_id'] ?>">
+                                                    View Details
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div class="mobile-card">
+                                            <div class="mobile-card-header">
+                                                <div class="mobile-card-id">#<?= str_pad($app['application_id'], 2, '0', STR_PAD_LEFT) ?></div>
+                                                <div class="mobile-card-date">
+                                                    <i class="far fa-calendar"></i> <?= date('M j, Y', strtotime($app['created_at'])) ?>
+                                                </div>
+                                            </div>
+                                            
+                                            <h3 class="mobile-card-title"><?= Helpers::escape($app['stall_name']) ?></h3>
+                                            <div class="mobile-card-owner">
+                                                <i class="fas fa-user"></i> <?= Helpers::escape($app['applicant_name']) ?>
+                                            </div>
+                                            
+                                            <div class="mobile-card-details">
+                                                <div class="mobile-card-detail">
+                                                    <i class="fas fa-map-marker-alt"></i>
+                                                    <span><?= Helpers::escape($app['location']) ?></span>
+                                                </div>
+                                                <div class="mobile-card-detail">
+                                                    <i class="fas fa-utensils"></i>
+                                                    <span>
+                                                        <?php
+                                                        $categories = json_decode($app['food_categories'], true);
+                                                        if (is_array($categories)) {
+                                                            echo Helpers::escape(implode(', ', array_slice($categories, 0, 2)));
+                                                            if (count($categories) > 2)
+                                                                echo '...';
+                                                        } else {
+                                                            echo 'N/A';
+                                                        }
+                                                        ?>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="mobile-card-actions">
+                                                <button type="button" class="btn-view view-application-trigger"
+                                                    data-id="<?= $app['application_id'] ?>">
+                                                    <i class="fas fa-eye"></i> View Details
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div> <?php endforeach; ?>
+                            </div>
+
+                            <div class="pagination">
+                            <button id="prevBtn" class="pagination-btn">
+                                <i class="fas fa-chevron-left"></i>
+                            </button>
+                            <button id="nextBtn" class="pagination-btn">
+                                <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                        <?php endif; ?>
+
             <?php elseif ($currentTab === 'recent-reviews'): ?>
                 <div class="tabs-and-content-container">
                     <div class="section-title-container">
                         <h2 class="section-title">Recent Reviews for Moderation</h2>
                     </div>
-                    
+
                     <div class="empty-state">
                         <i class="fas fa-star-half-alt" style="display: block; margin-bottom: 15px;"></i>
                         <h3>Moderation Queue Empty</h3>
@@ -267,7 +308,7 @@ $pageDescription = "Manage stall applications and moderate reviews";
             <?php endif; ?>
         </div>
     </main>
-    
+
     <div id="applicationModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
@@ -279,9 +320,9 @@ $pageDescription = "Manage stall applications and moderate reviews";
             </div>
         </div>
     </div>
-    
+
     <?php include __DIR__ . '/includes/footer.php'; ?>
-    
+
     <script id="applications-data" type="application/json">
         <?php echo json_encode($pendingApps ?? [], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP); ?>
     </script>
@@ -295,26 +336,13 @@ $pageDescription = "Manage stall applications and moderate reviews";
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            
+        document.addEventListener('DOMContentLoaded', function () {
 
-            // --- Auto-select Pending Applications tab only ONCE per browser visit ---
-            if (!window.sessionStorage.getItem('adminPanelPendingTabClicked')) {
-                const urlParams = new URLSearchParams(window.location.search);
-                if (urlParams.get('tab') !== 'pending-applications') {
-                    const pendingTabBtn = document.querySelector('.tab-btn[href="?tab=pending-applications"]');
-                    if (pendingTabBtn) {
-                        pendingTabBtn.click();
-                        window.sessionStorage.setItem('adminPanelPendingTabClicked', 'true');
-                    }
-                }
-            }
-
-            // --- A. PAGINATION LOGIC ---
+            // PAGINATION
             const itemsPerPage = 10;
             let currentPage = 1;
-            const allRows = document.querySelectorAll('.list-row');
-            const totalItems = allRows.length;
+            const allItems = document.querySelectorAll('.application-entry');
+            const totalItems = allItems.length;
             const totalPages = Math.ceil(totalItems / itemsPerPage);
 
             const prevBtn = document.getElementById('prevBtn');
@@ -324,11 +352,11 @@ $pageDescription = "Manage stall applications and moderate reviews";
                 const startIndex = (page - 1) * itemsPerPage;
                 const endIndex = startIndex + itemsPerPage;
 
-                allRows.forEach((row, index) => {
+                allItems.forEach((item, index) => {
                     if (index >= startIndex && index < endIndex) {
-                        row.style.display = 'grid';
+                        item.style.display = 'block'; 
                     } else {
-                        row.style.display = 'none';
+                        item.style.display = 'none';
                     }
                 });
 
@@ -342,13 +370,34 @@ $pageDescription = "Manage stall applications and moderate reviews";
                 }
             }
 
+            function scrollToTableTop() {
+                const tableTop = document.querySelector('.section-title-container');
+                if (tableTop) {
+
+                    tableTop.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            }
+
             if (totalItems > 0) showPage(1);
 
-            if (prevBtn) prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; showPage(currentPage); } });
-            if (nextBtn) nextBtn.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; showPage(currentPage); } });
+            if (prevBtn) prevBtn.addEventListener('click', () => { 
+                if (currentPage > 1) { 
+                    currentPage--; 
+                    showPage(currentPage); 
+                    scrollToTableTop() 
+                } 
+            });
+
+            if (nextBtn) nextBtn.addEventListener('click', () => { 
+                if (currentPage < totalPages) { 
+                    currentPage++; 
+                    showPage(currentPage); 
+                    scrollToTableTop();
+                } 
+            });
 
 
-            // --- B. MODAL LOGIC ---
+            // MODAL
             let applicationsData = [];
             let baseUrl = '/';
 
@@ -371,16 +420,16 @@ $pageDescription = "Manage stall applications and moderate reviews";
                 const cleanBase = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
                 const fullPath = cleanBase + cleanPath;
                 const isImage = path.match(/\.(jpg|jpeg|png|gif|webp)$/i);
-                
+
                 return `
                     <div class="document-item">
-                        ${isImage ? 
-                            `<img src="${fullPath}" class="document-preview" onclick="window.open('${fullPath}', '_blank')" />` : 
-                            `<div class="document-preview" onclick="window.open('${fullPath}', '_blank')" 
+                        ${isImage ?
+                        `<img src="${fullPath}" class="document-preview" onclick="window.open('${fullPath}', '_blank')" />` :
+                        `<div class="document-preview" onclick="window.open('${fullPath}', '_blank')" 
                                   style="display: flex; align-items: center; justify-content: center; background: #eee;">
                                 <i class="fas fa-file-alt" style="font-size: 40px; color: #555;"></i>
                             </div>`
-                        }
+                    }
                         <div class="document-label">${label}</div>
                         <a href="${fullPath}" target="_blank" class="document-link">View</a>
                     </div>
@@ -394,31 +443,29 @@ $pageDescription = "Manage stall applications and moderate reviews";
             };
 
             // Event Delegation
-            document.addEventListener('click', function(e) {
+            document.addEventListener('click', function (e) {
                 const btn = e.target.closest('.view-application-trigger');
                 if (btn) {
                     e.preventDefault();
                     const applicationId = btn.getAttribute('data-id');
                     const app = applicationsData.find(a => a.application_id == applicationId);
-                    
+
                     if (!app) return;
 
                     const modal = document.getElementById('applicationModal');
                     const modalTitle = document.getElementById('modalStallName');
                     const modalBody = document.getElementById('modalBody');
-                    
-                    // Parse Categories
+
                     let categories = 'N/A';
                     try {
                         if (app.food_categories) {
-                            const rawCats = typeof app.food_categories === 'string' 
-                                ? JSON.parse(app.food_categories) 
+                            const rawCats = typeof app.food_categories === 'string'
+                                ? JSON.parse(app.food_categories)
                                 : app.food_categories;
                             categories = Array.isArray(rawCats) ? rawCats.join(', ') : 'N/A';
                         }
-                    } catch(e) { categories = app.food_categories || 'N/A'; }
+                    } catch (e) { categories = app.food_categories || 'N/A'; }
 
-                    // Process Logo Path Separate from other docs
                     let logoHtml = '<div class="stall-logo-placeholder"><i class="fas fa-store"></i></div>';
                     if (app.stall_logo_path) {
                         const cleanPath = app.stall_logo_path.startsWith('/') ? app.stall_logo_path.substring(1) : app.stall_logo_path;
@@ -428,7 +475,7 @@ $pageDescription = "Manage stall applications and moderate reviews";
                     }
 
                     modalTitle.textContent = app.stall_name || 'Application Details';
-                    
+
                     modalBody.innerHTML = `
                         <div class="modal-top-split">
                             <div class="modal-info-left">
@@ -450,6 +497,8 @@ $pageDescription = "Manage stall applications and moderate reviews";
                                 ${logoHtml}
                             </div>
                         </div>
+
+                        <hr class="modal-divider">
                         
                         <div class="modal-section">
                             <h4 class="modal-section-title">Legal Documents</h4>
@@ -457,7 +506,7 @@ $pageDescription = "Manage stall applications and moderate reviews";
                                 ${renderDocumentItem(app.bir_registration_path, 'BIR Registration')}
                                 ${renderDocumentItem(app.business_permit_path, 'Business Permit')}
                                 ${renderDocumentItem(app.dti_sec_path, 'DTI / SEC')}
-                                </div>
+                            </div>
                         </div>
                         
                         <div class="modal-review-section">
@@ -465,13 +514,13 @@ $pageDescription = "Manage stall applications and moderate reviews";
                                 <input type="hidden" name="application_id" value="${app.application_id}">
                                 <textarea name="review_notes" class="review-textarea" placeholder="Add review notes (optional)..."></textarea>
                                 <div class="modal-actions">
-                                    <button type="submit" name="action" value="approve" class="btn-approve" onclick="return confirm('Approve this application?')">Approve</button>
                                     <button type="submit" name="action" value="decline" class="btn-decline" onclick="return confirm('Decline this application?')">Decline</button>
+                                    <button type="submit" name="action" value="approve" class="btn-approve" onclick="return confirm('Approve this application?')">Approve</button>
                                 </div>
                             </form>
                         </div>
                     `;
-                    
+
                     modal.classList.add('active');
                     document.body.style.overflow = 'hidden';
                 }
@@ -481,11 +530,12 @@ $pageDescription = "Manage stall applications and moderate reviews";
                 }
             });
 
-            document.addEventListener('keydown', function(event) {
+            document.addEventListener('keydown', function (event) {
                 if (event.key === 'Escape') closeModal();
             });
         });
     </script>
     <script type="module" src="<?= JS_URL ?>/app.js"></script>
 </body>
+
 </html>

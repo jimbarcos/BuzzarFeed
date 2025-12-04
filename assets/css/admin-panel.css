@@ -103,6 +103,7 @@ main {
     margin-top: 60px;
     position: relative;
     z-index: 10;
+    scroll-margin-top: 100px;
 }
 
 .tabs {
@@ -435,8 +436,15 @@ main {
 
 .modal-info-value {
     font-size: 16px;
+    font-weight: 700;
     color: #2C2C2C;
     word-break: break-word;
+}
+
+.modal-divider {
+    border: 0;
+    border-top: 3px solid #3B3B3B;
+    margin: 0 0 30px 0;
 }
 
 /* Top section layout for Modal */
@@ -632,50 +640,323 @@ main {
     color: #721c24;
 }
 
+.mobile-card {
+    display: none;
+}
+
 /* Responsive Design */
+@media (max-width: 1024px) {
+    .grid-layout {
+        grid-template-columns: 50px 1fr 1fr 1.2fr 0.8fr 140px 140px;
+        gap: 10px;
+    }
+    
+    .header-cell, .data-cell {
+        font-size: 14px;
+        padding: 0 8px;
+    }
+    
+    .btn-view, .btn-approve-small, .btn-decline-small {
+        font-size: 12px;
+        padding: 6px 10px;
+    }
+}
+
 @media (max-width: 768px) {
-    .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .modal-info-grid {
-        grid-template-columns: 1fr;
-    }
-    .modal-top-split {
-        flex-direction: column-reverse;
-    }
-    .modal-logo-right {
-        width: 100%;
-    }
-    .stall-logo-large {
-        height: 250px;
-    }
-    
-    .tabs {
-        flex-direction: column;
-    }
-    
-    .tab-btn {
-        text-align: left;
-    }
-    
-    .applications-table-container {
-        overflow-x: auto;
-    }
-    
-    .applications-table {
-        min-width: 800px;
+    .admin-hero {
+        padding: 40px 20px;
     }
     
     .admin-hero h1 {
-        font-size: 48px;
+        font-size: 40px;
     }
     
     .admin-hero p {
         font-size: 18px;
+        margin-bottom: 20px;
+    }
+    
+    .convert-user-btn {
+        font-size: 16px;
+        padding: 12px 25px;
+    }
+    
+    /* Stats Grid */
+    .stats-container {
+        padding: 30px 15px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .stat-card {
+        padding: 30px;
     }
     
     .stat-number {
         font-size: 48px;
+    }
+    
+    .stat-label {
+        font-size: 20px;
+    }
+    
+    /* Tabs */
+    .tabs-container {
+        padding: 0 15px;
+        margin-top: 40px;
+    }
+    
+    .tabs {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .tab-btn {
+        flex: 1 1 calc(50% - 5px);
+        min-width: 150px;
+        text-align: center;
+        font-size: 14px;
+        padding: 12px 15px;
+    }
+    
+    /* Content Container */
+    .content-container {
+        padding: 0 15px 40px;
+    }
+    
+    .tabs-and-content-container {
+        padding: 20px;
+        padding-bottom: 80px;
+        border-radius: 5px;
+    }
+    
+    .section-title-container {
+        padding: 15px 20px;
+        margin-bottom: 20px;
+    }
+    
+    .section-title {
+        font-size: 24px;
+    }
+    
+    /* Hide desktop table, show mobile cards */
+    .list-header {
+        display: none !important;
+    }
+    
+    .list-row {
+        display: none !important;
+    }
+    
+    .mobile-card {
+        display: block;
+        background: #FFFFFF;
+        border: 3px solid #3B3B3B;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+        box-shadow: 3px 3px 0px rgba(0,0,0,0.1);
+    }
+    
+    .mobile-card-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #F0F0F0;
+    }
+    
+    .mobile-card-id {
+        background: #489A44;
+        color: white;
+        font-weight: 700;
+        padding: 5px 12px;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+    
+    .mobile-card-date {
+        color: #666;
+        font-size: 13px;
+        font-weight: 600;
+    }
+    
+    .mobile-card-title {
+        font-size: 20px;
+        font-weight: 700;
+        color: #3B3B3B;
+        margin: 0 0 5px 0;
+        font-family: 'Sora', sans-serif;
+    }
+    
+    .mobile-card-owner {
+        color: #ED6027;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+    
+    .mobile-card-details {
+        display: grid;
+        gap: 8px;
+        margin-bottom: 15px;
+    }
+    
+    .mobile-card-detail {
+        display: flex;
+        align-items: flex-start;
+        font-size: 14px;
+    }
+    
+    .mobile-card-detail i {
+        color: #489A44;
+        width: 20px;
+        margin-right: 8px;
+        flex-shrink: 0;
+        margin-top: 2px;
+    }
+    
+    .mobile-card-detail span {
+        color: #3B3B3B;
+        font-weight: 500;
+    }
+    
+    .mobile-card-actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+    }
+    
+    .mobile-card-actions .btn-view {
+        flex: 1;
+        text-align: center;
+        padding: 12px;
+        font-size: 14px;
+    }
+    
+    .pagination {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        justify-content: center;
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 2px solid rgba(59, 59, 59, 0.1);
+    }
+    
+    .tabs-and-content-container {
+        padding-bottom: 30px;
+    }
+    
+    .modal {
+        padding: 20px 15px;
+    }
+    
+    .modal-content {
+        border: 4px solid #3B3B3B;
+    }
+    
+    .modal-header {
+        padding: 20px;
+    }
+    
+    .modal-title {
+        font-size: 24px;
+    }
+    
+    .modal-close {
+        font-size: 28px;
+    }
+    
+    .modal-body {
+        padding: 20px;
+        max-height: 60vh;
+    }
+    
+    .modal-info-grid {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    
+    .modal-top-split {
+        flex-direction: column-reverse;
+    }
+    
+    .modal-logo-right {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    
+    .stall-logo-large {
+        height: 200px;
+    }
+    
+    .modal-section-title {
+        font-size: 18px;
+    }
+    
+    .documents-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-actions {
+        flex-direction: column;
+    }
+    
+    .btn-approve, .btn-decline {
+        width: 100%;
+    }
+    
+    .flash-message {
+        margin: 15px 20px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-hero h1 {
+        font-size: 32px;
+    }
+    
+    .admin-hero p {
+        font-size: 16px;
+    }
+    
+    .convert-user-btn {
+        font-size: 14px;
+        padding: 10px 20px;
+    }
+    
+    .stat-number {
+        font-size: 40px;
+    }
+    
+    .stat-label {
+        font-size: 18px;
+    }
+    
+    .tab-btn {
+        flex: 1 1 100%;
+        font-size: 13px;
+    }
+    
+    .section-title {
+        font-size: 20px;
+    }
+    
+    .mobile-card {
+        padding: 15px;
+    }
+    
+    .mobile-card-title {
+        font-size: 18px;
+    }
+    
+    .modal-title {
+        font-size: 20px;
     }
 }
