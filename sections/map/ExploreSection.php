@@ -1,22 +1,22 @@
 <?php
-// Nearby stalls partial for the map page
+// Explore stalls partial for the map page
 
 use BuzzarFeed\Utils\Helpers;
 ?>
 <hr class="section-divider">
 
-<!-- Nearby Stalls Section -->
-<section class="nearby-section">
-    <h2 class="nearby-title">Nearby Food Stalls</h2>
+<!-- Explore Stalls Section -->
+<section class="explore-section">
+    <h2 class="explore-title">Explore Food Stalls</h2>
 
-    <?php if (empty($nearbyStalls)): ?>
+    <?php if (empty($exploreStalls)): ?>
         <div class="empty-state">
             <i class="fas fa-search"></i>
             <p>No stalls available at the moment.</p>
         </div>
     <?php else: ?>
-        <div class="nearby-grid">
-            <?php foreach ($nearbyStalls as $stall): ?>
+        <div class="explore-grid">
+            <?php foreach ($exploreStalls as $stall): ?>
                 <a href="stall-detail.php?id=<?= $stall['id'] ?>" class="stall-card">
                     <?php if (!empty($stall['image'])): ?>
                         <img src="<?= BASE_URL . Helpers::escape($stall['image']) ?>" alt="<?= Helpers::escape($stall['name']) ?>"

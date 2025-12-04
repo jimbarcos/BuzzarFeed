@@ -13,9 +13,11 @@ require_once __DIR__ . '/bootstrap.php';
 use BuzzarFeed\Utils\Helpers;
 use BuzzarFeed\Utils\Session;
 
+Session::start();
+
 $pageTitle = "About Us - BuzzarFeed";
 $pageDescription = "Everything you need to know about BuzzarFeed - Your digital guide to the flavors of the BGC Night Market Bazaar";
-
+ 
 $teamMembers = [
     ['name' => 'Chrysler Dele B. Ordas', 'position' => 'Project Manager'],
     ['name' => 'Jimalyn B. Del Rosario', 'position' => 'Business Analyst'],
@@ -37,19 +39,15 @@ $teamMembers = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="<?= Helpers::escape($pageDescription) ?>">
     <title><?= Helpers::escape($pageTitle) ?></title>
-
-    <!-- Favicon -->
-    <link rel="icon" type="image/png" href="<?= IMAGES_URL ?>/favicon.png">
     
-    <!-- Google Fonts -->
+    <link rel="icon" type="image/png" href="<?= IMAGES_URL ?>/favicon.png">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- CSS Architecture -->
+
     <link rel="stylesheet" href="<?= CSS_URL ?>/variables.css">
     <link rel="stylesheet" href="<?= CSS_URL ?>/base.css">
     <link rel="stylesheet" href="<?= CSS_URL ?>/components/button.css">
@@ -71,7 +69,7 @@ $teamMembers = [
         <hr class="section-divider" />
         <?php include __DIR__ . '/sections/about/CTASection.php'; ?>
     </main>
-
+    
     <!-- Footer -->
     <?php include __DIR__ . '/includes/footer.php'; ?>
     

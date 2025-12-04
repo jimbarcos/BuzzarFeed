@@ -1,3 +1,7 @@
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   display: flex;
   flex-direction: column;
@@ -42,6 +46,7 @@ main {
 .filters-section {
   background: #feeed5;
   padding: 40px 20px;
+  scroll-margin-top: 80px;
 }
 
 .category-filters {
@@ -90,6 +95,11 @@ main {
   flex: none;
   order: 0;
   flex-grow: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px; 
+  line-height: 1; 
 }
 
 /* Category color icons */
@@ -315,15 +325,15 @@ main {
   background: #d55520;
 }
 
-/* Nearby Stalls Section */
-.nearby-section {
+/* Explore Stalls Section */
+.explore-section {
   max-width: 1400px;
   margin: 0 auto;
   padding: 60px 20px;
   background: #feeed5;
 }
 
-.nearby-title {
+.explore-title {
   font-family: "Sora", sans-serif;
   font-style: normal;
   font-weight: 700;
@@ -333,7 +343,7 @@ main {
   margin: 0 0 40px 0;
 }
 
-.nearby-grid {
+.explore-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 80px;
@@ -486,7 +496,7 @@ main {
 }
 
 @media (max-width: 1440px) {
-  .nearby-grid {
+  .explore-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 40px;
   }
@@ -498,11 +508,11 @@ main {
 
 /* Tablet & Smaller Laptops (max-width: 1024px) */
 @media (max-width: 1024px) {
-  .nearby-section {
+  .explore-section {
     padding: 40px 20px;
   }
 
-  .nearby-grid {
+  .explore-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 40px;
   }
@@ -556,8 +566,8 @@ main {
   }
 
   .filter-icon {
-    width: 16px;
-    height: 16px;
+    width: 20px;
+    height: 20px;
   }
 
   /* --- Map Section --- */
@@ -569,17 +579,17 @@ main {
     font-size: 24px;
   }
 
-  /* --- Nearby Stalls Section */
-  .nearby-section {
+  /* --- Explore Stalls Section */
+  .explore-section {
     padding: 20px 10px;
   }
 
-  .nearby-title {
+  .explore-title {
     font-size: 28px;
     margin-bottom: 20px;
   }
 
-  .nearby-grid {
+  .explore-grid {
     grid-template-columns: 1fr;
     gap: 20px;
   }
