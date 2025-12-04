@@ -536,6 +536,24 @@ TEXT;
     }
     
     /**
+     * Send a custom email with HTML body
+     * 
+     * @param string $to Recipient email
+     * @param string $toName Recipient name
+     * @param string $subject Email subject
+     * @param string $htmlBody HTML email body
+     * @return bool True if email sent successfully
+     */
+    public function sendCustomEmail(string $to, string $toName, string $subject, string $htmlBody): bool
+    {
+        // Create a simple text version by stripping HTML tags
+        $textBody = strip_tags($htmlBody);
+        $textBody = html_entity_decode($textBody, ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        
+        return $this->sendMail($to, $toName, $subject, $htmlBody, $textBody);
+    }
+    
+    /**
      * Get HTML template for application approval email
      */
     private function getApplicationApprovalTemplate(string $name, string $stallName, string $reviewNotes): string
@@ -579,9 +597,6 @@ HTML;
                     <!-- Success Icon -->
                     <tr>
                         <td style="background-color: #FEEED5; padding: 40px; text-align: center;">
-                            <div style="width: 80px; height: 80px; background-color: #489A44; border-radius: 50%; margin: 0 auto 20px; display: inline-flex; align-items: center; justify-content: center;">
-                                <span style="font-size: 48px; color: #FFFFFF;">✓</span>
-                            </div>
                             <h1 style="margin: 0; font-size: 32px; color: #2C2C2C; font-weight: 700;">Congratulations!</h1>
                             <p style="margin: 10px 0 0 0; font-size: 18px; color: #489A44; font-weight: 600;">Your Application Has Been Approved</p>
                         </td>
@@ -849,7 +864,7 @@ HTML;
         $manageStallUrl = BASE_URL . 'manage-stall.php';
         
         return <<<TEXT
-🎉 CONGRATULATIONS! Your Application Has Been Approved
+CONGRATULATIONS! Your Application Has Been Approved
 
 Hi {$name},
 

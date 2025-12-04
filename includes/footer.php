@@ -19,7 +19,7 @@ $currentYear = date('Y');
             <!-- About Section -->
             <div class="footer-about">
                 <a href="index.php" class="footer-logo">
-                    BuzzarFeed
+                    <img src="<?= IMAGES_URL ?>/Logo-Footer.png" alt="BuzzarFeed" class="footer-logo-img" style="height:60px; display:block;">
                 </a>
                 <p class="footer-description">
                     BuzzarFeed is your go-to platform for discovering the best food stalls 
