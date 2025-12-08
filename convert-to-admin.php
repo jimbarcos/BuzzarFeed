@@ -402,7 +402,11 @@ $pageDescription = "Convert a user to admin with full privileges";
                     <li>Remove ALL stalls they currently own</li>
                     <li>Prevent them from registering new stalls</li>
                     <li>Give them full admin privileges</li>
+                    <li>Protect their account from deletion once they perform admin actions</li>
                 </ul>
+                <p style="margin-top: 15px; padding-top: 15px; border-top: 2px solid #FFD9B8;">
+                    <strong style="color: #ED6027;">Important:</strong> Once a user is converted to admin and performs any admin actions (approving applications, moderating reviews, etc.), their account cannot be deleted to maintain audit trail integrity.
+                </p>
             </div>
             
             <!-- Caution Notice -->
