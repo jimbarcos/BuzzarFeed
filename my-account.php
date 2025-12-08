@@ -135,64 +135,155 @@ if (Helpers::isPost() && Helpers::post('action') === 'delete_account') {
     if ($confirmEmail !== $user['email']) {
         $errors[] = "Email does not match. Please type your email correctly to confirm deletion.";
     } else {
-        try {
-            // Begin transaction
-            $db->beginTransaction();
+        // Check if user is an admin with activity logs
+        if ($user['type_name'] === 'admin') {
+            $adminLogs = $db->querySingle(
+                "SELECT COUNT(*) as count FROM admin_logs WHERE admin_id = ?",
+                [$userId]
+            );
+            
+            if ($adminLogs && $adminLogs['count'] > 0) {
+                $errors[] = "Cannot delete admin account with activity history. Admin accounts with logged actions cannot be deleted to maintain audit trail integrity. Please contact support if you need to deactivate your account.";
+                $activeTab = 'danger';
+            } else {
+                // Admin with no logs can be deleted
+                try {
+                    // Begin transaction
+                    $db->beginTransaction();
+                    
+                    // Delete admin-related data
+                    deleteUserAccount($db, $userId);
+                    
+                    // Commit transaction
+                    $db->commit();
 
-            // Delete related records in the correct order (child to parent)
-            
-            // 1. Delete reviews written by this user
-            $db->execute("DELETE FROM reviews WHERE user_id = ?", [$userId]);
-            
-            // 2. Delete stall applications
-            $db->execute("DELETE FROM applications WHERE user_id = ?", [$userId]);
-            
-            // 3. Get all stalls owned by this user
-            $ownedStalls = $db->query("SELECT stall_id FROM food_stalls WHERE owner_id = ?", [$userId]);
-            
-            if (!empty($ownedStalls)) {
-                $stallIds = array_column($ownedStalls, 'stall_id');
-                $placeholders = implode(',', array_fill(0, count($stallIds), '?'));
-                
-                // Delete reviews on owned stalls
-                $db->execute("DELETE FROM reviews WHERE stall_id IN ($placeholders)", $stallIds);
-                
-                // Delete stall locations
-                $db->execute("DELETE FROM stall_locations WHERE stall_id IN ($placeholders)", $stallIds);
-                
-                // Delete menu items
-                $db->execute("DELETE FROM menu_items WHERE stall_id IN ($placeholders)", $stallIds);
-                
-                // Delete food stalls
-                $db->execute("DELETE FROM food_stalls WHERE stall_id IN ($placeholders)", $stallIds);
+                    // Destroy session
+                    Session::destroy();
+
+                    // Redirect to homepage with message
+                    Session::start();
+                    Session::setFlash('Your account has been deleted successfully.', 'success');
+                    Helpers::redirect('index.php');
+                } catch (\Exception $e) {
+                    $db->rollback();
+                    error_log("Admin Account Deletion Error: " . $e->getMessage());
+                    $errors[] = "Failed to delete account. Please try again or contact support. Error: " . $e->getMessage();
+                    $activeTab = 'danger';
+                }
             }
-            
-            // 4. Delete session tokens
-            $db->execute("DELETE FROM session_tokens WHERE user_id = ?", [$userId]);
-            
-            // 5. Delete reset tokens
-            $db->execute("DELETE FROM reset_tokens WHERE user_id = ?", [$userId]);
-            
-            // 6. Finally, delete the user
-            $db->execute("DELETE FROM users WHERE user_id = ?", [$userId]);
+        } else {
+            // Regular user deletion
+            try {
+                // Begin transaction
+                $db->beginTransaction();
 
-            // Commit transaction
-            $db->commit();
+                // Delete user account and related data
+                deleteUserAccount($db, $userId);
+                
+                // Commit transaction
+                $db->commit();
 
-            // Destroy session
-            Session::destroy();
+                // Destroy session
+                Session::destroy();
 
-            // Redirect to homepage with message
-            Session::start();
-            Session::setFlash('Your account has been deleted successfully.', 'success');
-            Helpers::redirect('index.php');
-        } catch (\Exception $e) {
-            $db->rollback();
-            error_log("Account Deletion Error: " . $e->getMessage());
-            $errors[] = "Failed to delete account. Please try again or contact support. Error: " . $e->getMessage();
+                // Redirect to homepage with message
+                Session::start();
+                Session::setFlash('Your account has been deleted successfully.', 'success');
+                Helpers::redirect('index.php');
+            } catch (\Exception $e) {
+                $db->rollback();
+                error_log("Account Deletion Error: " . $e->getMessage());
+                $errors[] = "Failed to delete account. Please try again or contact support. Error: " . $e->getMessage();
+                $activeTab = 'danger';
+            }
         }
     }
-    $activeTab = 'danger';
+}
+
+/**
+ * Delete user account and all related data
+ * 
+ * @param Database $db Database instance
+ * @param int $userId User ID to delete
+ * @return void
+ * @throws \Exception
+ */
+function deleteUserAccount($db, $userId) {
+    // Delete related records in the correct order (child to parent)
+    
+    // 1. Delete review reactions by this user
+    $db->execute("DELETE FROM review_reactions WHERE user_id = ?", [$userId]);
+    
+    // 2. Delete review reports by this user
+    $db->execute("DELETE FROM review_reports WHERE reporter_id = ?", [$userId]);
+    
+    // 3. Delete reviews written by this user (and their reactions)
+    $userReviews = $db->query("SELECT review_id FROM reviews WHERE user_id = ?", [$userId]);
+    if (!empty($userReviews)) {
+        $reviewIds = array_column($userReviews, 'review_id');
+        $placeholders = implode(',', array_fill(0, count($reviewIds), '?'));
+        
+        // Delete reactions on user's reviews
+        $db->execute("DELETE FROM review_reactions WHERE review_id IN ($placeholders)", $reviewIds);
+        
+        // Delete reports on user's reviews
+        $db->execute("DELETE FROM review_reports WHERE review_id IN ($placeholders)", $reviewIds);
+        
+        // Delete review moderations
+        $db->execute("DELETE FROM review_moderations WHERE review_id IN ($placeholders)", $reviewIds);
+    }
+    
+    // Delete the reviews themselves
+    $db->execute("DELETE FROM reviews WHERE user_id = ?", [$userId]);
+    
+    // 4. Delete stall applications
+    $db->execute("DELETE FROM applications WHERE user_id = ?", [$userId]);
+    
+    // 5. Get all stalls owned by this user
+    $ownedStalls = $db->query("SELECT stall_id FROM food_stalls WHERE owner_id = ?", [$userId]);
+    
+    if (!empty($ownedStalls)) {
+        $stallIds = array_column($ownedStalls, 'stall_id');
+        $placeholders = implode(',', array_fill(0, count($stallIds), '?'));
+        
+        // Get reviews on owned stalls
+        $stallReviews = $db->query("SELECT review_id FROM reviews WHERE stall_id IN ($placeholders)", $stallIds);
+        
+        if (!empty($stallReviews)) {
+            $stallReviewIds = array_column($stallReviews, 'review_id');
+            $reviewPlaceholders = implode(',', array_fill(0, count($stallReviewIds), '?'));
+            
+            // Delete reactions on these reviews
+            $db->execute("DELETE FROM review_reactions WHERE review_id IN ($reviewPlaceholders)", $stallReviewIds);
+            
+            // Delete reports on these reviews
+            $db->execute("DELETE FROM review_reports WHERE review_id IN ($reviewPlaceholders)", $stallReviewIds);
+            
+            // Delete review moderations
+            $db->execute("DELETE FROM review_moderations WHERE review_id IN ($reviewPlaceholders)", $stallReviewIds);
+        }
+        
+        // Delete reviews on owned stalls
+        $db->execute("DELETE FROM reviews WHERE stall_id IN ($placeholders)", $stallIds);
+        
+        // Delete stall locations
+        $db->execute("DELETE FROM stall_locations WHERE stall_id IN ($placeholders)", $stallIds);
+        
+        // Delete menu items
+        $db->execute("DELETE FROM menu_items WHERE stall_id IN ($placeholders)", $stallIds);
+        
+        // Delete food stalls
+        $db->execute("DELETE FROM food_stalls WHERE stall_id IN ($placeholders)", $stallIds);
+    }
+    
+    // 6. Delete session tokens
+    $db->execute("DELETE FROM session_tokens WHERE user_id = ?", [$userId]);
+    
+    // 7. Delete reset tokens
+    $db->execute("DELETE FROM reset_tokens WHERE user_id = ?", [$userId]);
+    
+    // 8. Finally, delete the user
+    $db->execute("DELETE FROM users WHERE user_id = ?", [$userId]);
 }
 ?>
 <!DOCTYPE html>
@@ -557,14 +648,45 @@ if (Helpers::isPost() && Helpers::post('action') === 'delete_account') {
 
                 <!-- Danger Zone Tab -->
                 <section class="content-section <?= $activeTab === 'danger' ? 'active' : '' ?>">
-                  <p>Deleting your account will:</p>
-                    <ul class="danger-list">
-                      <li>Permanently remove your profile and account details</li>
-                      <li>Erase all your reviews, ratings, and comments</li>
-                      <li>Delete your saved stalls and favorites</li>
-                      <li>Prevent you from recovering your data in the future</li>
-                    </ul>
-                    <p><strong>This action is irreversible.</strong></p>
+                    <?php
+                    // Check if user is admin with activity
+                    $isAdminWithActivity = false;
+                    if ($user['type_name'] === 'admin') {
+                        $adminLogs = $db->querySingle(
+                            "SELECT COUNT(*) as count FROM admin_logs WHERE admin_id = ?",
+                            [$userId]
+                        );
+                        $isAdminWithActivity = ($adminLogs && $adminLogs['count'] > 0);
+                    }
+                    ?>
+                    
+                    <?php if ($isAdminWithActivity): ?>
+                        <div class="danger-zone" style="border-color: #ED6027; background-color: rgba(237, 96, 39, 0.05);">
+                            <h3 style="color: #ED6027;">
+                                <i class="fas fa-shield-alt"></i> Admin Account Protection
+                            </h3>
+                            <p><strong>Your admin account cannot be deleted.</strong></p>
+                            <p>Admin accounts with logged activity are protected to maintain audit trail integrity and system accountability.</p>
+                            <ul class="danger-list">
+                                <li>You have <strong><?= $adminLogs['count'] ?></strong> logged admin action(s)</li>
+                                <li>These logs are critical for compliance and security auditing</li>
+                                <li>Deletion would compromise the integrity of the system's audit trail</li>
+                            </ul>
+                            <p style="margin-top: 1.5rem;">
+                                <i class="fas fa-info-circle"></i>
+                                If you need to deactivate your account, please contact support at 
+                                <a href="mailto:support@buzzarfeed.com" style="color: #ED6027; font-weight: 600;">support@buzzarfeed.com</a>
+                            </p>
+                        </div>
+                    <?php else: ?>
+                        <p>Deleting your account will:</p>
+                        <ul class="danger-list">
+                            <li>Permanently remove your profile and account details</li>
+                            <li>Erase all your reviews, ratings, and comments</li>
+                            <li>Delete your saved stalls and favorites</li>
+                            <li>Prevent you from recovering your data in the future</li>
+                        </ul>
+                        <p><strong>This action is irreversible.</strong></p>
 
                         <form id="deleteAccountForm" method="POST" action="my-account.php?tab=danger" onsubmit="return confirm('Are you absolutely sure? This action cannot be undone!');">
                             <input type="hidden" name="action" value="delete_account">
@@ -579,7 +701,7 @@ if (Helpers::isPost() && Helpers::post('action') === 'delete_account') {
                             ])->render();
                             ?>
                         </form>
-                    </div>
+                    <?php endif; ?>
                 </section>
             </div>
         </div>
@@ -600,16 +722,29 @@ if (Helpers::isPost() && Helpers::post('action') === 'delete_account') {
                     'attributes' => ['form' => 'passwordForm']
                 ])->render();
             } elseif ($activeTab === 'danger') {
-                echo Button::make([
-                    'text' => 'DELETE ACCOUNT',
-                    'type' => 'submit',
-                    'variant' => Button::VARIANT_PRIMARY,
-                    'class' => 'btn-danger',
-                    'attributes' => [
-                        'style' => 'background-color: #C63D2D;',
-                        'form' => 'deleteAccountForm'
-                    ]
-                ])->render();
+                // Check if user is admin with activity
+                $isAdminWithActivity = false;
+                if ($user['type_name'] === 'admin') {
+                    $adminLogs = $db->querySingle(
+                        "SELECT COUNT(*) as count FROM admin_logs WHERE admin_id = ?",
+                        [$userId]
+                    );
+                    $isAdminWithActivity = ($adminLogs && $adminLogs['count'] > 0);
+                }
+                
+                // Only show delete button if not an admin with activity
+                if (!$isAdminWithActivity) {
+                    echo Button::make([
+                        'text' => 'DELETE ACCOUNT',
+                        'type' => 'submit',
+                        'variant' => Button::VARIANT_PRIMARY,
+                        'class' => 'btn-danger',
+                        'attributes' => [
+                            'style' => 'background-color: #C63D2D;',
+                            'form' => 'deleteAccountForm'
+                        ]
+                    ])->render();
+                }
             }
             ?>
         </div>
