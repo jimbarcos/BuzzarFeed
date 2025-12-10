@@ -119,7 +119,7 @@ htdocs/
    APP_ENV=development
    APP_DEBUG=true
    DB_HOST=localhost
-   DB_NAME=if0_40016301_db_buzzarfeed
+   DB_NAME=_db_buzzarfeed
    DB_USER=your_username
    DB_PASS=your_password
    SMTP_HOST=your_smtp_host
@@ -134,12 +134,12 @@ htdocs/
 
 6. **Run database migrations**
    ```bash
-   mysql -u your_username -p if0_40016301_db_buzzarfeed < database/migrations/create_password_reset_tokens.sql
-   mysql -u your_username -p if0_40016301_db_buzzarfeed < database/migrations/add_review_reactions.sql
-   mysql -u your_username -p if0_40016301_db_buzzarfeed < database/migrations/add_title_to_reviews.sql
-   mysql -u your_username -p if0_40016301_db_buzzarfeed < database/migrations/create_review_reports.sql
-   mysql -u your_username -p if0_40016301_db_buzzarfeed < database/migrations/add_food_categories_to_food_stalls.sql
-   mysql -u your_username -p if0_40016301_db_buzzarfeed < database/migrations/add_map_coordinates_to_applications.sql
+   mysql -u your_username -p db_buzzarfeed < database/migrations/create_password_reset_tokens.sql
+   mysql -u your_username -p db_buzzarfeed < database/migrations/add_review_reactions.sql
+   mysql -u your_username -p db_buzzarfeed < database/migrations/add_title_to_reviews.sql
+   mysql -u your_username -p db_buzzarfeed < database/migrations/create_review_reports.sql
+   mysql -u your_username -p db_buzzarfeed < database/migrations/add_food_categories_to_food_stalls.sql
+   mysql -u your_username -p db_buzzarfeed < database/migrations/add_map_coordinates_to_applications.sql
    ```
 
 7. **Set proper permissions**
