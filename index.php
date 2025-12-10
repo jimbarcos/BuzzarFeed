@@ -36,7 +36,7 @@ $reviewService = new ReviewService();
 // Fetch data from database
 $randomStalls = $stallService->getAllActiveStalls(); // Get all stalls for carousel
 $featuredStalls = $stallService->getRandomStalls(2);
-$recentReviews = $reviewService->getRecentReviews(6);
+$recentReviews = $reviewService->getRecentReviews(3);
 
 // Page metadata
 $pageTitle = "BuzzarFeed - Discover the Flavors of BGC Night Market";
