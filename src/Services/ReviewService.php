@@ -35,6 +35,7 @@ class ReviewService
                     r.rating,
                     r.comment,
                     r.created_at,
+                    r.is_anonymous,
                     u.name as reviewer_name,
                     fs.name as stall_name,
                     fs.stall_id,
@@ -66,6 +67,7 @@ class ReviewService
                     r.rating,
                     r.comment,
                     r.created_at,
+                    r.is_anonymous,
                     u.name as reviewer_name
                   FROM reviews r
                   INNER JOIN users u ON r.user_id = u.user_id
@@ -89,7 +91,7 @@ class ReviewService
     {
         return [
             'id' => $review['review_id'],
-            'reviewer' => $review['reviewer_name'],
+            'reviewer' => $review['is_anonymous'] ? 'Anonymous' : $review['reviewer_name'],
             'text' => $review['comment'] ?? '',
             'rating' => number_format((float)$review['rating'], 1),
             'stall_name' => $review['stall_name'] ?? '',
