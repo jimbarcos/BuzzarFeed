@@ -30,7 +30,7 @@ use BuzzarFeed\Utils\Helpers;
                     <div class="stall-content">
                         <div class="stall-categories">
                             <?php foreach (array_slice($stall['categories'], 0, 2) as $cat): ?>
-                                <span class="category-tag"><?= Helpers::escape($cat) ?></span>
+                                <span class="category-tag"><?= Helpers::escape(Helpers::formatCategoryName($cat)) ?></span>
                             <?php endforeach; ?>
                         </div>
 

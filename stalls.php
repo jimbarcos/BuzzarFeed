@@ -124,7 +124,7 @@ $allCategories = $standardCategories;
                                 <?php if (!empty($stall['categories']) && is_array($stall['categories'])): ?>
                                     <div class="stall-categories">
                                         <?php foreach ($stall['categories'] as $category): ?>
-                                            <span class="category-tag"><?= Helpers::escape($category) ?></span>
+                                            <span class="category-tag"><?= Helpers::escape(Helpers::formatCategoryName($category)) ?></span>
                                         <?php endforeach; ?>
                                     </div>
                                 <?php endif; ?>
