@@ -381,7 +381,7 @@ $currentTab = Helpers::get('tab', 'menu');
                         
                         <div class="stall-categories-list">
                             <?php foreach ($categories as $category): ?>
-                                <span class="category-badge"><?= Helpers::escape($category) ?></span>
+                                <span class="category-badge"><?= Helpers::escape(Helpers::formatCategoryName($category)) ?></span>
                             <?php endforeach; ?>
                         </div>
                         

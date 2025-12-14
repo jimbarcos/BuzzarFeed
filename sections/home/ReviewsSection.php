@@ -86,16 +86,12 @@ class ReviewsSection extends BaseComponent {
             'class' => 'review-readmore'
         ]);
 
-        // Display stall logo in avatar circle
-        $avatarHtml = '';
-        $stallLogoPath = !empty($review['stall_logo']) ? BASE_URL . $review['stall_logo'] : null;
-        
-        if (!empty($stallLogoPath)) {
-            $avatarHtml = '<div class="reviewer-avatar"><img src="' . Helpers::escape($stallLogoPath) . '" alt="' . Helpers::escape($review['stall_name'] ?? '') . '" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;"></div>';
-        } else {
-            // Default placeholder icon if no logo
-            $avatarHtml = '<div class="reviewer-avatar" style="background-color: rgba(255, 255, 255, 0.95); display: flex; align-items: center; justify-content: center;"><i class="fas fa-store" style="font-size: 1.8rem; color: #666;"></i></div>';
-        }
+        // Display default user avatar (gray circular profile picture)
+        $avatarHtml = '<div class="reviewer-avatar" style="background-color: #9ca3af; display: flex; align-items: center; justify-content: center; width: 60px; height: 60px; border-radius: 50%; overflow: hidden;">
+            <svg viewBox="0 0 24 24" fill="white" style="width: 60%; height: 60%; margin-top: 20%;">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+        </div>';
 
         return '
         <article class="review-card">

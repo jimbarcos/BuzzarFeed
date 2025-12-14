@@ -290,4 +290,31 @@ class Helpers {
         
         return $words[$number] ?? (string)$number;
     }
+    
+    /**
+     * Format category name from database format to display format
+     * Converts 'fast_food' to 'Fast Food', 'rice_meals' to 'Rice Meals', etc.
+     * 
+     * @param string $category Category name in database format
+     * @return string Formatted category name
+     */
+    public static function formatCategoryName(string $category): string {
+        $categoryMap = [
+            'beverages' => 'Beverages',
+            'rice_meals' => 'Rice Meals',
+            'snacks' => 'Snacks',
+            'street_food' => 'Street Food',
+            'fast_food' => 'Fast Food',
+            'pastries' => 'Pastries',
+            'others' => 'Others'
+        ];
+        
+        // Return mapped value if exists, otherwise format the string
+        if (isset($categoryMap[$category])) {
+            return $categoryMap[$category];
+        }
+        
+        // Fallback: replace underscores with spaces and capitalize words
+        return ucwords(str_replace('_', ' ', $category));
+    }
 }
