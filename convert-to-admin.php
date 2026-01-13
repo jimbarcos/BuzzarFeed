@@ -1,12 +1,60 @@
 <?php
-/**
- * BuzzarFeed - Convert User to Admin
- * 
- * Page for administrators to convert regular users to admin
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: Convert User to Admin (convert-to-admin.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It provides an admin-only interface for converting regular users into admin users.
+The page ensures that only authorized administrators can perform this action, and it maintains audit integrity by logging all conversions.
+If the user being converted is a food stall owner, all associated stalls and related data are removed to prevent orphaned records.
+
+DATE CREATED: December 2, 2025
+LAST MODIFIED: December 8, 2025
+
+PURPOSE:
+The purpose of this program is to allow trusted administrators to elevate a user's privileges to admin.
+This enables the user to perform administrative tasks such as moderating reviews, approving applications, and managing content.
+The system enforces strict validation and transactional safety to maintain database integrity.
+All admin actions are logged for audit purposes.
+
+DATA STRUCTURES:
+- Session (class): Manages login state and user role information.
+- Database (class): Singleton class providing query and transaction support.
+- AdminLogService (class): Logs admin actions such as user conversions.
+- $user (array): Represents the user retrieved from the database for conversion.
+- $error / $success (string): Stores feedback messages to display to the admin.
+- $_POST['user_email'] (string): Input email used to identify the user to convert.
+- $adminType (array): Stores the user_type_id corresponding to the admin role.
+
+ALGORITHM / LOGIC:
+1. Start session and verify user is logged in and is an admin.
+2. Redirect non-admin or unauthenticated users to login/home page with an error message.
+3. On POST request:
+   a. Sanitize and validate the submitted user email.
+   b. Check if the user exists in the database.
+   c. Prevent conversion if user is already an admin.
+   d. Retrieve the user_type_id corresponding to the admin role.
+   e. Start a database transaction.
+      i. If user is a food stall owner:
+         - Delete all their stalls, including related menu items, reviews, reactions, and stall locations.
+         - Delete any pending applications.
+      ii. Update user's user_type_id to admin.
+      iii. Commit the transaction.
+   f. Log the conversion using AdminLogService for auditing.
+   g. Display success or error messages to the admin.
+4. Render HTML form for inputting user email with clear warnings and caution notices.
+
+NOTES:
+- Only admins can access this page; access checks are enforced at the session level.
+- All deletions and updates are performed within a transaction to ensure database integrity.
+- Once a converted user performs admin actions, their account cannot be deleted.
+- Warning and caution boxes in the UI clearly communicate the irreversible nature of the action.
+- Responsive CSS ensures usability across devices.
+- Future enhancements could include searching users by name or listing eligible users for conversion.
+*/
+
 
 require_once __DIR__ . '/bootstrap.php';
 

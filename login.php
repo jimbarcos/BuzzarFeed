@@ -1,15 +1,75 @@
 <?php
-/**
- * BuzzarFeed - Login Page (Using Modular Architecture)
- *
- * User login page using new component system
- * Following ISO 9241: Maintainability, Reusability, Extensibility
- *
- * @package BuzzarFeed
- * @version 2.0
- * @author BuzzarFeed Development Team
- * @date November 2025
- */
+/*
+PROGRAM NAME: Login Page (login.php)
+
+PROGRAMMER: Frontend and Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It handles user authentication by providing a login interface, validating credentials, managing sessions, 
+and redirecting users to the homepage upon successful login.
+
+DATE CREATED: December 2, 2025
+LAST MODIFIED: December 2, 2025
+
+PURPOSE:
+The purpose of this program is to allow users to securely log in to the BuzzarFeed platform. 
+It collects and validates user credentials (email and password), verifies them against the database, 
+and initiates a session with appropriate user information upon successful authentication. 
+The program also provides clear feedback for failed login attempts, deactivated accounts, or system errors, 
+ensuring users can access their accounts safely. Additionally, it prevents already authenticated users 
+from accessing the login page and redirects them to the homepage.
+
+DATA STRUCTURES:
+- Session (class): Handles session management, including start, regeneration, flash messages, and storing user data.
+- Helpers (class): Provides utility functions such as form sanitization, input validation, redirection, and HTTP method checks.
+- Database (class): Manages database connections and executes queries.
+- Input (class): Component for rendering HTML form input fields consistently.
+- Button (class): Component for rendering HTML buttons consistently.
+- Variables:
+  - $pageTitle (string): Title of the page for HTML head.
+  - $pageDescription (string): Meta description for SEO.
+  - $errors (array): Holds validation or processing error messages.
+  - $success (bool): Indicates whether login was successful.
+  - $email, $password (string): User-submitted credentials.
+  - $user (array|null): User record retrieved from the database upon successful email lookup.
+
+ALGORITHM / LOGIC:
+1. Enable error reporting for development/debugging purposes.
+2. Include system bootstrap for loading configurations, autoloaders, and core utilities.
+3. Start a session to manage user authentication states.
+4. Redirect the user to 'index.php' if they are already logged in.
+5. Define page metadata: title and description.
+6. Check if the request method is POST (form submission):
+   - Sanitize and retrieve form inputs (email, password).
+   - Validate required fields and email format.
+   - If validation passes:
+       a. Connect to the database.
+       b. Fetch user record by email, including user type and activation status.
+       c. Verify that the user exists, is active, and that the password matches.
+       d. If all checks pass, set session variables for user identification.
+       e. Regenerate session ID for security.
+       f. Set a flash message welcoming the user.
+       g. Redirect to the homepage.
+   - If validation or authentication fails, collect appropriate error messages.
+7. Render the HTML login page:
+   - Include header and footer using modular components.
+   - Display login form with email and password fields using Input component.
+   - Display login button using Button component.
+   - Show validation errors and success messages.
+   - Include links for creating an account or resetting password.
+   - Apply modular CSS and load Google Fonts and Font Awesome for styling.
+8. Include JavaScript for modular page functionality.
+
+NOTES:
+- Uses modular architecture to ensure maintainability, reusability, and extensibility.
+- Session regeneration is performed upon successful login for security against session fixation attacks.
+- Flash messages inform users of successful login or errors and are displayed on subsequent page loads.
+- The login page prevents logged-in users from accessing it unnecessarily.
+- Form input components and buttons follow a standardized design for consistency across the platform.
+- Future enhancements may include multi-factor authentication, CAPTCHA, or login analytics.
+*/
+
 
 // Enable error display for debugging
 error_reporting(E_ALL);

@@ -1,12 +1,43 @@
 <?php
-/**
- * BuzzarFeed - Stalls Page
- * 
- * Browse all food stalls at BGC Night Market Bazaar
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: Browse Food Stalls Page (stalls.php)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed web application. It serves as the main
+browsing page where users can view, search, and filter food stalls available
+at the BGC Night Market Bazaar.
+
+DATE CREATED: November 22, 2025
+LAST MODIFIED: December 14, 2025
+
+PURPOSE:
+The purpose of this program is to allow users to discover food stalls by
+displaying a searchable and filterable list. Users can search stalls by name,
+filter them by category, and view summarized information such as ratings,
+operating hours, and descriptions.
+
+DATA STRUCTURES:
+- $pageTitle (string): Page title for browser and SEO
+- $pageDescription (string): Meta description for search engines
+- $searchTerm (string): User-entered keyword for searching stalls
+- $category (string): Selected food category filter
+- $stalls (array): List of food stalls retrieved from the database
+- $standardCategories (array): Predefined list of food categories
+
+ALGORITHM / LOGIC:
+1. Load system bootstrap and required utility and service classes.
+2. Start a user session.
+3. Retrieve search and category filter parameters from the URL.
+4. Fetch food stalls based on search term or selected category.
+5. Display all food stalls when no filters are applied.
+6. Render the stalls in a grid layout with ratings and basic information.
+
+NOTES:
+- This page is read-only and does not modify database records.
+- Stall data is retrieved using the StallService class.
+*/
 
 require_once __DIR__ . '/bootstrap.php';
 

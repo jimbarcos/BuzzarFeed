@@ -1,12 +1,73 @@
 <?php
-/**
- * BuzzarFeed - Register Stall Page
- * 
- * Page for food stall owners to register their stall
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: Register Stall Page (register-stall.php)
+
+PROGRAMMER: Frontend and Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed stall registration workflow.
+It allows food stall owners to submit a new stall registration for
+review by the administrators at the BGC Night Market Bazaar.
+
+DATE CREATED: December 1, 2025
+LAST MODIFIED: December 1, 2025
+
+PURPOSE:
+The purpose of this program is to provide a web interface for food stall
+owners to register their stalls. It validates user input, ensures
+required files are uploaded, and stores the application in the database
+with a status of "Pending". The page also handles access control to
+ensure only logged-in stall owners without an existing or pending stall
+application can register.
+
+DATA STRUCTURES:
+- $db (object): Database instance for querying and inserting applications
+- $userId (int): Logged-in user's unique identifier
+- $pendingApp (array|null): Stores existing pending application data
+- $errors (array): Stores validation errors for form fields
+- $success (bool): Indicates whether registration was successful
+- $stallName, $description, $location (string): User input fields
+- $categories (array): Selected food categories
+- $_FILES array: Uploaded files
+  - bir_registration
+  - business_permit
+  - dti_sec
+  - stall_logo
+- $validCategories (array): List of acceptable food category options
+- Session variables:
+  - user_id
+  - user_type
+  - has_stall
+- $pageTitle, $pageDescription (string): Metadata for HTML display
+
+ALGORITHM / LOGIC:
+1. Load system bootstrap and start session.
+2. Verify user login status.
+3. Confirm the user is a food stall owner.
+4. Redirect users who already have a stall or pending application.
+5. Display the registration form for eligible users.
+6. On form submission:
+   a. Validate all required fields (stall name, description, location, categories).
+   b. Validate uploaded files for presence, type, size (max 5MB), and upload errors.
+   c. Ensure user agrees to Terms of Service.
+7. If validation passes:
+   a. Create a unique directory for uploaded files based on stall name and UUID.
+   b. Move uploaded files to the server.
+   c. Convert categories to JSON and insert the application into the database with status "Pending".
+   d. Set a success flash message and redirect to the registration-pending page.
+8. Display errors or success messages in the HTML form.
+9. Allow the user to pin a location on a map and store coordinates in hidden form fields.
+10. Include CSS and JavaScript for layout, styling, and file/map interactions.
+
+NOTES:
+- Only logged-in food stall owners without an existing or pending stall
+  application can access this page.
+- File uploads must be in .png, .jpg, .jpeg, or .pdf formats (logo excludes pdf).
+- Maximum file size for uploads is 5MB.
+- Location is captured via map interaction and stored as percentage coordinates.
+- All unauthorized access attempts are redirected with a flash message.
+*/
+
 
 require_once __DIR__ . '/bootstrap.php';
 

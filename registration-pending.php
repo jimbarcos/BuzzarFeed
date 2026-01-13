@@ -1,12 +1,48 @@
 <?php
-/**
- * BuzzarFeed - Registration Pending Page
- * 
- * Success page shown after stall registration submission
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: Registration Pending Page (registration-pending.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module belongs to the BuzzarFeed stall registration workflow.
+It is displayed after a food stall owner successfully submits a
+stall application and while the application is awaiting administrator approval.
+
+DATE CREATED: December 2, 2025
+LAST MODIFIED: December 2, 2025
+
+PURPOSE:
+The purpose of this program is to inform food stall owners that their
+stall registration application has been submitted successfully and is
+currently pending review. The page ensures that only authorized stall
+owners with a valid pending application can access this information.
+
+DATA STRUCTURES:
+- $db (object): Database instance used to verify application status
+- $userId (int): Logged-in user's unique identifier
+- $pendingApp (array|null): Stores pending application details
+- Session variables:
+  - user_id
+  - user_name
+  - user_type
+- $pageTitle, $pageDescription (string): Page metadata for display
+
+ALGORITHM / LOGIC:
+1. Load system bootstrap and start the session.
+2. Verify that the user is logged in.
+3. Confirm that the logged-in user is a food stall owner.
+4. Query the database to check for a pending stall application.
+5. Redirect users who do not meet access requirements.
+6. Display a confirmation message indicating the application is under review.
+7. Provide navigation back to the user's account dashboard.
+
+NOTES:
+- Only users with a pending application (status ID = 1) may access this page.
+- All unauthorized access attempts are redirected with a flash message.
+- This page is informational and does not modify any database records.
+*/
+
 
 require_once __DIR__ . '/bootstrap.php';
 

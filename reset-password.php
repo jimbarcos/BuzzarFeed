@@ -1,12 +1,50 @@
 <?php
-/**
- * BuzzarFeed - Reset Password Page
- * 
- * Allow users to reset their password using a valid token
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: Reset Password Page (reset-password.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed authentication subsystem. It allows
+users to securely reset their account password using a time-limited,
+single-use reset token generated during the "Forgot Password" process.
+
+DATE CREATED: December 2, 2025
+LAST MODIFIED: December 2, 2025
+
+PURPOSE:
+The purpose of this program is to verify a password reset token, allow the
+user to create a new password, and update the user's credentials securely
+in the database. The program prevents unauthorized access by validating
+token expiration and usage.
+
+DATA STRUCTURES:
+- $token (string): Password reset token passed via URL
+- $tokenValid (boolean): Indicates whether the token is valid and usable
+- $user (array|null): User data associated with the reset token
+- $errors (array): Stores validation and system error messages
+- $success (boolean|string): Indicates successful password reset
+- $newPassword, $confirmPassword (string): User input for password reset
+- $db (object): Database connection instance
+
+ALGORITHM / LOGIC:
+1. Enable error reporting and load the application bootstrap file.
+2. Start a session and redirect logged-in users to prevent misuse.
+3. Retrieve the password reset token from the URL.
+4. Validate the token by checking existence, expiration, and usage status.
+5. If the token is valid, display the reset password form.
+6. On form submission, validate the new password and confirmation.
+7. Hash the new password securely.
+8. Begin a database transaction.
+9. Update the user's password and mark the token as used.
+10. Commit the transaction and redirect the user to the login page.
+
+NOTES:
+- Tokens are single-use and time-limited for security.
+- Password updates are performed inside a database transaction.
+- The system fails gracefully with user-friendly error messages.
+*/
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

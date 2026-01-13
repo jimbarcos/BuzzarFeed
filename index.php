@@ -1,15 +1,71 @@
 <?php
-/**
- * BuzzarFeed - Homepage (Using Modular Architecture)
- *
- * Main landing page using new component system
- * Following ISO 9241: Maintainability, Reusability, Extensibility
- *
- * @package BuzzarFeed
- * @version 2.0
- * @author BuzzarFeed Development Team
- * @date November 2025
- */
+/*
+PROGRAM NAME: Homepage (index.php)
+
+PROGRAMMER: Frontend and Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It serves as the main landing page for users visiting the platform, showcasing featured stalls, recent reviews, and promotional sections.
+It integrates with modular components and services to dynamically fetch and display content from the database, providing an interactive and visually appealing experience.
+
+DATE CREATED: October 5, 2025
+LAST MODIFIED: December 10, 2025
+
+PURPOSE:
+The purpose of this program is to present users with an engaging and informative homepage that highlights the BGC Night Market experience. 
+It displays featured food stalls, random stalls in a carousel, and recent reviews to guide users in discovering popular and hidden food spots. 
+The page also provides calls-to-action for joining BuzzarFeed, either as a food enthusiast or as a stall owner. 
+It aims to connect users with the platform's offerings while maintaining a modular and maintainable codebase for easy future updates.
+
+DATA STRUCTURES:
+- StallService (class): Provides methods to fetch stall data, including all active stalls and random featured stalls.
+- ReviewService (class): Provides methods to fetch recent reviews from users.
+- HeroSection, FeaturedStallsSection, ReviewsSection (classes): Modular components to render respective page sections.
+- Button (class): Reusable component for rendering buttons consistently.
+- Helpers (class): Utility functions for sanitization, escaping, and other helper operations.
+- Variables:
+  - $randomStalls (array): Collection of all active stalls to populate the carousel.
+  - $featuredStalls (array): Randomly selected stalls for featured section display.
+  - $recentReviews (array): Most recent reviews to display in the reviews section.
+  - $pageTitle (string): Page title for HTML head.
+  - $pageDescription (string): Meta description for SEO.
+  - $carouselStalls, $totalStalls (int/array): Temporary variables for carousel logic.
+
+ALGORITHM / LOGIC:
+1. Enable error reporting for development/debugging purposes.
+2. Include system bootstrap for configuration, autoloading, and core utilities.
+3. Initialize services:
+   - StallService to fetch stall data.
+   - ReviewService to fetch review data.
+4. Fetch required data from the database:
+   - Get all active stalls for the carousel.
+   - Get a subset of random stalls for the featured stalls section.
+   - Get the most recent reviews for display.
+5. Define page metadata: title, description, keywords, and author.
+6. Render HTML page:
+   - Include header navigation.
+   - Render HeroSection component with title, description, and CTA.
+   - Render Featured Brands carousel dynamically using $randomStalls:
+       - Display stall logos with hover effects.
+       - Include fallback content if no stalls are available.
+       - Render navigation buttons and dots for carousel.
+   - Render FeaturedStallsSection with selected $featuredStalls.
+   - Render ReviewsSection with $recentReviews.
+   - Render "Join BuzzarFeed" CTA section for both food enthusiasts and stall owners with Button components.
+   - Include footer.
+7. Include external resources:
+   - Google Fonts, Font Awesome, and modular CSS files.
+   - JavaScript for carousel and interactive functionality.
+
+NOTES:
+- Modular architecture ensures maintainability, reusability, and extensibility.
+- Components (HeroSection, FeaturedStallsSection, ReviewsSection) encapsulate rendering logic for cleaner HTML and easier updates.
+- Carousel is dynamic and responsive, showing all active stalls or fallback placeholders if none exist.
+- Buttons and links are rendered via Button component to maintain consistent design.
+- Future enhancements could include personalized recommendations, geolocation-based suggestions, and interactive filtering.
+*/
+
 
 // Enable error display for debugging
 error_reporting(E_ALL);

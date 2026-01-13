@@ -1,12 +1,63 @@
 <?php
-/**
- * BuzzarFeed - My Reviews Page
- *
- * Display all reviews written by the logged-in user
- *
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: My Reviews Page (my-reviews.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed user account system.
+It allows logged-in users to view all the reviews they have written for various food stalls.
+The page provides summary statistics, individual review details, and pagination for easier navigation.
+
+DATE CREATED: November 29, 2025
+LAST MODIFIED: November 29, 2025
+
+PURPOSE:
+The purpose of this program is to display all reviews submitted by the logged-in user.
+It ensures that only authenticated users can access their own reviews and provides
+information such as the review rating, comments, stall details, reaction counts (likes/dislikes),
+and a tally score indicating net user reaction.
+
+DATA STRUCTURES:
+- $db (object): Database instance for querying reviews.
+- $userId (int): The logged-in user's unique identifier.
+- $perPage (int): Number of reviews displayed per page.
+- $currentPage (int): Current pagination page number.
+- $totalReviews (int): Total number of reviews written by the user.
+- $totalPages (int): Total number of pagination pages.
+- $offset (int): Offset for SQL query based on current page.
+- $reviews (array): List of reviews with related stall info and reaction counts.
+- Session variables:
+  - user_id
+  - user_name
+  - user_type
+- $pageTitle, $pageDescription (string): Page metadata for display.
+
+ALGORITHM / LOGIC:
+1. Load system bootstrap and start session.
+2. Verify that the user is logged in; redirect to login if not.
+3. Retrieve the logged-in user's ID.
+4. Calculate pagination parameters based on total reviews and reviews per page.
+5. Query the database for the user's reviews, joining stall information and calculating likes/dislikes per review.
+6. Display page header with summary statistics: total reviews, average rating, total likes.
+7. If the user has no reviews, show an empty state with a link to explore stalls.
+8. For each review, display:
+   - Stall logo (or placeholder if missing)
+   - Stall name and link
+   - Review rating (visual stars)
+   - Review date
+   - Review comment
+   - Reaction counts and tally score
+9. Render pagination controls if multiple pages exist.
+10. Include header, footer, and necessary CSS/JS files.
+
+NOTES:
+- Only authenticated users can view their reviews.
+- Pagination ensures performance for users with a large number of reviews.
+- Likes and dislikes are counted dynamically using subqueries.
+- All review content is escaped to prevent XSS attacks.
+*/
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

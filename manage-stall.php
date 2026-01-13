@@ -1,12 +1,91 @@
 <?php
-/**
- * BuzzarFeed - Manage Stall Page
- * 
- * Dashboard for stall owners to manage their stall information, menu, and reviews
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: Manage Stall Page (manage-stall.php)
+
+PROGRAMMER: Frontend and Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It provides a dashboard interface for food stall owners to manage their stall information, menu items, and customer reviews.
+
+DATE CREATED: December 2, 2025
+LAST MODIFIED: December 2, 2025
+
+PURPOSE:
+The purpose of this program is to provide stall owners with a comprehensive interface to manage their food stalls. 
+It allows them to update essential stall details such as the name, description, logo, location, categories, and operating hours. 
+Stall owners can also manage their menu by adding, updating, or deleting items. Additionally, the program enables them to view and 
+analyze customer reviews and ratings to gain insights into performance. The system integrates an interactive map, allowing owners 
+to set or adjust the stall’s pinned location for accurate representation and easy discovery by customers.
+
+
+DATA STRUCTURES:
+- $db (Database): Database instance for executing queries.
+- $userId (int): Current logged-in user's ID.
+- $stall (array): Current stall information for the logged-in owner.
+- $currentTab (string): Tracks the active tab ('stall-info', 'menu-items', 'recent-reviews').
+- $categories (array): Decoded food categories associated with the stall.
+- $validCategories (array): Predefined list of all valid food categories.
+- $menuItems (array): List of menu items for the stall.
+- $reviews (array): List of customer reviews for the stall.
+- $ratingDistribution (array): Stores counts of ratings from 1 to 5 stars.
+- $totalRatings (int): Total number of ratings.
+- $averageRating (float): Average rating calculated from reviews.
+- HTML/JS variables:
+  - latitudeInput, longitudeInput: Hidden inputs storing map coordinates.
+  - stallPin, editStallPin: DOM elements representing the map marker pins.
+  - fileNameDisplay, itemFileNameDisplay: Display file name previews for uploaded images.
+
+ALGORITHM / LOGIC:
+1. Start session and verify user authentication:
+   - Redirect to login page if user is not logged in.
+   - Restrict access to 'food_stall_owner' user type only.
+2. Fetch the approved stall for the logged-in owner.
+   - Redirect to index if the user has no approved stall.
+3. Determine current tab from GET parameter (default: 'stall-info').
+4. Handle POST form submissions:
+   a. Update Stall Info ('update_stall_info'):
+      - Update name, description, categories, hours.
+      - Handle new logo upload with validation (PNG/JPEG, max 5MB).
+      - Update location coordinates if provided.
+   b. Add Menu Item ('add_menu_item'):
+      - Insert new menu item into database.
+      - Handle optional image upload with validation.
+   c. Update Menu Item ('update_menu_item'):
+      - Verify menu item ownership.
+      - Update item details and replace image if uploaded.
+   d. Delete Menu Item ('delete_menu_item'):
+      - Verify ownership.
+      - Delete image file and remove item from database.
+5. Decode stall's food categories for display.
+6. Fetch all menu items for the stall, ordered by creation date.
+7. Fetch reviews and calculate rating distribution:
+   - Count number of 1-5 star ratings.
+   - Calculate average rating for display.
+8. Render HTML page:
+   - Include header and footer.
+   - Render tabs for Stall Info, Menu Items, and Recent Reviews.
+   - Display forms for updating stall info and managing menu items.
+   - Display reviews with rating bars and average rating.
+9. JavaScript functionality:
+   - Editable map:
+     - Click on map to update stall pin location.
+     - Store latitude and longitude percentages in hidden inputs.
+     - Animate pin on click for visual feedback.
+   - File upload preview:
+     - Show file name and size.
+     - Validate maximum 5MB size.
+   - Modal handling for editing/deleting menu items.
+   - Visual feedback for form actions via success and error messages.
+
+NOTES:
+- Stall and menu images are stored under '/uploads/stalls/' and '/uploads/menu_items/'.
+- Food categories are stored as JSON strings in the database.
+- Average rating supports half-star display in the reviews section.
+- Page is structured for future enhancements like map-based stall positioning and live review filtering.
+- Flash messages provide user feedback on actions such as updates, additions, and deletions.
+*/
+
 
 require_once __DIR__ . '/bootstrap.php';
 

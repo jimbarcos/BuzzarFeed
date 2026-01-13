@@ -1,12 +1,82 @@
 <?php
-/**
- * BuzzarFeed - My Account Page
- *
- * User account management page with profile information and danger zone
- *
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: My Account Page (my-account.php)
+
+PROGRAMMER: Frontend and Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed user account system.
+It allows authenticated users to manage their account, including viewing profile information,
+changing their password, and deleting their account (Danger Zone). Admin accounts with activity
+logs are protected from deletion to maintain audit trail integrity.
+
+DATE CREATED: November 28, 2025
+LAST MODIFIED: December 8, 2025
+
+PURPOSE:
+The purpose of this program is to provide a centralized interface for users to manage their
+BuzzarFeed account settings, including:
+- Viewing profile details (name, email, account type, member since)
+- Updating their display name
+- Changing their password securely
+- Managing account deletion while respecting system rules and audit compliance
+
+DATA STRUCTURES:
+- $db (object): Database instance for querying user data and related entities.
+- $userId (int): The logged-in user's unique identifier.
+- $user (array): User details fetched from the database, including name, email, type, creation date.
+- $errors (array): Stores error messages for form validation and operations.
+- $success (string): Stores success messages for user feedback.
+- $activeTab (string): Tracks the currently active tab (profile, password, danger).
+- $adminLogs (array): Stores count of admin actions for admin accounts.
+- Form POST parameters:
+  - action: Identifies the action being performed (update_profile, change_password, delete_account)
+  - name: New display name for the user
+  - current_password, new_password, confirm_password: For password change
+  - confirm_email: For account deletion confirmation
+
+ALGORITHM / LOGIC:
+1. Load system bootstrap and start session.
+2. Check if the user is logged in; redirect to login if not.
+3. Retrieve user information from the database. If the user does not exist, destroy session and redirect.
+4. Determine which tab is active based on query parameter (default to 'profile').
+5. Handle profile update:
+   - Validate input (name required, unique among users)
+   - Update user name in database and session if valid
+   - Provide feedback messages
+6. Handle password change:
+   - Validate input (current password, new password requirements, confirmation match)
+   - Verify current password against stored hash
+   - Hash and update new password in database if valid
+   - Provide feedback messages
+7. Handle account deletion:
+   - Confirm email matches
+   - Prevent deletion for admins with logged activity
+   - Delete all related user data in a specific order using deleteUserAccount() function:
+     a. Review reactions, review reports, reviews, and moderations
+     b. Stall applications
+     c. Stalls owned by the user, including reviews, menu items, and locations
+     d. Session tokens and password reset tokens
+     e. The user record itself
+   - Use database transactions to ensure atomicity
+   - Destroy session and redirect to homepage with success message
+8. Render page HTML:
+   - Sidebar with tabs: Profile Information, Change Password, Danger Zone
+   - Main content shows form fields and information according to active tab
+   - Profile tab: editable name, display email, account type, member since
+   - Password tab: current, new, and confirm password fields
+   - Danger Zone tab: displays account deletion warning and admin protection info
+   - Action buttons update the active tab’s form or initiate deletion
+9. Apply responsive styles for mobile devices and include header, footer, CSS, and JS.
+
+NOTES:
+- All input is sanitized and escaped to prevent XSS.
+- Passwords are verified and hashed securely.
+- Admin accounts with logged actions cannot be deleted; deletion must be performed by support.
+- Database transactions ensure that deletions are atomic and data integrity is maintained.
+- Form submission is distinguished by the 'action' hidden field.
+*/
+
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

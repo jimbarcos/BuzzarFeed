@@ -1,12 +1,85 @@
 <?php
-/**
- * BuzzarFeed - Admin Panel
- * 
- * Dashboard for administrators to manage stall applications and reviews
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: Admin Panel (admin-panel.php)
+
+PROGRAMMER: Frontend and Backend Team
+
+SYSTEM CONTEXT:
+Part of the BuzzarFeed platform, this module serves as the administrative interface for managing food stall applications, moderating reviews, and viewing admin activity logs.
+It is intended for users with admin privileges only and requires authentication through the Session utility.
+
+DATE CREATED: November 30, 2025
+LAST MODIFIED: December 4, 2025
+
+PURPOSE:
+The Admin Panel provides administrators with the following functionalities:
+1. View, approve, decline, or archive stall applications submitted by users.
+2. Moderate user reviews that have been flagged for reporting.
+3. Access and browse the admin activity logs for audit and monitoring purposes.
+4. Display platform statistics, including total users, pending stalls, and approved stalls.
+
+DATA STRUCTURES / OBJECTS:
+- $db: Instance of Database for running queries.
+- $applicationService: Instance of ApplicationService to manage applications.
+- $logService: Instance of AdminLogService to retrieve admin logs.
+- $reportService: Instance of ReviewReportService to manage reported reviews.
+- $adminName: Admin's name retrieved from Session.
+- $totalUsers, $pendingStalls, $approvedStalls: Statistics counters.
+- $pendingApps: Array of pending applications with user details.
+- $adminLogs: Array of recent admin activity logs.
+- $pendingReports: Array of pending review reports.
+- $currentTab: String indicating which tab is currently active ('pending-applications', 'recent-reviews', 'admin-logs').
+
+ALGORITHM / LOGIC:
+1. Initialize environment by including bootstrap.php and starting session.
+2. Check authentication:
+   a. If user is not logged in, redirect to login page.
+   b. If user is not an admin, redirect to index with access denied.
+3. Retrieve platform statistics from database.
+4. Handle POST requests:
+   a. Application actions: approve, decline, archive applications.
+   b. Review moderation actions: delete or dismiss review reports.
+   c. Set appropriate flash messages and redirect after actions.
+5. Load tab-specific data:
+   a. Pending applications for review.
+   b. Pending review reports.
+   c. Admin activity logs.
+6. Render HTML page:
+   a. Include header and footer.
+   b. Display hero section with welcome message and admin actions.
+   c. Display statistics cards.
+   d. Render tabs with dynamic content based on $currentTab.
+   e. Render application, review, and log entries in desktop and mobile layouts.
+   f. Include modal templates for viewing application details and log details.
+7. Client-side logic (JavaScript):
+   a. Paginate application and admin logs tables.
+   b. Handle opening and closing of modals.
+   c. Dynamically render documents and application details in modal.
+   d. Ensure accessibility and responsiveness for desktop and mobile devices.
+
+NOTES / ADDITIONAL DETAILS:
+- Flash messages are displayed once per session action and cleared after display.
+- Date and time are converted to Philippine Time (UTC+8) where applicable.
+- Document rendering supports both images and generic file icons.
+- Tab navigation persists using query parameters (e.g., ?tab=pending-applications).
+- Admin actions are confirmed via JavaScript confirm dialogs.
+- The page imports external fonts, icons, and CSS for styling consistency.
+- Future improvements may include AJAX-based actions and live updates for a smoother admin experience.
+
+DEPENDENCIES:
+- bootstrap.php
+- BuzzarFeed\Utils\Helpers
+- BuzzarFeed\Utils\Session
+- BuzzarFeed\Utils\Database
+- BuzzarFeed\Services\ApplicationService
+- BuzzarFeed\Services\AdminLogService
+- BuzzarFeed\Services\ReviewReportService
+- CSS and JS assets (variables.css, base.css, admin-panel.css, app.js)
+- Header and Footer includes
+
+*/
+?>
+
 
 require_once __DIR__ . '/bootstrap.php';
 
