@@ -1,13 +1,53 @@
 <?php
-/**
- * BuzzarFeed - Base Component Abstract Class
- * 
- * Base class for all UI components
- * Following ISO 9241: Extensibility, Reusability, and Maintainability
- * 
- * @package BuzzarFeed\Components
- * @version 1.0
- */
+/*
+PROGRAM NAME: Base Component (BaseComponent.php)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed Components library.
+It serves as the base abstract class for all UI components, providing common properties, methods, and rendering utilities.
+
+DATE CREATED: Decemeber 4, 2025
+LAST MODIFIED: Decemeber 4, 2025
+
+PURPOSE:
+The purpose of this program is to:
+- Provide a base class for all UI components to ensure consistency.
+- Handle common properties such as ID, CSS classes, and HTML attributes.
+- Provide helper methods for rendering, attribute building, and class merging.
+- Facilitate reusability, extensibility, and maintainability of UI components.
+
+DATA STRUCTURES:
+- $props (array): Stores component properties passed during instantiation.
+- $attributes (array): Stores additional HTML attributes for the component.
+- $classes (string): Stores CSS classes for the component.
+- $id (string): Stores the component ID.
+
+ALGORITHM / LOGIC:
+1. __construct(array $props = []):
+   - Stores properties and calls initialize() for extraction.
+2. initialize():
+   - Extracts common properties like id, classes, and attributes.
+3. prop(string $key, $default = null):
+   - Retrieves a property value with optional default.
+4. buildAttributes():
+   - Builds a string of HTML attributes including id, class, and additional attributes.
+5. mergeClasses(string ...$classes):
+   - Merges multiple CSS class strings into one.
+6. render(): abstract
+   - Must be implemented by child classes to render component HTML.
+7. __toString():
+   - Allows the component to be echoed as a string.
+8. make(array $props = []):
+   - Static factory method for easier instantiation.
+9. display():
+   - Renders and echoes the component HTML directly.
+
+NOTES:
+- Designed to support dynamic, reusable UI components in BuzzarFeed.
+- Can be extended by other components to standardize property handling and rendering.
+*/
 
 namespace BuzzarFeed\Components;
 
