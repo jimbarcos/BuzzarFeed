@@ -1,13 +1,55 @@
 <?php
-/**
- * BuzzarFeed - Card Component
- * 
- * Reusable card component for various content types
- * Following ISO 9241: Reusability and Flexibility
- * 
- * @package BuzzarFeed\Components\Common
- * @version 1.0
- */
+/*
+PROGRAM NAME: Card Component (Card.php)
+
+PROGRAMMER: Frontend Team 
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed UI Components library.
+It provides a reusable card component that can display content for stalls, reviews, join prompts, or any generic content.
+
+DATE CREATED: Decemeber 4, 2025
+LAST MODIFIED: Decemeber 4, 2025
+
+PURPOSE:
+The purpose of this program is to:
+- Render a flexible, reusable card with optional title, subtitle, content, image, footer, and actions.
+- Support multiple variants: default, stall, review, and join.
+- Allow hover effects and custom styling via props.
+- Follow ISO 9241 principles: Reusability and Flexibility.
+
+DATA STRUCTURES:
+- $variant (string): Card variant type (default, stall, review, join).
+- $title (string|null): Card title.
+- $subtitle (string|null): Card subtitle.
+- $content (string|null): Card main content (HTML allowed).
+- $image (string|null): Card image URL.
+- $footer (string|null): Optional footer content.
+- $actions (array): Array of buttons or links for card actions.
+- $hoverable (bool): Whether the card has a hover effect.
+- $id (string): Card DOM ID.
+- $classes (string): Custom CSS classes.
+- $attributes (array): Optional HTML attributes.
+
+ALGORITHM / LOGIC:
+1. initialize():
+   - Extracts and sets component properties from $props.
+   - Sets default values for variant, hoverable, and actions.
+2. render():
+   - Builds the card HTML including image, body (title, subtitle, content), and footer (actions or footer content).
+3. renderImage():
+   - Generates HTML for the card image if provided.
+4. renderActions():
+   - Renders actions if they exist, supports BaseComponent instances or raw HTML.
+5. buildClasses():
+   - Builds the card CSS classes based on variant, hoverable, and custom classes.
+
+NOTES:
+- Designed to be reusable across multiple sections in the BuzzarFeed UI.
+- Supports dynamic customization through props and attributes.
+- Can be extended for specialized card types or additional behaviors.
+- Complies with ISO 9241 usability and modularity guidelines.
+*/
 
 namespace BuzzarFeed\Components\Common;
 

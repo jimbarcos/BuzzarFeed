@@ -1,13 +1,54 @@
 <?php
-/**
- * BuzzarFeed - Button Component
- * 
- * Reusable button component with variants
- * Following ISO 9241: Reusability and Consistency
- * 
- * @package BuzzarFeed\Components\Common
- * @version 1.0
- */
+/*
+PROGRAM NAME: Button Component (Button.php)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed UI Components library.
+It provides a reusable button component that supports different variants, sizes, icons, links, and behaviors.
+
+DATE CREATED: Decemeber 4, 2025
+LAST MODIFIED: Decemeber 4, 2025
+
+PURPOSE:
+The purpose of this program is to:
+- Render a flexible, reusable button that can be used as a regular button or as a link.
+- Support multiple variants: primary, secondary, success, outline.
+- Support multiple sizes: small, medium, large.
+- Optionally display an icon and handle full-width buttons.
+- Follow ISO 9241 principles: Reusability, Consistency, and Accessibility.
+
+DATA STRUCTURES:
+- $text (string): Button text content.
+- $variant (string): Button variant (primary, secondary, success, outline).
+- $size (string): Button size (sm, md, lg).
+- $icon (string|null): Optional icon class (FontAwesome or other).
+- $href (string|null): Optional URL for link buttons.
+- $type (string): Button type (button, submit, reset).
+- $disabled (bool): Whether the button is disabled.
+- $fullWidth (bool): Whether the button stretches to full width.
+- $id (string): Button DOM ID.
+- $classes (string): Custom CSS classes.
+- $attributes (array): Optional HTML attributes.
+
+ALGORITHM / LOGIC:
+1. initialize():
+   - Extracts component properties from $props.
+   - Sets default values for variant, size, icon, type, disabled, and fullWidth.
+2. render():
+   - Determines whether the element is a <button> or <a> based on the presence of href.
+   - Builds CSS classes and HTML attributes.
+   - Renders optional icon and button text.
+3. buildClasses():
+   - Builds button CSS classes based on variant, size, full-width, and custom classes.
+
+NOTES:
+- Designed to be reused consistently across BuzzarFeed UI sections.
+- Supports accessibility features via proper attributes.
+- Can be extended for additional styles, behaviors, or event handling.
+- Complies with ISO 9241 usability and modularity guidelines.
+*/
 
 namespace BuzzarFeed\Components\Common;
 
