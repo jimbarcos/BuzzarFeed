@@ -1,13 +1,55 @@
 <?php
-/**
- * BuzzarFeed - Featured Stalls Section Component
- * 
- * Reusable featured stalls section
- * Following ISO 9241: Reusability and Modularity
- * 
- * @package BuzzarFeed\Sections\Home
- * @version 1.0
- */
+/*
+PROGRAM NAME: Featured Stalls Section Component (FeaturedStallsSection.php)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed Home Sections.
+It is responsible for rendering the reusable featured stalls section on the homepage.
+It depends on BaseComponent, Button, Card, and Helpers utilities to construct and safely render HTML content.
+
+DATE CREATED: Decemeber 2, 2025
+LAST MODIFIED: Decemeber 2, 2025
+
+PURPOSE:
+The purpose of this program is to display a grid of featured food stalls with relevant information including:
+- Stall name
+- Operating hours
+- Description
+- Action buttons for viewing details
+It also provides a call-to-action button to browse all stalls.
+
+DATA STRUCTURES:
+- $stalls (array): Array of featured stall data (id, name, hours, description).
+- $title (string): Section title, supports HTML for highlights.
+- $location (string): Location of the featured stalls, displayed with a map icon.
+- Button instances are used for CTA and individual stall actions.
+- Helpers: Provides utility functions such as HTML escaping.
+
+ALGORITHM / LOGIC:
+1. initialize():
+   - Loads component properties ($stalls, $title, $location) from props.
+   - Sets default values if none are provided.
+2. render():
+   - Creates a Browse Button instance for the section CTA.
+   - Constructs the main section HTML:
+     - Section header with title, location, and Browse button.
+     - Grid of stall cards.
+   - If no stalls are provided, renders default placeholder stalls.
+3. renderStallCard(array $stall):
+   - Creates a Button instance for "View details".
+   - Builds the HTML for an individual stall card with overlay information.
+4. renderPlaceholderStalls():
+   - Provides default stall cards to display when $stalls is empty.
+   - Uses renderStallCard() for consistency.
+
+NOTES:
+- Designed with ISO 9241 principles: modularity and reusability.
+- Can be reused on different pages or sections by passing custom stall data, titles, and location.
+- Ensures safe rendering of user-provided content via Helpers::escape().
+- Placeholder stalls provide a default look if no real data is available.
+*/
 
 namespace BuzzarFeed\Sections\Home;
 

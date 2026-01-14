@@ -1,13 +1,49 @@
 <?php
-/**
- * BuzzarFeed - Hero Section Component
- * 
- * Reusable hero section for homepage
- * Following ISO 9241: Reusability and Modularity
- * 
- * @package BuzzarFeed\Sections\Home
- * @version 1.0
- */
+/*
+PROGRAM NAME: Hero Section Component (HeroSection.php)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed Home Sections.
+It is responsible for rendering the reusable hero section on the homepage.
+It depends on BaseComponent, Button, and Helpers utilities to construct and safely render HTML content.
+
+DATE CREATED: Decemeber 2, 2025
+LAST MODIFIED: Decemeber 2, 2025
+
+PURPOSE:
+The purpose of this program is to display a visually appealing hero section with a title, description, and call-to-action button.
+It showcases the BGC Night Market theme and can be reused with custom content.
+The hero also includes a polaroid-style image arrangement for visual interest.
+
+DATA STRUCTURES:
+- $title (string): Hero section title, supports HTML for highlights.
+- $description (string): Short descriptive text for the hero section.
+- $ctaText (string|null): Text for the call-to-action button.
+- $ctaLink (string|null): Link target for the call-to-action button.
+- Button instances are used for CTA functionality.
+- Helpers: Provides utility functions such as HTML escaping.
+
+ALGORITHM / LOGIC:
+1. initialize():
+   - Loads component properties ($title, $description, $ctaText, $ctaLink).
+   - Sets default values if none are provided.
+2. render():
+   - Creates a Button instance for the CTA using the passed or default properties.
+   - Constructs the hero section HTML with:
+     - Title and description.
+     - CTA button.
+     - Polaroid image container with three placeholder images.
+   - Escapes the description to prevent XSS while allowing HTML in the title.
+   - Returns the complete HTML string for rendering.
+
+NOTES:
+- Designed with ISO 9241 principles: modularity and reusability.
+- Can be reused on different pages by passing custom props for title, description, and CTA.
+- The polaroid images can be replaced dynamically in future enhancements.
+- Ensures safe rendering of user-provided content via Helpers::escape().
+*/
 
 namespace BuzzarFeed\Sections\Home;
 

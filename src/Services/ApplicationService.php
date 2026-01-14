@@ -1,13 +1,85 @@
 <?php
-/**
- * BuzzarFeed - Application Service
- * 
- * Handles business logic for stall application management
- * Following ISO 9241 principles: Modularity, Reusability, Separation of Concerns
- * 
- * @package BuzzarFeed\Services
- * @version 1.0
- */
+/*
+PROGRAM NAME: Application Service (ApplicationService.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It handles the business logic for stall applications submitted by users.
+It interacts with the Database, Session, EmailService, and AdminLogService utilities to approve, decline, archive, and manage applications.
+It ensures that moderation workflows, file handling, and email notifications are consistently enforced.
+This service is primarily used by admin controllers or application management tools.
+
+DATE CREATED: Novemeber 23, 2025
+LAST MODIFIED: Decemeber 4, 2025
+
+PURPOSE:
+The purpose of this program is to provide a structured and reusable service for managing stall applications.
+It allows admins to approve or decline applications, create food stalls, archive old applications, manage application files, and notify applicants of moderation decisions.
+It maintains data integrity through transactions and logs all admin actions for auditing purposes.
+
+DATA STRUCTURES:
+- $db (Database): Database instance for executing queries.
+- $logService (AdminLogService): Service for logging admin actions.
+- $application (array): Application record fetched from the database.
+- $filesToDelete (array): Array of application files to be deleted.
+- $uploadDir (string): Base directory path for uploaded files.
+- $stallId (int): ID of newly created food stall.
+- $adminId (int|null): Admin user performing the action.
+- $reviewNotes (string): Optional notes provided by the admin during approval or decline.
+
+ALGORITHM / LOGIC:
+1. getApplicationById():
+   - Retrieve a single application record joined with user details.
+2. getPendingApplications():
+   - Retrieve all applications with status 'pending' (current_status_id = 1).
+3. approveApplication():
+   - Fetch application data.
+   - Start a transaction.
+   - Create the food stall using application data.
+   - Create stall location if provided.
+   - Update application status to approved.
+   - Update the user's timestamp.
+   - Commit transaction.
+   - Log admin action.
+   - Send approval email to the applicant.
+4. declineApplication():
+   - Fetch application data.
+   - Delete uploaded application files.
+   - Remove application record from database.
+   - Log admin action.
+   - Send decline email to the applicant.
+5. archiveApplication():
+   - Update application status to archived (3).
+   - Log admin action.
+6. createFoodStall():
+   - Insert food stall into database using application details.
+   - Return the new stall ID.
+7. createStallLocation():
+   - Insert stall location data into database.
+8. updateApplicationStatus():
+   - Update the application's current_status_id field.
+9. updateUserTimestamp():
+   - Update the updated_at timestamp for the user.
+10. deleteApplicationFiles():
+    - Remove application files from the server filesystem.
+    - Delete the directory if empty.
+11. sendApprovalEmail():
+    - Send HTML email notification of approval to applicant.
+    - Catch exceptions to prevent email failures from affecting the approval.
+12. sendDeclineEmail():
+    - Send HTML email notification of decline to applicant.
+    - Catch exceptions to prevent email failures from affecting the decline.
+
+NOTES:
+- All public methods ensure proper validation and existence checks for applications.
+- Transactions are used in approveApplication() to maintain consistency when creating food stalls and updating statuses.
+- File handling ensures that uploaded documents are safely deleted when applications are declined.
+- Admin actions are logged for auditing purposes.
+- Email failures are logged but do not interrupt the approval/decline workflows.
+- Future enhancements may include batch approval, automated notifications, and advanced reporting dashboards.
+*/
 
 namespace BuzzarFeed\Services;
 

@@ -1,13 +1,67 @@
 <?php
-/**
- * BuzzarFeed - User Service
- * 
- * Handles user account management business logic
- * Following ISO 9241 principles: Modularity, Reusability, Separation of Concerns
- * 
- * @package BuzzarFeed\Services
- * @version 1.0
- */
+/*
+PROGRAM NAME: User Account Management Service (UserService.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It provides business logic for managing user accounts, including profile management, password updates, account deletion, and profile image uploads.
+The UserService class interacts with the Database utility and Helper functions to ensure secure and consistent operations across the system.
+It is typically used by controllers, API endpoints, and other service layers that require user account management functionality.
+
+DATE CREATED: Novemeber 29, 2025
+LAST MODIFIED: Novemeber 29, 2025
+
+PURPOSE:
+The purpose of this program is to centralize user-related business logic in a reusable and maintainable service.
+It ensures secure handling of sensitive user data, enforces validation rules, and provides structured methods for account operations.
+By abstracting database interactions and helper utilities, it promotes code modularity and separation of concerns.
+
+DATA STRUCTURES:
+- $db (Database): Database instance used for executing queries and commands.
+- User data arrays:
+  - user_id (int): Unique identifier of the user.
+  - name (string): User's display name.
+  - user_type_id (int): Identifier for the user's role/type.
+  - profile_image (string): Path to user's profile image.
+  - hashed_password (string): Securely hashed password.
+- $_FILES array elements: Uploaded file information for profile images.
+- Validation result arrays:
+  - 'valid' (bool): Indicates if input is valid.
+  - 'message' (string): Validation feedback message.
+
+ALGORITHM / LOGIC:
+1. Initialize Database instance on service construction.
+2. Retrieve user information:
+   a. Join with user type to include type name and description.
+3. Update user profile:
+   a. Validate required fields.
+   b. Execute update query with timestamp.
+4. Change user password:
+   a. Verify current password against stored hash.
+   b. Validate new password strength and rules.
+   c. Hash new password and update the database.
+5. Delete user account:
+   a. Verify password.
+   b. Check for dependent resources (e.g., food stalls).
+   c. Delete user if no dependencies exist.
+6. Upload and update profile image:
+   a. Validate file type and size.
+   b. Create upload directory if missing.
+   c. Generate unique filename and move uploaded file.
+   d. Update database with relative path.
+7. Ensure all operations throw exceptions on invalid input or failure.
+8. Maintain modularity and reusability by leveraging Database and Helper utilities.
+
+NOTES:
+- This service abstracts database operations from controllers and endpoints.
+- Password management uses secure hashing and validation utilities.
+- Profile image uploads enforce strict type and size constraints for security.
+- Account deletion is prevented if dependent resources exist.
+- Methods are designed for exception handling to propagate meaningful errors to calling layers.
+- Future enhancements may include multi-factor authentication, account activity logging, and profile image optimization.
+*/
 
 namespace BuzzarFeed\Services;
 
