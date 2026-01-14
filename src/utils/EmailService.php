@@ -1,13 +1,75 @@
 <?php
-/**
- * BuzzarFeed - Email Service
- * 
- * Handles email sending using PHP mail() function with SMTP headers
- * Compatible with InfinityFree hosting
- * 
- * @package BuzzarFeed
- * @version 2.0
- */
+/*
+PROGRAM NAME: Email Service (EmailService.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform’s utility layer.
+It is responsible for handling all outgoing email communications initiated by the system,
+including user onboarding, password recovery, and application status notifications.
+The EmailService acts as a centralized email dispatcher and integrates with the Brevo
+(Sendinblue) email delivery service via HTTP API to ensure compatibility with shared
+hosting environments such as InfinityFree, where traditional SMTP and PHP mail()
+configurations are limited or restricted.
+
+DATE CREATED: December 4, 2025
+LAST MODIFIED: December 4, 2025
+
+PURPOSE:
+The purpose of this program is to provide a reliable, reusable, and secure mechanism
+for sending transactional and system-generated emails within the BuzzarFeed application.
+It abstracts email delivery logic from controllers and business logic, enforces consistent
+email formatting, and supports both HTML and plain-text versions to improve deliverability
+and accessibility.
+
+The service ensures that critical notifications such as welcome messages, password reset
+requests, and application approval or rejection notices are sent in a standardized and
+
+DATA STRUCTURES:
+- Private configuration properties:
+  - $fromEmail: Sender email address
+  - $fromName: Sender display name
+  - $smtpHost: Email relay host (Brevo)
+  - $smtpUsername: SMTP/API email identifier
+  - $smtpPassword: Brevo SMTP/API key
+  - $smtpPort: SMTP port (587)
+- HTML and plain-text email templates embedded using heredoc syntax.
+- JSON payloads used for API communication with Brevo.
+
+ALGORITHM / LOGIC:
+1. Initialize the EmailService using the Singleton pattern.
+2. Load sender information and credentials from environment variables.
+3. When an email request is triggered:
+   a. Validate that required API credentials are available.
+   b. Construct the email payload (sender, recipient, subject, HTML body, text body).
+   c. Encode the payload as JSON.
+   d. Send the request to the Brevo SMTP API using cURL.
+4. Capture and log:
+   a. HTTP response codes
+   b. API responses
+   c. cURL errors and exceptions
+5. Determine success based on HTTP status code (201 = sent).
+6. In development mode:
+   a. Throw detailed exceptions for easier debugging.
+7. Provide specialized public methods for:
+   a. Welcome emails
+   b. Password reset emails
+   c. Application approval notifications
+   d. Application decline notifications
+   e. Custom HTML email sending
+
+NOTES:
+- Designed specifically to work on shared hosting platforms with limited mail support.
+- Avoids reliance on PHP mail() to improve deliverability and reliability.
+- Supports both HTML and plain-text emails for better client compatibility.
+- Centralizing email logic simplifies maintenance and future enhancements.
+- Future improvements may include:
+  - Email queueing
+  - Retry mechanisms
+  - Template externalization
+  - Multi-language support
+*/
 
 namespace BuzzarFeed\Utils;
 

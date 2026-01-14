@@ -1,13 +1,68 @@
 <?php
-/**
- * BuzzarFeed - Environment Variable Loader
- * 
- * Simple .env file parser and loader
- * Loads environment variables from .env file
- * 
- * @package BuzzarFeed\Utils
- * @version 1.0
- */
+/*
+PROGRAM NAME: Environment Variable Loader (Env.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It is responsible for loading, parsing, and managing environment variables from a `.env` configuration file.
+The Env class provides a lightweight alternative to third-party libraries for handling environment configuration, making it suitable for shared hosting environments and controlled deployment setups.
+It is typically initialized during application bootstrap and accessed by configuration files, database connectors, and utility classes.
+
+DATE CREATED: November 23, 2025
+LAST MODIFIED: November 23, 2025
+
+PURPOSE:
+The purpose of this program is to securely load and manage environment-specific configuration values.
+It enables separation of sensitive configuration data (such as database credentials and API keys) from source code.
+The module ensures consistent access to environment variables throughout the application while supporting type casting, variable interpolation, and default fallbacks.
+
+DATA STRUCTURES:
+- self::$variables (array): Stores environment variables loaded from the .env file.
+- self::$loaded (bool): Flag indicating whether the .env file has already been loaded.
+- $_ENV (superglobal array): Stores environment variables at runtime.
+- $_SERVER (superglobal array): Provides server-level access to environment variables.
+- Environment variable formats:
+  - KEY=value
+  - KEY="quoted value"
+  - KEY=${OTHER_VARIABLE}
+
+ALGORITHM / LOGIC:
+1. Prevent multiple loads by checking the internal loaded flag.
+2. Verify that the .env file exists at the provided path.
+3. Read the .env file line-by-line, ignoring empty lines and comments.
+4. For each valid line:
+   a. Split the line into key and value pairs.
+   b. Trim whitespace from keys and values.
+   c. Remove surrounding quotes from values.
+   d. Resolve variable references using the ${VAR_NAME} syntax.
+5. Store parsed values in:
+   a. Internal variables array.
+   b. $_ENV superglobal.
+   c. $_SERVER superglobal (if not already defined).
+   d. System environment via putenv(), if available.
+6. Mark the environment as loaded to prevent reprocessing.
+7. Provide helper methods to:
+   a. Retrieve environment variables with optional default values.
+   b. Check if a variable exists.
+   c. Retrieve all loaded variables.
+   d. Enforce required variables by throwing exceptions.
+8. Automatically cast values to appropriate data types:
+   a. Boolean (true/false)
+   b. Null
+   c. Empty strings
+   d. Integers and floats
+
+NOTES:
+- This module avoids external dependencies to maintain compatibility with restricted hosting environments.
+- Environment variables should never be committed to version control.
+- Variable interpolation allows configuration reuse and cleaner .env files.
+- Automatic type casting simplifies usage in configuration and logic layers.
+- The loader is designed to be executed once during application bootstrap.
+- Exceptions are thrown for missing required variables to prevent silent misconfiguration.
+- Future enhancements may include encrypted .env support or environment-specific overrides.
+*/
 
 namespace BuzzarFeed\Utils;
 

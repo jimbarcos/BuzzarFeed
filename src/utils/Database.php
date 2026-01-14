@@ -1,13 +1,69 @@
 <?php
-/**
- * BuzzarFeed - Database Connection Class
- * 
- * Singleton pattern implementation for database connections
- * Following ISO 9241: Maintainability and Reusability
- * 
- * @package BuzzarFeed\Utils
- * @version 1.0
- */
+/*
+PROGRAM NAME: Database Connection Manager (Database.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform’s core utility layer.
+It is responsible for establishing, managing, and maintaining a secure connection
+to the MySQL database used throughout the application.
+The Database class centralizes all database access logic and provides a consistent
+interface for executing queries, transactions, and data retrieval across different
+system modules such as authentication, reviews, sessions, and application workflows.
+
+This class follows the Singleton design pattern to ensure that only one database
+connection instance exists during the application lifecycle, improving performance,
+resource management, and consistency.
+
+DATE CREATED: December 2, 2025
+LAST MODIFIED: December 2, 2025
+
+PURPOSE:
+The purpose of this program is to provide a reusable, maintainable, and secure
+database access layer for the BuzzarFeed system.
+It abstracts PDO connection handling, enforces prepared statements to prevent
+SQL injection, and standardizes error handling and transaction management.
+
+By centralizing database logic, this module reduces code duplication and simplifies
+future changes to database configuration or connection behavior.
+
+DATA STRUCTURES:
+- Static Properties:
+  - $instance (Database|null): Holds the singleton instance.
+- Instance Properties:
+  - $connection (PDO|null): Active PDO database connection.
+- PDO Prepared Statements:
+  Used for executing parameterized queries safely.
+
+ALGORITHM / LOGIC:
+1. Prevent direct instantiation using a private constructor.
+2. Prevent cloning and unserialization to preserve Singleton integrity.
+3. When `getInstance()` is called:
+   a. Check if an instance already exists.
+   b. If not, create a new instance and establish a database connection.
+4. Build the DSN string using configuration constants.
+5. Initialize the PDO connection with:
+   a. Exception-based error handling
+   b. Associative array fetch mode
+   c. Disabled emulated prepares
+6. Provide helper methods to:
+   a. Execute queries returning multiple rows.
+   b. Execute queries returning a single row.
+   c. Execute insert, update, and delete operations.
+   d. Manage transactions (begin, commit, rollback).
+7. Automatically reconnect if the PDO connection is lost.
+
+NOTES:
+- This class serves as the foundation for all database-dependent modules in BuzzarFeed.
+- Persistent connections are intentionally disabled for better compatibility with
+  shared hosting environments.
+- Future enhancements may include:
+  - Read/write connection separation
+  - Query logging and profiling
+  - Support for multiple database drivers
+  - Automatic reconnection retry strategies
+*/
 
 namespace BuzzarFeed\Utils;
 
