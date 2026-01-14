@@ -37,7 +37,6 @@ NOTES:
 - Content visibility is controlled using conditional CSS classes.
 */
 
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 

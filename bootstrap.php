@@ -49,7 +49,6 @@ NOTES:
 - Future enhancements could include configuration caching or more flexible error handling.
 */
 
-
 // Load configuration
 if (!file_exists(__DIR__ . '/config/config.php')) {
     die('Error: config/config.php not found at ' . __DIR__ . '/config/config.php');

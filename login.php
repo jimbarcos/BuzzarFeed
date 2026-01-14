@@ -70,7 +70,6 @@ NOTES:
 - Future enhancements may include multi-factor authentication, CAPTCHA, or login analytics.
 */
 
-
 // Enable error display for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

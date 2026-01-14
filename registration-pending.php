@@ -43,7 +43,6 @@ NOTES:
 - This page is informational and does not modify any database records.
 */
 
-
 require_once __DIR__ . '/bootstrap.php';
 
 use BuzzarFeed\Utils\Helpers;

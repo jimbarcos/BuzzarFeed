@@ -45,7 +45,6 @@ NOTES:
 - The system fails gracefully with user-friendly error messages.
 */
 
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 

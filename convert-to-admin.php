@@ -55,7 +55,6 @@ NOTES:
 - Future enhancements could include searching users by name or listing eligible users for conversion.
 */
 
-
 require_once __DIR__ . '/bootstrap.php';
 
 use BuzzarFeed\Utils\Helpers;

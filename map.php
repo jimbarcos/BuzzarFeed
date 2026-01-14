@@ -65,7 +65,6 @@ NOTES:
 - Map pins are expected to have data attributes for stall info (name, description, rating, categories, ID).
 */
 
-
 require_once __DIR__ . '/bootstrap.php';
 
 use BuzzarFeed\Utils\Helpers;

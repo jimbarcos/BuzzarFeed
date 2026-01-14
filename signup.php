@@ -46,7 +46,6 @@ NOTES:
 - Email sending failures do not prevent account creation.
 */
 
-
 // Enable error display for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

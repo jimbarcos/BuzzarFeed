@@ -16,7 +16,6 @@ The purpose of this program is to securely log out a user from the BuzzarFeed pl
 clears all session data to prevent any unauthorized access, and sets a flash message to inform the user that they have successfully 
 logged out. Finally, the program redirects the user back to the homepage, ensuring a smooth and secure exit from the system.
 
-
 DATA STRUCTURES:
 - Session (class): Handles session management, including start, destroy, and flash message operations.
 - Helpers (class): Provides utility functions, including page redirection.
@@ -42,7 +41,6 @@ NOTES:
 - This script does not require any form input; it performs logout on page load.
 - Future enhancements may include logging user logout events for analytics or security.
 */
-
 
 require_once __DIR__ . '/bootstrap.php';
 

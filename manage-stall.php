@@ -18,7 +18,6 @@ Stall owners can also manage their menu by adding, updating, or deleting items. 
 analyze customer reviews and ratings to gain insights into performance. The system integrates an interactive map, allowing owners 
 to set or adjust the stall’s pinned location for accurate representation and easy discovery by customers.
 
-
 DATA STRUCTURES:
 - $db (Database): Database instance for executing queries.
 - $userId (int): Current logged-in user's ID.
@@ -85,7 +84,6 @@ NOTES:
 - Page is structured for future enhancements like map-based stall positioning and live review filtering.
 - Flash messages provide user feedback on actions such as updates, additions, and deletions.
 */
-
 
 require_once __DIR__ . '/bootstrap.php';
 

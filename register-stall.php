@@ -68,7 +68,6 @@ NOTES:
 - All unauthorized access attempts are redirected with a flash message.
 */
 
-
 require_once __DIR__ . '/bootstrap.php';
 
 use BuzzarFeed\Utils\Helpers;

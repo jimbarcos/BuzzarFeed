@@ -65,21 +65,7 @@ NOTES / ADDITIONAL DETAILS:
 - Admin actions are confirmed via JavaScript confirm dialogs.
 - The page imports external fonts, icons, and CSS for styling consistency.
 - Future improvements may include AJAX-based actions and live updates for a smoother admin experience.
-
-DEPENDENCIES:
-- bootstrap.php
-- BuzzarFeed\Utils\Helpers
-- BuzzarFeed\Utils\Session
-- BuzzarFeed\Utils\Database
-- BuzzarFeed\Services\ApplicationService
-- BuzzarFeed\Services\AdminLogService
-- BuzzarFeed\Services\ReviewReportService
-- CSS and JS assets (variables.css, base.css, admin-panel.css, app.js)
-- Header and Footer includes
-
 */
-?>
-
 
 require_once __DIR__ . '/bootstrap.php';
 

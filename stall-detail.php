@@ -44,7 +44,6 @@ NOTES:
 - Stall owners are restricted from reviewing their own stalls.
 */
 
-
 require_once __DIR__ . '/bootstrap.php';
 
 use BuzzarFeed\Utils\Helpers;

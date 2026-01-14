@@ -58,7 +58,6 @@ NOTES:
 - All review content is escaped to prevent XSS attacks.
 */
 
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 

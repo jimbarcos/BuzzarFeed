@@ -76,7 +76,6 @@ NOTES:
 - Future improvements could include rate-limiting requests or CAPTCHA to prevent abuse.
 */
 
-
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 

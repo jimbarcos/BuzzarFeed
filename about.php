@@ -54,8 +54,6 @@ NOTES:
 - CSS is split into variables, base styles, components, and page-specific styles for clarity.
 - Future enhancements could include fetching team members from a database instead of a hard-coded array, or adding animations and interactive elements in the Hero and CTA sections.
 */
-?>
-
 
 require_once __DIR__ . '/bootstrap.php';
 
