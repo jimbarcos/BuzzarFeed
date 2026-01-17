@@ -1,5 +1,63 @@
 <?php
-// Map page sections partial
+/*
+PROGRAM NAME: Map View Section (map-section.php)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It serves as the main map view section of the application, allowing users to visually explore food stalls within the bazaar.
+The file is designed as a partial and is included within a larger page layout that handles routing, data fetching, and overall page structure.
+It relies on preloaded data such as stall information, categories, and configuration constants, as well as utility helpers for safe output rendering.
+
+DATE CREATED: November 30, 2025
+LAST MODIFIED: December 4, 2025
+
+PURPOSE:
+The purpose of this program is to render an interactive map interface that displays food stalls as pins based on their physical locations.
+It provides category-based filtering, visual cues through color-coded pins, and a tooltip system that allows users to preview stall information.
+This module enhances user navigation and discovery by combining visual mapping with dynamic filtering.
+
+DATA STRUCTURES:
+- $categoryColors (associative array): Maps food categories to specific hex color codes used for map pins.
+- $defaultPinColor (string): Fallback color for pins when a category color is not defined.
+- $categoryIcons (associative array): Maps food categories to emoji icons for filter buttons.
+- $allCategories (array): List of all available food categories.
+- $stallsWithLocation (array of associative arrays): Contains stall data including:
+  - id
+  - name
+  - description
+  - rating
+  - categories
+  - latitude (percentage-based)
+  - longitude (percentage-based)
+- Helpers (class): Provides helper functions such as escape() for safe HTML output.
+
+ALGORITHM / LOGIC:
+1. Define category-to-color mappings for consistent pin visualization.
+2. Set a default pin color for unmatched or undefined categories.
+3. Render the hero section introducing the map feature.
+4. Display category filter buttons:
+   a. Highlight the active category.
+   b. Generate filter links dynamically based on available categories.
+   c. Assign emoji icons to each category.
+5. Render the map container and background image.
+6. Loop through $stallsWithLocation:
+   a. Determine the display category for each stall.
+   b. Override the pin color if a category filter is active.
+   c. Assign pin position using percentage-based latitude and longitude.
+   d. Attach stall metadata using data attributes for tooltip interaction.
+7. Render map pins with Font Awesome icons.
+8. Include a hidden tooltip component for displaying stall details on interaction.
+
+NOTES:
+- This file is a view partial and assumes all required variables are defined prior to inclusion.
+- Helpers::escape() is used to prevent XSS vulnerabilities in user-facing text.
+- Pin positioning uses percentage values to maintain responsiveness across screen sizes.
+- Tooltip behavior and interactivity are handled by external JavaScript logic.
+- Category filtering is achieved through URL query parameters.
+- Future enhancements may include zooming, clustering pins, or real-time stall updates.
+*/
 
 use BuzzarFeed\Utils\Helpers;
 

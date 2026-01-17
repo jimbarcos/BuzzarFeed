@@ -1,12 +1,56 @@
 <?php
-/**
- * BuzzarFeed - 500 Internal Server Error Page
- * 
- * Custom error page for server errors
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: 500 Internal Server Error Page (500.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This page is part of the BuzzarFeed platform and serves as the custom error page for HTTP 500 (Internal Server Error) responses.
+It is displayed to users when the server encounters an unexpected condition that prevents it from fulfilling the request.
+The page integrates the standard header and footer components for consistent branding and navigation.
+
+DATE CREATED: December 2, 2025
+LAST MODIFIED: December 2, 2025
+
+PURPOSE:
+To inform users that an internal server error has occurred and provide guidance on next steps.
+Key features include:
+- Display of 500 error code and descriptive message
+- Error info box with actionable tips
+- Navigation buttons to homepage or previous page
+- Inclusion of header and footer for consistent navigation
+- Logging of request details for debugging and monitoring purposes
+
+DATA STRUCTURES:
+- $pageTitle (string): Title of the error page
+- $pageDescription (string): Meta description for SEO
+- $errorDetails (array): Contains request and server information for logging
+- $_SERVER: Used to capture request URI, method, query string, referrer, user agent, IP, and server software
+- Constants:
+  - IMAGES_URL, CSS_URL, JS_URL, BASE_URL
+- Session: Used to preserve user authentication state on error pages
+
+ALGORITHM / LOGIC:
+1. Define `IS_ERROR_PAGE` constant to allow session initialization in header.
+2. Include bootstrap file for configuration, autoloading, and helpers.
+3. Start PHP session before sending HTTP headers.
+4. Send HTTP 500 status code.
+5. Log detailed request and server information to error log for monitoring.
+6. Define page title and meta description.
+7. Render HTML structure:
+   a. Include modular CSS and external resources (Google Fonts, Font Awesome).
+   b. Apply inline styles specific to error page layout and responsiveness.
+   c. Include header and footer partials.
+   d. Display 500 error code, icon, descriptive message, and error info box.
+   e. Provide action buttons for homepage navigation and going back.
+8. Include main JavaScript module for interactive behaviors.
+
+NOTES:
+- This error page is fully responsive and accessible.
+- Future enhancements may include automated notifications to admins or real-time server status updates.
+- Logging ensures developers can track user experience and diagnose server issues efficiently.
+*/
+
 
 // Define this as an error page to allow session initialization in header
 define('IS_ERROR_PAGE', true);

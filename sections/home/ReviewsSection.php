@@ -1,13 +1,57 @@
 <?php
-/**
- * BuzzarFeed - Reviews Section Component
- *
- * Reusable reviews section
- * Following ISO 9241: Reusability and Modularity
- *
- * @package BuzzarFeed\Sections\Home
- * @version 1.0
- */
+/*
+PROGRAM NAME: Reviews Section Component (ReviewsSection.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It is a reusable UI component used primarily on the Home page to display user reviews of food stalls.
+The component follows a component-based architecture and extends the BaseComponent class to ensure consistency, reusability, and modular rendering across the system.
+It integrates with common UI components such as buttons and relies on helper utilities for safe output handling.
+
+DATE CREATED: November 23, 2025
+LAST MODIFIED: December 14, 2025
+
+PURPOSE:
+The purpose of this program is to render a reviews section that showcases user feedback and ratings for food stalls.
+It supports dynamic review data passed through component props and provides a fallback placeholder display when no reviews are available.
+This component enhances credibility and user engagement by highlighting real or sample customer experiences.
+
+DATA STRUCTURES:
+- $reviews (array): List of review data containing:
+  - reviewer (string)
+  - text (string)
+  - rating (string or float)
+  - stall_id (optional integer)
+  - stall_name (optional string)
+- $title (string): Section title displayed at the top of the reviews section.
+- Button (component): Used to render a reusable “Read more” call-to-action button.
+- Helpers (class): Provides escape() for secure HTML output.
+
+ALGORITHM / LOGIC:
+1. Initialize the component and load props:
+   a. Retrieve reviews data.
+   b. Set the section title with a default fallback.
+2. Render the reviews section container and title.
+3. Check if reviews data is empty:
+   a. If empty, render placeholder review cards.
+   b. If not empty, loop through and render each review card.
+4. For each review card:
+   a. Determine the correct “Read more” link.
+   b. Render a default user avatar.
+   c. Display reviewer name and stall name (if available).
+   d. Display review text and rating.
+   e. Render a reusable button component.
+5. Return the fully rendered HTML output.
+
+NOTES:
+- This component does not perform data fetching; all data is injected via props.
+- Helpers::escape() is used to prevent XSS vulnerabilities.
+- Placeholder reviews ensure visual consistency during development or when no data is available.
+- The component adheres to ISO 9241 principles for modularity, consistency, and usability.
+- Future improvements may include user avatars, pagination, animations, or live review feeds.
+*/
 
 namespace BuzzarFeed\Sections\Home;
 
