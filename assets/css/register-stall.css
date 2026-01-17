@@ -1,258 +1,307 @@
-/* Stall Registration Page Styles */
+/*
+PROGRAM NAME: BuzzarFeed - Stall Registration Page Stylesheet (registration.css)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This CSS file is part of the BuzzarFeed platform and handles styling for the Stall Registration page.
+It defines the layout, form elements, file uploads, map selection, checkboxes, buttons, and responsive behavior,
+providing a clean and intuitive interface for stall owners to submit registration details.
+
+DATE CREATED: December 4, 2025
+LAST MODIFIED: December 4, 2025
+
+PURPOSE:
+- Style the stall registration container, headers, and form layout.
+- Organize form sections, rows, and input elements for readability.
+- Provide visual feedback for errors and validation messages.
+- Style file upload components and interactive map pin selection.
+- Format checkboxes, radio options, and instruction boxes for clarity.
+- Style primary and secondary action buttons with hover effects.
+- Ensure responsive design across desktops, tablets, and mobile devices.
+
+DATA STRUCTURES / CLASSES:
+- Layout & Container: .registration-container, .registration-header, .registration-form
+- Form Sections: .form-section, .section-title, .form-row
+- Form Elements: .form-group, .form-label, .form-input, .form-textarea, .form-select
+- Validation & Alerts: .error-message, .form-input.error
+- File Upload: .file-upload, .file-upload-label, .file-name
+- Checkboxes: .checkbox-group, .checkbox-item
+- Map Selection: .map-container, .map-image, .map-pin, .map-instructions
+- Buttons: .btn-primary, .btn-secondary
+- Help Text: .help-text
+- Responsive Adjustments: media queries for max-width 768px
+
+ALGORITHM / LOGIC:
+1. Center and constrain the registration container for readability.
+2. Style the card-like form with white background, padding, rounded corners, and subtle shadow.
+3. Organize input fields in grid rows with consistent spacing and labels.
+4. Highlight required fields and provide error styling for invalid inputs.
+5. Style file upload area with hover and active states for user interaction.
+6. Implement map pin placement and instruction overlay for stall location selection.
+7. Style checkboxes and radio groups for clear selection feedback.
+8. Apply consistent primary and secondary button styling with hover transitions.
+9. Ensure layout and form adapt to tablets and mobile screens using media queries.
+
+NOTES:
+- Designed to integrate with form validation scripts and map interaction logic.
+- Color palette aligns with BuzzarFeed branding: orange (#ED6027), green (#489A44), dark gray (#2C2C2C), light gray (#F5F5F5).
+- Fully extensible for adding additional form sections or map functionality in the future.
+*/
 
 .registration-container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 0 20px;
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 0 20px;
 }
 
 .registration-header {
-    text-align: center;
-    margin-bottom: 40px;
+  text-align: center;
+  margin-bottom: 40px;
 }
 
 .registration-header h1 {
-    font-size: 36px;
-    font-weight: 700;
-    color: #2C2C2C;
-    margin: 0 0 10px 0;
+  font-size: 36px;
+  font-weight: 700;
+  color: #2c2c2c;
+  margin: 0 0 10px 0;
 }
 
 .registration-header p {
-    font-size: 16px;
-    color: #666;
-    margin: 0;
+  font-size: 16px;
+  color: #666;
+  margin: 0;
 }
 
 .registration-form {
-    background: white;
-    border-radius: 12px;
-    padding: 40px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 12px;
+  padding: 40px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .form-section {
-    margin-bottom: 35px;
+  margin-bottom: 35px;
 }
 
 .section-title {
-    font-size: 20px;
-    font-weight: 700;
-    color: #2C2C2C;
-    margin: 0 0 20px 0;
-    padding-bottom: 12px;
-    border-bottom: 2px solid #F5F5F5;
+  font-size: 20px;
+  font-weight: 700;
+  color: #2c2c2c;
+  margin: 0 0 20px 0;
+  padding-bottom: 12px;
+  border-bottom: 2px solid #f5f5f5;
 }
 
 .form-row {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
 .form-group {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .form-label {
-    display: block;
-    font-size: 14px;
-    font-weight: 600;
-    color: #2C2C2C;
-    margin-bottom: 8px;
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: #2c2c2c;
+  margin-bottom: 8px;
 }
 
 .required {
-    color: #DC3545;
+  color: #dc3545;
 }
 
 .form-input,
 .form-textarea,
 .form-select {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 14px;
-    transition: border-color 0.3s ease;
-    box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
 }
 
 .form-textarea {
-    resize: vertical;
-    min-height: 120px;
+  resize: vertical;
+  min-height: 120px;
 }
 
 .form-input:focus,
 .form-textarea:focus,
 .form-select:focus {
-    outline: none;
-    border-color: #ED6027;
+  outline: none;
+  border-color: #ed6027;
 }
 
 .form-input.error,
 .form-textarea.error,
 .form-select.error {
-    border-color: #DC3545;
+  border-color: #dc3545;
 }
 
 .error-message {
-    color: #DC3545;
-    font-size: 12px;
-    margin-top: 5px;
-    display: block;
+  color: #dc3545;
+  font-size: 12px;
+  margin-top: 5px;
+  display: block;
 }
 
 .file-upload {
-    border: 2px dashed #ddd;
-    border-radius: 8px;
-    padding: 20px;
-    text-align: center;
-    transition: all 0.3s ease;
+  border: 2px dashed #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  transition: all 0.3s ease;
 }
 
 .file-upload:hover {
-    border-color: #ED6027;
-    background: #FFF5F0;
+  border-color: #ed6027;
+  background: #fff5f0;
 }
 
 .file-upload input[type="file"] {
-    display: none;
+  display: none;
 }
 
 .file-upload-label {
-    display: block;
-    cursor: pointer;
-    color: #666;
+  display: block;
+  cursor: pointer;
+  color: #666;
 }
 
 .file-upload-label i {
-    font-size: 32px;
-    color: #ED6027;
-    margin-bottom: 10px;
+  font-size: 32px;
+  color: #ed6027;
+  margin-bottom: 10px;
 }
 
 .file-name {
-    font-size: 12px;
-    color: #489A44;
-    margin-top: 8px;
+  font-size: 12px;
+  color: #489a44;
+  margin-top: 8px;
 }
 
 .checkbox-group {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 15px;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 15px;
 }
 
 .checkbox-item {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .checkbox-item input[type="checkbox"] {
-    margin-right: 8px;
-    width: 18px;
-    height: 18px;
+  margin-right: 8px;
+  width: 18px;
+  height: 18px;
 }
 
 .map-container {
-    border: 2px solid #ddd;
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    margin-bottom: 15px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 15px;
 }
 
 .map-image {
-    width: 100%;
-    display: block;
-    cursor: crosshair;
+  width: 100%;
+  display: block;
+  cursor: crosshair;
 }
 
 .map-pin {
-    position: absolute;
-    width: 30px;
-    height: 30px;
-    background: #ED6027;
-    border: 3px solid white;
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    pointer-events: none;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  background: #ed6027;
+  border: 3px solid white;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
 }
 
 .map-instructions {
-    background: #f8f9fa;
-    padding: 12px;
-    border-radius: 8px;
-    font-size: 13px;
-    color: #666;
-    margin-top: 10px;
+  background: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #666;
+  margin-top: 10px;
 }
 
 .form-actions {
-    display: flex;
-    gap: 15px;
-    justify-content: flex-end;
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 2px solid #F5F5F5;
+  display: flex;
+  gap: 15px;
+  justify-content: flex-end;
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 2px solid #f5f5f5;
 }
 
 .btn-primary {
-    background: #ED6027;
-    color: white;
-    padding: 14px 40px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.3s ease;
+  background: #ed6027;
+  color: white;
+  padding: 14px 40px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .btn-primary:hover {
-    background: #d55520;
+  background: #d55520;
 }
 
 .btn-secondary {
-    background: #6c757d;
-    color: white;
-    padding: 14px 40px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    text-decoration: none;
-    transition: background 0.3s ease;
+  background: #6c757d;
+  color: white;
+  padding: 14px 40px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.3s ease;
 }
 
 .btn-secondary:hover {
-    background: #5a6268;
+  background: #5a6268;
 }
 
 .help-text {
-    font-size: 12px;
-    color: #999;
-    margin-top: 5px;
+  font-size: 12px;
+  color: #999;
+  margin-top: 5px;
 }
 
 @media (max-width: 768px) {
-    .form-row {
-        grid-template-columns: 1fr;
-    }
-    
-    .checkbox-group {
-        grid-template-columns: 1fr;
-    }
-    
-    .form-actions {
-        flex-direction: column;
-    }
-    
-    .btn-primary,
-    .btn-secondary {
-        width: 100%;
-    }
+  .form-row {
+    grid-template-columns: 1fr;
+  }
+
+  .checkbox-group {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+  }
 }
