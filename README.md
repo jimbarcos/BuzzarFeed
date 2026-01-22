@@ -119,7 +119,7 @@ htdocs/
    APP_ENV=development
    APP_DEBUG=true
    DB_HOST=localhost
-   DB_NAME=if0_40016301_db_buzzarfeed
+   DB_NAME=_db_buzzarfeed
    DB_USER=your_username
    DB_PASS=your_password
    SMTP_HOST=your_smtp_host
@@ -134,12 +134,12 @@ htdocs/
 
 6. **Run database migrations**
    ```bash
-   mysql -u your_username -p if0_40016301_db_buzzarfeed < database/migrations/create_password_reset_tokens.sql
-   mysql -u your_username -p if0_40016301_db_buzzarfeed < database/migrations/add_review_reactions.sql
-   mysql -u your_username -p if0_40016301_db_buzzarfeed < database/migrations/add_title_to_reviews.sql
-   mysql -u your_username -p if0_40016301_db_buzzarfeed < database/migrations/create_review_reports.sql
-   mysql -u your_username -p if0_40016301_db_buzzarfeed < database/migrations/add_food_categories_to_food_stalls.sql
-   mysql -u your_username -p if0_40016301_db_buzzarfeed < database/migrations/add_map_coordinates_to_applications.sql
+   mysql -u your_username -p db_buzzarfeed < database/migrations/create_password_reset_tokens.sql
+   mysql -u your_username -p db_buzzarfeed < database/migrations/add_review_reactions.sql
+   mysql -u your_username -p db_buzzarfeed < database/migrations/add_title_to_reviews.sql
+   mysql -u your_username -p db_buzzarfeed < database/migrations/create_review_reports.sql
+   mysql -u your_username -p db_buzzarfeed < database/migrations/add_food_categories_to_food_stalls.sql
+   mysql -u your_username -p db_buzzarfeed < database/migrations/add_map_coordinates_to_applications.sql
    ```
 
 7. **Set proper permissions**
@@ -437,6 +437,510 @@ Copyright 2025 BuzzarFeed Development Team. All rights reserved.
 ## Contact
 
 For support or inquiries, please contact the BuzzarFeed Development Team.
+
+
+# BuzzarFeed API Documentation
+
+## Overview
+The BuzzarFeed system now uses a RESTful API architecture with centralized endpoints. All API requests are routed through `/api/` and handled by dedicated controllers.
+
+## Architecture
+
+### File Structure
+```
+api/
+  index.php                    # API router - entry point for all API requests
+src/
+  Api/
+    Controllers/
+      BaseController.php       # Base class for all controllers
+      AuthController.php       # Authentication endpoints
+      StallController.php      # Stall-related endpoints
+      ReviewController.php     # Review endpoints
+      UserController.php       # User management endpoints
+      ApplicationController.php # Stall application endpoints
+      AmendmentController.php   # Amendment request endpoints
+      ClosureController.php     # Account closure endpoints
+      AdminController.php       # Admin-specific endpoints
+  Utils/
+    ApiResponse.php            # Standardized JSON response utility
+assets/
+  js/
+    api-client.js              # JavaScript client for API requests
+```
+
+## API Endpoints
+
+### Authentication (`/api/auth/`)
+- `POST /api/auth/login` - User login
+- `POST /api/auth/logout` - User logout
+- `POST /api/auth/register` - User registration
+- `POST /api/auth/verify-email` - Email verification
+- `POST /api/auth/forgot-password` - Request password reset
+- `POST /api/auth/reset-password` - Reset password with token
+- `GET /api/auth/check` - Check authentication status
+
+### Stalls (`/api/stalls/`)
+- `GET /api/stalls` - List all stalls (with pagination and filters)
+  - Query params: `search`, `category`, `page`, `limit`
+- `GET /api/stalls/{id}` - Get specific stall details
+- `GET /api/stalls/{id}/menu` - Get stall menu items
+- `GET /api/stalls/{id}/reviews` - Get stall reviews
+- `POST /api/stalls` - Create new stall (auth required)
+- `PUT /api/stalls/{id}` - Update stall (auth required)
+- `DELETE /api/stalls/{id}` - Delete stall (admin only)
+
+### Reviews (`/api/reviews/`)
+- `GET /api/reviews` - List reviews
+  - Query params: `stall_id`, `user_id`, `page`, `limit`
+- `GET /api/reviews/{id}` - Get specific review
+- `POST /api/reviews` - Create review (auth required)
+- `PUT /api/reviews/{id}` - Update review (auth required, owner only)
+- `DELETE /api/reviews/{id}` - Delete review (auth required, owner only)
+- `POST /api/reviews/react` - React to review (like/helpful)
+- `POST /api/reviews/report` - Report a review
+
+### Users (`/api/users/`)
+- `GET /api/users` - List users (admin only)
+- `GET /api/users/{id}` - Get user details
+- `GET /api/users/profile` - Get current user profile
+- `PUT /api/users/profile` - Update current user profile
+- `PUT /api/users/password` - Change password
+- `PUT /api/users/{id}` - Update user (admin only)
+- `DELETE /api/users/{id}` - Delete user (admin only)
+
+### Applications (`/api/applications/`)
+- `GET /api/applications` - List applications
+- `GET /api/applications/{id}` - Get application details
+- `POST /api/applications` - Create application
+- `PUT /api/applications/{id}` - Update application
+- `POST /api/applications/{id}/approve` - Approve application (admin)
+- `POST /api/applications/{id}/reject` - Reject application (admin)
+
+### Amendments (`/api/amendments/`)
+- `GET /api/amendments` - List amendment requests
+- `GET /api/amendments/{id}` - Get amendment details
+- `POST /api/amendments` - Create amendment request
+- `POST /api/amendments/{id}/approve` - Approve amendment (admin)
+- `POST /api/amendments/{id}/reject` - Reject amendment (admin)
+
+### Closures (`/api/closures/`)
+- `GET /api/closures` - List closure requests
+- `GET /api/closures/{id}` - Get closure details
+- `POST /api/closures` - Create closure request
+- `POST /api/closures/{id}/approve` - Approve closure (admin)
+- `POST /api/closures/{id}/reject` - Reject closure (admin)
+
+### Admin (`/api/admin/`)
+- `GET /api/admin/dashboard` - Get dashboard statistics
+- `GET /api/admin/logs` - Get admin activity logs
+- `GET /api/admin/reports` - Get review reports
+
+## Request/Response Format
+
+### Request Format
+All POST/PUT requests should send JSON data:
+```json
+{
+  "field1": "value1",
+  "field2": "value2"
+}
+```
+
+### Response Format
+All responses follow this standardized format:
+
+**Success Response:**
+```json
+{
+  "success": true,
+  "message": "Success message",
+  "data": { ... }
+}
+```
+
+**Error Response:**
+```json
+{
+  "success": false,
+  "message": "Error message",
+  "errors": []
+}
+```
+
+**Paginated Response:**
+```json
+{
+  "success": true,
+  "data": [...],
+  "pagination": {
+    "total": 100,
+    "page": 1,
+    "perPage": 10,
+    "totalPages": 10
+  }
+}
+```
+
+## JavaScript Usage
+
+### Include the API Client
+```html
+<script src="/assets/js/api-client.js"></script>
+```
+
+### Example: Login
+```javascript
+try {
+    const response = await api.login('user@example.com', 'password');
+    console.log('Logged in:', response.data.user);
+} catch (error) {
+    console.error('Login failed:', error.message);
+}
+```
+
+### Example: Get Stalls with Filters
+```javascript
+try {
+    const response = await api.getStalls({
+        search: 'burger',
+        category: 'Fast Food',
+        page: 1,
+        limit: 12
+    });
+    console.log('Stalls:', response.data);
+    console.log('Total:', response.pagination.total);
+} catch (error) {
+    console.error('Error:', error.message);
+}
+```
+
+### Example: Create a Review
+```javascript
+try {
+    const response = await api.createReview({
+        stall_id: 5,
+        rating: 5,
+        title: 'Amazing food!',
+        comment: 'Best burger I ever had!'
+    });
+    console.log('Review created:', response.data);
+} catch (error) {
+    console.error('Error:', error.message);
+}
+```
+
+### Example: Get Dashboard Stats (Admin)
+```javascript
+try {
+    const response = await api.getDashboardStats();
+    console.log('Stats:', response.data);
+} catch (error) {
+    console.error('Error:', error.message);
+}
+```
+
+## PHP Server-Side Usage
+
+### Services Still Work
+The existing service classes continue to work for server-side rendering. The API controllers use these same services internally.
+
+```php
+// You can still use services in PHP pages for server-side rendering
+use BuzzarFeed\Services\StallService;
+
+$stallService = new StallService();
+$stalls = $stallService->getAllActiveStalls();
+```
+
+### Making Internal API Calls (Optional)
+For consistency, you can also make internal API calls from PHP:
+
+```php
+// Example internal API call helper
+function callInternalApi($endpoint, $method = 'GET', $data = null) {
+    $url = 'http://' . $_SERVER['HTTP_HOST'] . '/api' . $endpoint;
+    
+    $options = [
+        'http' => [
+            'method' => $method,
+            'header' => 'Content-Type: application/json',
+            'content' => $data ? json_encode($data) : null
+        ]
+    ];
+    
+    $context = stream_context_create($options);
+    $response = file_get_contents($url, false, $context);
+    
+    return json_decode($response, true);
+}
+
+// Usage
+$result = callInternalApi('/stalls?limit=10');
+$stalls = $result['data'];
+```
+
+## Authentication
+
+### Session-Based Auth
+The API uses PHP sessions for authentication. When you log in via `/api/auth/login`, a session is created.
+
+### Checking Auth Status
+```javascript
+const { data } = await api.checkAuth();
+if (data.authenticated) {
+    console.log('User:', data.user);
+}
+```
+
+### Protected Endpoints
+Endpoints marked with "auth required" will return 401 if not authenticated.
+Admin-only endpoints will return 403 if user is not an admin.
+
+## Error Handling
+
+### HTTP Status Codes
+- `200` - Success
+- `201` - Created (for POST requests)
+- `400` - Bad Request (validation errors)
+- `401` - Unauthorized (not logged in)
+- `403` - Forbidden (insufficient privileges)
+- `404` - Not Found
+- `405` - Method Not Allowed
+- `500` - Server Error
+
+### Example Error Handling
+```javascript
+try {
+    const response = await api.createReview(data);
+} catch (error) {
+    if (error.message.includes('Authentication required')) {
+        // Redirect to login
+        window.location.href = '/login';
+    } else {
+        // Show error message
+        alert(error.message);
+    }
+}
+```
+
+## Migration Guide
+
+### For Frontend JavaScript
+**Before (direct form submission):**
+```html
+<form action="login.php" method="POST">
+    <input name="email" type="email">
+    <input name="password" type="password">
+    <button type="submit">Login</button>
+</form>
+```
+
+**After (API call):**
+```html
+<form id="loginForm">
+    <input id="email" type="email">
+    <input id="password" type="password">
+    <button type="submit">Login</button>
+</form>
+
+<script>
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    
+    try {
+        const response = await api.login(email, password);
+        window.location.href = '/dashboard';
+    } catch (error) {
+        alert(error.message);
+    }
+});
+</script>
+```
+
+### For PHP Pages
+**Before:**
+```php
+use BuzzarFeed\Services\StallService;
+
+$stallService = new StallService();
+$stalls = $stallService->getAllActiveStalls();
+```
+
+**After (still works!):**
+```php
+// Services still work for server-side rendering
+use BuzzarFeed\Services\StallService;
+
+$stallService = new StallService();
+$stalls = $stallService->getAllActiveStalls();
+
+// OR use API for client-side data loading
+// Let JavaScript fetch data via API
+```
+
+## Benefits
+
+1. **Separation of Concerns**: Business logic in services, API in controllers, presentation in views
+2. **Flexibility**: Can build mobile apps, SPAs, or other clients using the same API
+3. **Consistency**: Standardized JSON responses across all endpoints
+4. **Security**: Centralized authentication and authorization checks
+5. **Testability**: API endpoints can be tested independently
+6. **Scalability**: Easy to add caching, rate limiting, or move to microservices
+
+## Notes
+
+- Existing PHP pages with service classes continue to work for server-side rendering
+- API is designed to support both traditional and modern (SPA) architectures
+- All API responses use JSON format
+- CORS is enabled for cross-origin requests
+- Session cookies are used for authentication
+
+# API Migration Summary
+
+## What Was Created
+
+### 1. API Infrastructure
+- **[api/index.php](api/index.php)** - Central API router that handles all /api/* requests
+- **[src/Utils/ApiResponse.php](src/Utils/ApiResponse.php)** - Standardized JSON response utility
+- **[src/Api/Controllers/BaseController.php](src/Api/Controllers/BaseController.php)** - Base class for all controllers
+
+### 2. API Controllers
+All controllers provide RESTful endpoints for their respective resources:
+- **[src/Api/Controllers/AuthController.php](src/Api/Controllers/AuthController.php)** - Authentication (login, register, password reset)
+- **[src/Api/Controllers/StallController.php](src/Api/Controllers/StallController.php)** - Stall management and browsing
+- **[src/Api/Controllers/ReviewController.php](src/Api/Controllers/ReviewController.php)** - Review CRUD and reactions
+- **[src/Api/Controllers/UserController.php](src/Api/Controllers/UserController.php)** - User profile and management
+- **[src/Api/Controllers/ApplicationController.php](src/Api/Controllers/ApplicationController.php)** - Stall applications
+- **[src/Api/Controllers/AmendmentController.php](src/Api/Controllers/AmendmentController.php)** - Amendment requests
+- **[src/Api/Controllers/ClosureController.php](src/Api/Controllers/ClosureController.php)** - Account closure requests
+- **[src/Api/Controllers/AdminController.php](src/Api/Controllers/AdminController.php)** - Admin dashboard and logs
+
+### 3. JavaScript API Client
+- **[assets/js/api-client.js](assets/js/api-client.js)** - Complete client library for making API calls from JavaScript
+
+### 4. Documentation & Examples
+- **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Comprehensive API documentation
+- **[examples/stalls-api-example.php](examples/stalls-api-example.php)** - Browse stalls using API
+- **[examples/login-api-example.php](examples/login-api-example.php)** - Login page using API
+- **[examples/my-reviews-api-example.php](examples/my-reviews-api-example.php)** - Review management using API
+
+### 5. Updated Configuration
+- **[.htaccess](.htaccess)** - Added routing rules for /api/* endpoints
+
+## API Endpoints Summary
+
+### Authentication
+- POST /api/auth/login
+- POST /api/auth/logout
+- POST /api/auth/register
+- GET /api/auth/check
+
+### Stalls
+- GET /api/stalls (with search, category filters)
+- GET /api/stalls/{id}
+- GET /api/stalls/{id}/menu
+- GET /api/stalls/{id}/reviews
+- POST /api/stalls
+- PUT /api/stalls/{id}
+- DELETE /api/stalls/{id}
+
+### Reviews
+- GET /api/reviews
+- POST /api/reviews
+- PUT /api/reviews/{id}
+- DELETE /api/reviews/{id}
+- POST /api/reviews/react
+- POST /api/reviews/report
+
+### Users
+- GET /api/users/profile
+- PUT /api/users/profile
+- PUT /api/users/password
+
+### Admin
+- GET /api/admin/dashboard
+- GET /api/admin/logs
+- GET /api/admin/reports
+
+## How to Use
+
+### JavaScript (Frontend)
+```javascript
+// Include the API client
+<script src="/assets/js/api-client.js"></script>
+
+// Use the global 'api' object
+const response = await api.getStalls({ category: 'Fast Food' });
+console.log(response.data);
+```
+
+### PHP (Backend - Still Works)
+```php
+// Existing service-based code continues to work
+use BuzzarFeed\Services\StallService;
+
+$stallService = new StallService();
+$stalls = $stallService->getAllActiveStalls();
+```
+
+## Key Benefits
+
+1. **RESTful Architecture** - Standard HTTP methods and endpoints
+2. **JSON Responses** - Consistent data format across all endpoints
+3. **Authentication** - Session-based auth with proper security checks
+4. **Pagination** - Built-in support for large datasets
+5. **Error Handling** - Standardized error responses with HTTP codes
+6. **Flexibility** - Can build SPAs, mobile apps, or keep traditional architecture
+
+## Migration Path
+
+You have two options:
+
+### Option 1: Gradual Migration (Recommended)
+Keep existing PHP pages and gradually refactor them to use API calls from JavaScript. The service classes continue to work, so no breaking changes.
+
+### Option 2: Full API Architecture
+Convert all pages to use the API client for data loading. Examples are provided in the `examples/` folder showing how to:
+- Load and display stalls dynamically
+- Handle authentication
+- Manage user reviews
+- Implement pagination
+
+## Next Steps
+
+1. **Test the API endpoints** using tools like Postman or curl
+2. **Choose pages to migrate** - Start with less critical pages
+3. **Use the examples** as templates for refactoring
+4. **Update JavaScript** to use the api-client.js
+5. **Maintain backward compatibility** by keeping service classes
+
+## Testing API
+
+```bash
+# Test login
+curl -X POST http://localhost/api/auth/login \
+  -H "Content-Type: application/json" \
+  -d '{"email":"test@example.com","password":"password"}'
+
+# Test get stalls
+curl http://localhost/api/stalls?category=Fast%20Food&limit=5
+
+# Test get dashboard (requires admin login)
+curl http://localhost/api/admin/dashboard
+```
+
+## Important Notes
+
+- All existing code continues to work
+- Services are reused by API controllers
+- Session-based authentication is maintained
+- CORS headers are included for flexibility
+- .htaccess routes /api/* to the API router
+- Examples show best practices for frontend integration
 
 ---
 

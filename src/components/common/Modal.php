@@ -1,13 +1,55 @@
 <?php
-/**
- * BuzzarFeed - Modal Component
- * 
- * Reusable modal/dialog component
- * Following ISO 9241: Reusability and Accessibility
- * 
- * @package BuzzarFeed\Components\Common
- * @version 1.0
- */
+/*
+PROGRAM NAME: Modal Component (Modal.php)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed UI Components library.
+It provides a reusable modal/dialog component for displaying dynamic content, alerts, or forms in a pop-up overlay.
+
+DATE CREATED: Decemeber 4, 2025
+LAST MODIFIED: Decemeber 4, 2025
+
+PURPOSE:
+The purpose of this program is to:
+- Render a flexible, reusable modal component for BuzzarFeed.
+- Support configurable properties such as title, content, size, closable, header, footer, and actions.
+- Maintain accessibility standards (ARIA attributes, focus handling).
+- Follow ISO 9241 principles: Reusability and Accessibility.
+
+DATA STRUCTURES:
+- $title (string): Modal title.
+- $content (string): Modal body content (HTML/text).
+- $size (string): Modal size; can be 'sm', 'md', or 'lg'.
+- $closable (bool): Whether modal can be closed via a button or backdrop click.
+- $showHeader (bool): Whether to show the modal header.
+- $showFooter (bool): Whether to show the modal footer.
+- $footer (string|null): Optional footer content.
+- $actions (array): Array of action buttons or components.
+- $id (string): Modal DOM ID.
+- $classes (string): Custom CSS classes.
+- $attributes (array): Optional HTML attributes.
+
+ALGORITHM / LOGIC:
+1. initialize():
+   - Extracts and sets component properties from $props.
+2. render():
+   - Generates the modal HTML structure including backdrop, header, body, and footer.
+   - Uses unique ID if none provided.
+3. renderHeader(string $modalId):
+   - Generates header HTML with title and close button (if closable).
+4. renderFooter():
+   - Generates footer HTML and renders any action buttons/components.
+5. buildClasses():
+   - Builds CSS classes string based on size and custom classes.
+
+NOTES:
+- Designed to be reusable across BuzzarFeed application pages.
+- Supports dynamic actions and footer content.
+- Complies with ISO 9241 accessibility recommendations.
+- Can be extended for specialized modal variants.
+*/
 
 namespace BuzzarFeed\Components\Common;
 

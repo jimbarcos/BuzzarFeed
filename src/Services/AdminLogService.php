@@ -1,12 +1,63 @@
 <?php
-/**
- * BuzzarFeed - Admin Log Service
- * 
- * Handles logging of admin activities
- * 
- * @package BuzzarFeed\Services
- * @version 1.0
- */
+/*
+PROGRAM NAME: Admin Log Service (AdminLogService.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It handles logging of all admin actions for auditing and monitoring purposes.
+It interacts with the Database and Session utilities to record actions such as application approvals/declines, review deletions, user conversions, and other administrative operations.
+Logs include timestamps, admin identity, IP address, entity affected, action type, and optional details.
+
+DATE CREATED: Decemeber 4, 2025
+LAST MODIFIED: Decemeber 4, 2025
+
+PURPOSE:
+The purpose of this program is to provide a centralized and consistent way to track all administrative actions within the platform.
+This ensures accountability, traceability, and allows for monitoring admin activities for compliance and auditing.
+All logs are stored in the 'admin_logs' table with reference to the admin performing the action.
+
+DATA STRUCTURES:
+- $db (Database): Database instance for executing queries.
+- $adminId (int): ID of the admin performing the action.
+- $entity (string): Type of entity acted upon (application, review, user, etc.).
+- $entityId (int|null): ID of the entity being acted upon.
+- $action (string): Action performed (approve, decline, delete, convert_to_admin, archive, etc.).
+- $details (string|null): Optional additional details about the action.
+- $ipAddress (string|null): IP address of the admin performing the action.
+
+ALGORITHM / LOGIC:
+1. logAction():
+   - Inserts a record into 'admin_logs' with admin ID, entity, entity ID, action, details, IP address, and timestamp.
+2. logApplicationApproval():
+   - Logs approval of a stall application, including optional review notes.
+3. logApplicationDecline():
+   - Logs decline of a stall application, including optional review notes.
+4. logApplicationArchive():
+   - Logs archiving of a stall application.
+5. logReviewDeletion():
+   - Logs deletion of a review, including optional reason.
+6. logUserConversion():
+   - Logs conversion of a user account to admin privileges.
+7. getAllLogs():
+   - Retrieves all admin logs with pagination, including admin user details.
+8. getLogsByAdmin():
+   - Retrieves logs performed by a specific admin with pagination.
+9. getLogsByEntity():
+   - Retrieves logs filtered by entity type with pagination.
+10. getTotalLogsCount():
+    - Returns the total number of logs in the system.
+11. getLogsCountByEntity():
+    - Returns the total number of logs for a specific entity type.
+
+NOTES:
+- All logging methods are designed to be reusable and consistent across different admin actions.
+- Optional details provide context for each action and improve traceability.
+- Pagination support allows for efficient retrieval and display of logs in admin dashboards.
+- IP address is captured automatically from the server environment to track the source of actions.
+- Future enhancements may include filtering by date ranges, exporting logs, or integration with monitoring tools.
+*/
 
 namespace BuzzarFeed\Services;
 

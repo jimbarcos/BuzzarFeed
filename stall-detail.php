@@ -1,12 +1,48 @@
 <?php
-/**
- * BuzzarFeed - Stall Detail Page
- * 
- * View stall information, menu items, and reviews
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: Stall Detail Page (stall-detail.php)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed web application. It is responsible for
+displaying detailed information about a selected food stall, including stall
+details, menu items, customer reviews, ratings, and user interactions such as
+liking, reporting, and submitting reviews.
+
+DATE CREATED: November 23, 2025
+LAST MODIFIED: December 14, 2025
+
+PURPOSE:
+The purpose of this program is to provide users with a complete view of a food
+stall. It allows users to browse menu items, read reviews, submit and manage
+their own reviews, react to reviews, and report inappropriate content while
+ensuring proper access control and validation.
+
+DATA STRUCTURES:
+- $stallId (integer): Identifier of the selected food stall
+- $stall (array): Contains stall details, owner info, and location data
+- $menuItems (array): List of available menu items for the stall
+- $reviews (array): List of reviews with ratings and reactions
+- $ratingStats (array): Aggregated rating statistics
+- $userReactions (array): Stores the logged-in user's review reactions
+- $currentTab (string): Determines active tab (menu or reviews)
+
+ALGORITHM / LOGIC:
+1. Initialize session and database connection.
+2. Validate stall ID and redirect if invalid.
+3. Retrieve stall details, menu items, and reviews from the database.
+4. Apply filtering and sorting options to reviews.
+5. Handle POST actions for submitting, updating, deleting, reacting to,
+   and reporting reviews.
+6. Calculate rating statistics for display.
+7. Render stall details, menu items, and review interface dynamically.
+
+NOTES:
+- This module performs both read and write database operations.
+- Review actions require user authentication.
+- Stall owners are restricted from reviewing their own stalls.
+*/
 
 require_once __DIR__ . '/bootstrap.php';
 

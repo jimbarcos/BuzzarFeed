@@ -1,12 +1,41 @@
 <?php
-/**
- * BuzzarFeed - Terms and Services Page
- *
- * Terms and conditions for food stall owners and food enthusiasts
- *
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: Terms and Services Page (terms.php)
+
+PROGRAMMER: Frontend and Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed web application. It is a public-facing
+informational page that displays the Terms and Services for different types
+of users, including general users, food stall owners, and food enthusiasts.
+
+DATE CREATED: December 10, 2025
+LAST MODIFIED: December 10, 2025
+
+PURPOSE:
+The purpose of this program is to present the official Terms and Services of
+BuzzarFeed. It ensures that users are informed of their rights, responsibilities,
+and limitations when using the platform. The page dynamically switches content
+based on the selected user category.
+
+DATA STRUCTURES:
+- $pageTitle (string): Stores the page title for the HTML document
+- $pageDescription (string): Meta description for SEO purposes
+- $activeSection (string): Determines which Terms section is currently active
+  (general, owners, enthusiasts)
+
+ALGORITHM / LOGIC:
+1. Enable error reporting for debugging during development.
+2. Load system bootstrap file and required utility classes.
+3. Start a user session.
+4. Retrieve the active terms section from the URL query parameter.
+5. Display the appropriate Terms and Services content based on the active section.
+6. Render shared header and footer components for consistent layout.
+
+NOTES:
+- This page does not modify user data.
+- Content visibility is controlled using conditional CSS classes.
+*/
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

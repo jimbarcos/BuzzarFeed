@@ -1,125 +1,168 @@
-/**
- * BuzzarFeed - Button Component Styles
- * 
- * Modular button styles
- * Following ISO 9241: Reusability and Consistency
- * 
- * @package BuzzarFeed
- * @version 2.0
- */
+/*
+PROGRAM NAME: BuzzarFeed – Button Component Stylesheet
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This CSS file defines the visual styling for buttons used throughout the 
+BuzzarFeed application. Buttons are used for actions, navigation, and 
+interactive elements, supporting multiple variants, sizes, and states.
+
+DATE CREATED: January 22, 2026
+LAST MODIFIED: January 22, 2026
+
+PURPOSE:
+- Provide modular and reusable button styles.
+- Ensure consistent look and feel across the application.
+- Support interactive states: hover, active, disabled.
+- Enable multiple variants: primary, secondary, success, warning, outline.
+- Provide size options: small (sm), default, large (lg), full-width.
+- Allow buttons to contain icons with proper spacing.
+- Ensure responsive behavior on mobile devices.
+
+DATA STRUCTURES / CLASSES:
+- Base Button:
+  - .btn
+- Button Variants:
+  - .btn-primary, .btn-secondary, .btn-success, .btn-warning, .btn-outline
+- Button Sizes:
+  - .btn-sm, .btn-lg, .btn-full
+- Button Icons:
+  - .btn i
+
+ALGORITHM / LOGIC:
+1. Hover and Active Effects:
+   - .btn:hover slightly lifts button and adds shadow for feedback.
+   - .btn:active restores default position for click effect.
+2. Disabled State:
+   - .btn:disabled reduces opacity and disables interaction.
+3. Variant Styling:
+   - Background color, text color, and border are defined per variant.
+   - Hover states darken or invert colors for visual feedback.
+4. Layout & Icons:
+   - Flexbox aligns icon and text with proper spacing.
+   - Full-width buttons stretch across parent container.
+5. Responsive Behavior:
+   - Buttons adjust padding and font size on screens narrower than 768px.
+
+NOTES:
+- Uses CSS variables for colors, spacing, font sizes, and shadows.
+- Designed to be consistent with BuzzarFeed’s modular UI components.
+- Can be easily extended with additional variants or states as needed.
+*/
 
 /* Base Button */
 .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--spacing-xs);
-    padding: 12px 24px;
-    font-family: var(--font-primary);
-    font-size: var(--font-size-base);
-    font-weight: var(--font-weight-semibold);
-    text-align: center;
-    text-decoration: none;
-    border-radius: var(--radius-md);
-    border: 2px solid transparent;
-    cursor: pointer;
-    transition: all var(--transition-normal);
-    white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-xs);
+  padding: 12px 24px;
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  text-align: center;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  border: 2px solid transparent;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+  white-space: nowrap;
 }
 
 .btn:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
 }
 
 .btn:active {
-    transform: translateY(0);
+  transform: translateY(0);
 }
 
 .btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    transform: none !important;
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
 }
 
 /* Button Variants */
 .btn-primary {
-    background-color: var(--color-orange);
-    color: var(--color-white);
+  background-color: var(--color-orange);
+  color: var(--color-white);
 }
 
 .btn-primary:hover {
-    background-color: #d45521;
+  background-color: #d45521;
 }
 
 .btn-secondary {
-    background-color: var(--color-dark);
-    color: var(--color-white);
+  background-color: var(--color-dark);
+  color: var(--color-white);
 }
 
 .btn-secondary:hover {
-    background-color: #1a1a1a;
+  background-color: #1a1a1a;
 }
 
 .btn-success {
-    background-color: var(--color-green);
-    color: var(--color-white);
+  background-color: var(--color-green);
+  color: var(--color-white);
 }
 
 .btn-success:hover {
-    background-color: #3d7a3a;
+  background-color: #3d7a3a;
 }
 
 .btn-warning {
-    background-color: #FFA500;
-    color: var(--color-white);
+  background-color: #ffa500;
+  color: var(--color-white);
 }
 
 .btn-warning:hover {
-    background-color: #FF8C00;
+  background-color: #ff8c00;
 }
 
 .btn-outline {
-    background-color: transparent;
-    color: var(--color-dark);
-    border-color: var(--color-dark);
+  background-color: transparent;
+  color: var(--color-dark);
+  border-color: var(--color-dark);
 }
 
 .btn-outline:hover {
-    background-color: var(--color-dark);
-    color: var(--color-white);
+  background-color: var(--color-dark);
+  color: var(--color-white);
 }
 
 /* Button Sizes */
 .btn-sm {
-    padding: 8px 16px;
-    font-size: var(--font-size-sm);
+  padding: 8px 16px;
+  font-size: var(--font-size-sm);
 }
 
 .btn-lg {
-    padding: 16px 32px;
-    font-size: var(--font-size-lg);
+  padding: 16px 32px;
+  font-size: var(--font-size-lg);
 }
 
 .btn-full {
-    width: 100%;
-    display: flex;
+  width: 100%;
+  display: flex;
 }
 
 /* Button Icons */
 .btn i {
-    font-size: 1em;
+  font-size: 1em;
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .btn {
-        padding: 10px 20px;
-        font-size: var(--font-size-sm);
-    }
-    
-    .btn-lg {
-        padding: 14px 28px;
-        font-size: var(--font-size-base);
-    }
+  .btn {
+    padding: 10px 20px;
+    font-size: var(--font-size-sm);
+  }
+
+  .btn-lg {
+    padding: 14px 28px;
+    font-size: var(--font-size-base);
+  }
 }

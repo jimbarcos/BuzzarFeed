@@ -1,139 +1,177 @@
-/**
- * BuzzarFeed - Header User Dropdown Styles
- * 
- * Styles for logged-in user dropdown menu
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: BuzzarFeed – Header User Dropdown Stylesheet
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This CSS file defines the styling for the user account dropdown menu
+displayed in the header when a user is logged in. The dropdown provides
+quick access to user actions such as profile, settings, and logout.
+
+DATE CREATED: January 22, 2026
+LAST MODIFIED: January 22, 2026
+
+PURPOSE:
+- Style the user dropdown button with proper spacing, alignment, and hover effects.
+- Display the username with ellipsis truncation for long names.
+- Animate the dropdown menu visibility and arrow rotation.
+- Style dropdown items for clarity, accessibility, and hover feedback.
+- Include support for logout and divider items.
+- Ensure responsive behavior for mobile devices.
+
+DATA STRUCTURES / CLASSES:
+- Container & Button:
+  - .user-dropdown, .user-dropdown-btn, .user-name, .dropdown-arrow
+- Dropdown Menu:
+  - .dropdown-menu, .dropdown-menu.show, .divider
+- Dropdown Items:
+  - .dropdown-item, .dropdown-item.logout-link
+
+ALGORITHM / LOGIC:
+1. User clicks the dropdown button:
+   - Toggle .active class on button for arrow rotation.
+   - Toggle .show class on menu for visibility and slide-in effect.
+2. Hover states:
+   - Button changes background and text color.
+   - Dropdown items highlight on hover.
+3. Mobile responsiveness:
+   - Dropdown becomes full-width.
+   - Menu positioned statically and toggled with display:block.
+
+NOTES:
+- Uses CSS variables for colors, spacing, and transitions.
+- Dropdown supports text overflow handling for long usernames.
+- Arrow rotation and menu animation enhance UX feedback.
+- Designed for integration with JavaScript toggle logic.
+*/
 
 /* User Dropdown Styles */
 .user-dropdown {
-    position: relative;
-    display: inline-block;
+  position: relative;
+  display: inline-block;
 }
 
 .user-dropdown-btn {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    background: transparent;
-    border: 2px solid var(--color-dark);
-    padding: 8px 16px;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    white-space: nowrap;
-    height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  background: transparent;
+  border: 2px solid var(--color-dark);
+  padding: 8px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+  height: 44px;
 }
 
 .user-dropdown-btn:hover {
-    background-color: var(--color-dark);
-    color: var(--color-white);
+  background-color: var(--color-dark);
+  color: var(--color-white);
 }
 
 .user-dropdown-btn .dropdown-arrow {
-    font-size: 0.75rem;
-    transition: transform 0.3s ease;
+  font-size: 0.75rem;
+  transition: transform 0.3s ease;
 }
 
 .user-dropdown-btn.active .dropdown-arrow {
-    transform: rotate(180deg);
+  transform: rotate(180deg);
 }
 
 .user-name {
-    max-width: 150px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+  max-width: 150px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .dropdown-menu {
-    position: absolute;
-    top: calc(100% + 10px);
-    right: 0;
-    background-color: var(--color-white);
-    border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    min-width: 220px;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(-10px);
-    transition: all 0.3s ease;
-    z-index: 1000;
-    padding: 8px 0;
-    list-style: none;
-    margin: 0;
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  background-color: var(--color-white);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  min-width: 220px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: all 0.3s ease;
+  z-index: 1000;
+  padding: 8px 0;
+  list-style: none;
+  margin: 0;
 }
 
 .dropdown-menu.show {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 
 .dropdown-menu li {
-    list-style: none;
-    margin: 0;
+  list-style: none;
+  margin: 0;
 }
 
 .dropdown-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 12px 20px;
-    color: var(--color-dark);
-    text-decoration: none;
-    transition: background-color 0.2s ease;
-    font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 20px;
+  color: var(--color-dark);
+  text-decoration: none;
+  transition: background-color 0.2s ease;
+  font-size: 0.95rem;
 }
 
 .dropdown-item:hover {
-    background-color: var(--color-light-gray);
+  background-color: var(--color-light-gray);
 }
 
 .dropdown-item i {
-    width: 20px;
-    text-align: center;
-    font-size: 1rem;
+  width: 20px;
+  text-align: center;
+  font-size: 1rem;
 }
 
 .dropdown-menu .divider {
-    height: 1px;
-    background-color: var(--color-border);
-    margin: 8px 0;
+  height: 1px;
+  background-color: var(--color-border);
+  margin: 8px 0;
 }
 
 .dropdown-item.logout-link {
-    color: var(--color-error);
+  color: var(--color-error);
 }
 
 .dropdown-item.logout-link:hover {
-    background-color: rgba(232, 102, 62, 0.1);
+  background-color: rgba(232, 102, 62, 0.1);
 }
 
 @media (max-width: 768px) {
-    .user-dropdown {
-        width: 100%;
-    }
-    
-    .user-dropdown-btn {
-        width: 100%;
-        justify-content: space-between;
-    }
-    
-    .dropdown-menu {
-        position: static;
-        opacity: 1;
-        visibility: visible;
-        transform: none;
-        box-shadow: none;
-        margin-top: 10px;
-        display: none;
-        width: 100%;
-    }
-    
-    .dropdown-menu.show {
-        display: block;
-    }
+  .user-dropdown {
+    width: 100%;
+  }
+
+  .user-dropdown-btn {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .dropdown-menu {
+    position: static;
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    box-shadow: none;
+    margin-top: 10px;
+    display: none;
+    width: 100%;
+  }
+
+  .dropdown-menu.show {
+    display: block;
+  }
 }

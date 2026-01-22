@@ -1,15 +1,50 @@
 <?php
-/**
- * BuzzarFeed - Sign Up Page (Using Modular Architecture)
- *
- * User registration page using new component system
- * Following ISO 9241: Maintainability, Reusability, Extensibility
- *
- * @package BuzzarFeed
- * @version 2.0
- * @author BuzzarFeed Development Team
- * @date November 2025
- */
+/*
+PROGRAM NAME: User Registration Page (signup.php)
+
+PROGRAMMER: Frontend and Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed web application and handles the
+registration of new users. It uses a modular component-based architecture
+for form elements and follows ISO 9241 principles for maintainability,
+reusability, and extensibility.
+
+DATE CREATED: October 5, 2025
+LAST MODIFIED: November 24, 2025
+
+PURPOSE:
+The purpose of this program is to allow new users to create a BuzzarFeed
+account. It validates user input, securely stores account information,
+automatically logs in newly registered users, and sends a welcome email
+upon successful registration.
+
+DATA STRUCTURES:
+- $pageTitle (string): Page title for browser display and SEO
+- $pageDescription (string): Meta description for the page
+- $errors (array): Stores validation and processing error messages
+- $success (boolean): Indicates whether registration was successful
+- $name, $email (string): User registration inputs
+- $password, $confirmPassword (string): User password inputs
+- $accountType (string): Selected user role (enthusiast or owner)
+- $db (object): Database connection instance
+
+ALGORITHM / LOGIC:
+1. Enable error reporting and load the system bootstrap file.
+2. Start a user session and redirect logged-in users.
+3. Retrieve and sanitize user input from the registration form.
+4. Validate input fields including email, password, account type, and terms agreement.
+5. Check for existing users with the same email or name.
+6. Hash the password and insert the new user into the database.
+7. Set session variables to automatically log in the user.
+8. Attempt to send a welcome email without blocking registration.
+9. Redirect the user to the homepage upon successful registration.
+
+NOTES:
+- Passwords are securely hashed before storage.
+- Registration fails gracefully with user-friendly error messages.
+- Email sending failures do not prevent account creation.
+*/
 
 // Enable error display for debugging
 error_reporting(E_ALL);

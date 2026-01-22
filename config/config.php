@@ -1,13 +1,62 @@
 <?php
-/**
- * BuzzarFeed - Configuration File
- * 
- * Central configuration for the application
- * Following ISO 9241 principles: Maintainability, Reusability, Extensibility
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: BuzzarFeed Configuration File (config.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This file serves as the central configuration for the BuzzarFeed platform, providing 
+application-wide constants, environment variable loading, path and URL definitions, 
+database configuration, session and security settings, API keys, and modular component 
+paths. It follows ISO 9241 principles for maintainability, reusability, and extensibility.
+
+DATE CREATED: December 2, 2025
+LAST MODIFIED: December 2, 2025
+
+PURPOSE:
+To centralize all configuration settings required for the BuzzarFeed platform, ensuring:
+- Consistent access to paths, URLs, and assets
+- Environment-aware behavior (development vs production)
+- Secure session handling and CSRF protection
+- Database connectivity
+- API and external service integration
+- Logging and error reporting
+- Application-wide constants for color schemes, account types, and rating limits
+- Autoloading of classes according to the BuzzarFeed namespace
+
+DATA STRUCTURES:
+- $_SERVER: To determine host, request URI, protocol, and other request info
+- $envPath (string): Path to the .env file for environment variables
+- Constants (string, int, array, boolean): For application settings and paths
+- SESSION_LIFETIME, SESSION_NAME, HASH_ALGO, CSRF_TOKEN_LENGTH
+- Database settings: DB_HOST, DB_NAME, DB_USER, DB_PASS, DB_PORT, DB_CHARSET
+- URL settings: BASE_URL, ASSETS_URL, CSS_URL, JS_URL, IMAGES_URL
+- API keys: GOOGLE_MAPS_API_KEY, GOOGLE_CLIENT_ID, FACEBOOK_APP_ID, STRIPE_PUBLIC_KEY, etc.
+- Logging configuration: LOG_LEVEL, LOG_FILE
+- Color constants: COLOR_PRIMARY_BEIGE, COLOR_ORANGE, COLOR_GREEN, COLOR_DARK, COLOR_WHITE
+- Account types and ratings: ACCOUNT_TYPE_ENTHUSIAST, ACCOUNT_TYPE_OWNER, ACCOUNT_TYPE_ADMIN, MIN_RATING, MAX_RATING
+
+ALGORITHM / LOGIC:
+1. Load environment variables from the .env file using Env::load().
+2. Determine if the application is in development mode based on APP_ENV or APP_DEBUG.
+3. Configure PHP error reporting according to environment.
+4. Define application metadata constants: APP_NAME, APP_VERSION, APP_DESCRIPTION.
+5. Define centralized file system paths for src, components, pages, assets, includes, etc.
+6. Configure URLs dynamically, accounting for host and protocol.
+7. Define database connection constants.
+8. Configure session, security (hashing and CSRF), pagination, file uploads, email, API, analytics, caching, and logging.
+9. Define reusable constants for color schemes, account types, and review ratings.
+10. Set the default time zone based on environment or fallback to Asia/Manila.
+11. Register an autoloader for classes under the BuzzarFeed namespace:
+    a. Convert namespace separators to directory separators.
+    b. Support case-insensitive file systems and mixed-case directories.
+12. Load environment-specific overrides if CONFIG_PATH/config.local.php exists.
+
+NOTES:
+- All constants and paths are centralized to avoid hardcoding values across the application.
+- Autoloader supports PSR-like conventions with additional fallbacks for InfinityFree and case-sensitive environments.
+- Future enhancements may include dynamic environment switching or cloud configuration integration.
+*/
 
 // Load environment variables first (before any other configuration)
 require_once __DIR__ . '/../src/utils/Env.php';

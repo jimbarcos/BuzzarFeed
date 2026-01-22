@@ -1,13 +1,61 @@
 <?php
-/**
- * BuzzarFeed - Stall Registration Service
- * 
- * Handles stall registration business logic
- * Following ISO 9241 principles: Modularity, Reusability, Separation of Concerns
- * 
- * @package BuzzarFeed\Services
- * @version 1.0
- */
+/*
+PROGRAM NAME: Stall Registration Service (StallRegistrationService.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It provides business logic for handling stall registration and application management.
+The StallRegistrationService class interacts with the Database utility and Helper functions to validate user input, manage uploaded files, and create stall applications.
+It is typically used by controllers, API endpoints, or other service layers that handle stall registration workflows.
+
+DATE CREATED: Novemeber 23, 2025
+LAST MODIFIED: Novemeber 23, 2025
+
+PURPOSE:
+The purpose of this program is to centralize stall registration operations into a reusable and maintainable service.
+It ensures consistent validation, secure file handling, and proper creation of stall applications.
+The service supports rollback mechanisms to delete uploaded files if an error occurs, maintaining data integrity.
+
+DATA STRUCTURES:
+- $db (Database): Database instance used for queries and inserts.
+- $data (array): Application data including stall name, description, location, categories, and optional map coordinates.
+- $filePaths (array): Paths to uploaded application files, including BIR registration, business permit, DTI/SEC certificate, and stall logo.
+- $_FILES array elements: Used for validating and uploading files.
+- Validation errors array: Maps field names to error messages.
+- Stall slug (string): Unique identifier for the upload directory, generated using slugified stall name and uniqid().
+- Uploaded file paths (string): Relative paths returned after successful upload.
+
+ALGORITHM / LOGIC:
+1. Initialize Database instance on service construction.
+2. Check for existing pending applications for a user to prevent duplicates.
+3. Validate stall registration data:
+   a. Ensure stall name, description, location, and categories are present.
+   b. Enforce minimum character lengths for name and description.
+4. Validate uploaded files:
+   a. Confirm file presence if required.
+   b. Restrict to allowed MIME types (PDF, JPG, PNG).
+   c. Enforce file size limits (5MB).
+5. Upload files securely:
+   a. Generate a unique directory for each application.
+   b. Move uploaded files to designated folder.
+   c. Return relative file paths for database storage.
+6. Create stall application:
+   a. Insert validated data and uploaded file paths into the applications table.
+   b. Set initial status as pending (status_id = 1).
+7. Delete application files on rollback:
+   a. Remove all uploaded files.
+   b. Remove the directory if empty.
+8. Ensure consistency and rollback support to maintain data integrity in case of errors.
+
+NOTES:
+- All public methods are designed for reuse and modularity following ISO 9241 principles.
+- File uploads are isolated per application to avoid conflicts and improve traceability.
+- Validation is strict to ensure high-quality and complete stall registrations.
+- Rollback logic prevents orphaned files in case of application creation failure.
+- Future enhancements may include automatic thumbnail generation, multi-step application workflows, and integration with geolocation APIs for map coordinates.
+*/
 
 namespace BuzzarFeed\Services;
 

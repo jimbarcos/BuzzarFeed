@@ -1,13 +1,78 @@
 <?php
-/**
- * BuzzarFeed - Stall Service
- * 
- * Handles business logic for food stall management
- * Following ISO 9241 principles: Modularity, Reusability, Separation of Concerns
- * 
- * @package BuzzarFeed\Services
- * @version 1.0
- */
+/*
+PROGRAM NAME: Food Stall Management Service (StallService.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It provides business logic for managing food stalls, including retrieval, search, categorization, and featured selection.
+The StallService class interacts with the Database utility to ensure consistent access to stall-related data and formatted output.
+It is typically used by controllers, API endpoints, and other service layers requiring stall information for display, search, or analytics purposes.
+
+DATE CREATED: Novemeber 29, 2025
+LAST MODIFIED: Novemeber 29, 2025
+
+PURPOSE:
+The purpose of this program is to centralize food stall operations into a reusable and maintainable service.
+It provides methods for retrieving active stalls, searching by name or description, filtering by categories, obtaining featured/random stalls, and fetching stall metadata.
+By abstracting database interactions, it enforces consistent data formatting and simplifies application logic related to stalls.
+
+DATA STRUCTURES:
+- $db (Database): Database instance used for queries.
+- Stall data arrays:
+  - stall_id (int): Unique identifier of the stall.
+  - name (string): Stall name.
+  - description (string): Stall description.
+  - logo_path (string): Path to the stall’s logo image.
+  - food_categories (array|string JSON): Categories associated with the stall.
+  - hours (string): Operating hours.
+  - average_rating (float): Average review rating.
+  - total_reviews (int): Number of reviews.
+  - address (string): Stall location address.
+  - latitude (float|null): Latitude coordinate.
+  - longitude (float|null): Longitude coordinate.
+  - owner_name (string|null): Stall owner’s name.
+  - owner_email (string|null): Stall owner’s email.
+- $searchTerm (string): Search query for stall names/descriptions.
+- $limit (int): Number of stalls to fetch for featured/random selection.
+- Category variations arrays: Maps standard category names to possible database representations.
+
+ALGORITHM / LOGIC:
+1. Initialize Database instance on service construction.
+2. Retrieve all active stalls:
+   a. Join with stall locations and reviews.
+   b. Calculate average ratings and review counts.
+   c. Format and return results.
+3. Filter stalls by category:
+   a. Handle multiple variations of category names.
+   b. Build dynamic JSON_CONTAINS conditions for search.
+   c. Retrieve and format matching stalls.
+4. Search stalls by name or description:
+   a. Use LIKE queries for flexible matching.
+   b. Format and return results.
+5. Retrieve stall by ID:
+   a. Include owner information.
+   b. Format stall data for consistent structure.
+6. Fetch random stalls for featured sections:
+   a. Use ORDER BY RAND() with limit.
+   b. Format and return results.
+7. Retrieve all unique food categories:
+   a. Decode JSON-encoded categories.
+   b. Merge and deduplicate into a unique array.
+8. Format stall data consistently:
+   a. Decode JSON categories safely.
+   b. Ensure default values for missing fields.
+   c. Return standardized array structure for application use.
+
+NOTES:
+- All public methods ensure data is formatted consistently before returning to controllers or endpoints.
+- JSON-encoded food categories are handled safely to accommodate variations in storage.
+- Average ratings and review counts are computed dynamically for display purposes.
+- Category filtering supports multiple variations to ensure flexible search.
+- This service abstracts database operations to maintain separation of concerns and modularity.
+- Future enhancements may include pagination support, location-based filtering, or caching for performance optimization.
+*/
 
 namespace BuzzarFeed\Services;
 

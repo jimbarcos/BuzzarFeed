@@ -1,13 +1,67 @@
 <?php
-/**
- * BuzzarFeed - Helper Utilities
- * 
- * Collection of reusable utility functions
- * Following ISO 9241: Reusability and Maintainability
- * 
- * @package BuzzarFeed\Utils
- * @version 1.0
- */
+/*
+PROGRAM NAME: Helper Utilities Module (Helpers.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It provides a centralized collection of reusable helper functions that support common operations across the system.
+The Helpers class is used by controllers, views, services, and utility classes to ensure consistent handling of input validation, output escaping, authentication support, request detection, formatting, and file uploads.
+It promotes code reuse, reduces duplication, and improves overall maintainability.
+
+DATE CREATED: November 23, 2025
+LAST MODIFIED: December 14, 2025
+
+PURPOSE:
+The purpose of this program is to provide a standardized utility layer for frequently used application logic.
+It abstracts common tasks such as input sanitization, password validation, token generation, HTTP redirects, request handling, formatting, and file uploads into reusable static methods.
+This ensures consistent behavior across the application while improving security, readability, and development efficiency.
+
+DATA STRUCTURES:
+- $_GET / $_POST / $_SERVER / $_FILES (superglobals): Used for request handling and file uploads.
+- Constants:
+  - HASH_ALGO (string): Algorithm used for password hashing.
+  - MAX_FILE_SIZE (int): Maximum allowed upload size.
+  - ALLOWED_IMAGE_TYPES (array): Whitelisted MIME types for file uploads.
+- Arrays:
+  - $errors (array): Stores validation error messages.
+  - $words (array): Maps numeric values to word equivalents.
+  - $categoryMap (array): Maps database category identifiers to display-friendly labels.
+
+ALGORITHM / LOGIC:
+1. Sanitize and escape user input to prevent XSS and injection attacks.
+2. Validate user credentials:
+   a. Check email format using PHP filters.
+   b. Validate password strength based on length and character composition.
+3. Generate secure random tokens using cryptographically safe functions.
+4. Hash and verify passwords using configurable hashing algorithms.
+5. Handle HTTP-related utilities:
+   a. Redirect users with proper HTTP status codes.
+   b. Detect request type (GET, POST, AJAX).
+   c. Retrieve request parameters safely.
+6. Provide formatting helpers:
+   a. Format dates for display.
+   b. Truncate long text with ellipsis.
+   c. Convert numbers to word representations.
+   d. Convert database-friendly strings into human-readable labels.
+7. Generate URL-safe slugs from arbitrary text.
+8. Return JSON responses with appropriate headers and status codes.
+9. Handle file uploads:
+   a. Validate upload errors, size limits, and MIME types.
+   b. Generate unique filenames.
+   c. Move files securely to destination directories.
+10. Exit execution where appropriate to prevent further output.
+
+NOTES:
+- All methods are static to allow easy access without instantiating the class.
+- Output escaping should always be used when rendering dynamic data in views.
+- Password hashing and verification rely on PHP’s built-in cryptographic functions.
+- File upload validation prevents oversized or invalid file types from being stored.
+- Category formatting ensures a clean separation between database values and UI presentation.
+- Centralizing helper logic reduces duplication and simplifies future updates.
+- Future enhancements may include localization support, advanced validation rules, or logging utilities.
+*/
 
 namespace BuzzarFeed\Utils;
 

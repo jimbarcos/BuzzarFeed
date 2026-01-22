@@ -1,12 +1,69 @@
 <?php
-/**
- * BuzzarFeed - Map Page
- * 
- * Interactive map showing all approved food stalls
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: Stall Map Page (map.php)
+
+PROGRAMMER: Frontend and Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It provides an interactive map interface for users to explore and locate approved food stalls.
+
+DATE CREATED: November 21, 2025
+LAST MODIFIED: December 4, 2025
+
+PURPOSE:
+The purpose of this program is to display an interactive map showing all active and approved food stalls,
+allow users to filter stalls by category, and provide hover tooltips with stall information.
+It also includes an "Explore" section highlighting selected stalls.
+
+DATA STRUCTURES:
+- $stallService (StallService): Service instance to fetch stall data from the database.
+- $category (string): Filter parameter for stall category.
+- $stalls (array): List of stalls fetched from the database based on filters.
+- $standardCategories (array): Predefined set of standard food categories.
+- $allCategories (array): Complete set of categories used for filtering.
+- $stallsWithLocation (array): Subset of $stalls that have valid latitude and longitude.
+- $exploreStalls (array): Selected stalls to highlight in the "Explore" section.
+- HTML/JS variables:
+  - mapPins (NodeList): DOM elements representing map markers.
+  - tooltip (HTMLElement): Tooltip element for displaying stall information on hover.
+  - currentStallId (int): Stores the currently hovered stall ID for quick navigation.
+
+ALGORITHM / LOGIC:
+1. Load system bootstrap and start session.
+2. Define page title and description.
+3. Initialize StallService to fetch stall data.
+4. Retrieve filter parameter 'category' from GET request.
+5. Fetch stalls:
+   - If a specific category is selected, fetch stalls by that category.
+   - Otherwise, fetch all active stalls.
+6. Filter stalls to get only those with valid map coordinates.
+7. Select a subset of stalls for the "Explore" section (currently first 3 stalls).
+8. Render HTML page:
+   - Include header.
+   - Include MapSection.php to render interactive map with pins.
+   - Include ExploreSection.php to display selected stalls.
+   - Include footer.
+   - Load CSS and JavaScript files for styling and interactivity.
+9. JavaScript functionality:
+   - Hovering over a map pin displays a tooltip with:
+     a. Stall name
+     b. Categories
+     c. Average rating with star icons
+     d. Short description
+   - Tooltip is positioned smartly to avoid clipping off-screen:
+     - Chooses above or below based on available space
+     - Adjusts left/right position to prevent overflow
+   - Leaving the pin or tooltip hides the tooltip with a slight delay
+   - Clicking on the tooltip or using viewStall() navigates to stall-detail.php?id={stallId}
+
+NOTES:
+- Tooltips dynamically generate stars based on the average rating (including half-stars).
+- The page supports future enhancements like geolocation-based exploration.
+- Filtering logic is based on the 'category' GET parameter; 'all' shows all stalls.
+- CSS and JS files are modularized to maintain clean separation of concerns.
+- Map pins are expected to have data attributes for stall info (name, description, rating, categories, ID).
+*/
 
 require_once __DIR__ . '/bootstrap.php';
 

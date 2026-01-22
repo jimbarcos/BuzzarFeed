@@ -1,12 +1,69 @@
 <?php
-/**
- * BuzzarFeed - Review Report Service
- * 
- * Handles reporting and moderation of reviews
- * 
- * @package BuzzarFeed\Services
- * @version 1.0
- */
+/*
+PROGRAM NAME: Review Report Service (ReviewReportService.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It provides business logic for reporting, moderating, and managing reviews.
+The ReviewReportService class interacts with the Database, Session, and EmailService utilities to handle review reports, dismissals, deletions, and notifications.
+It is primarily used by admin controllers or moderation tools to manage user-submitted reviews and enforce community guidelines.
+
+DATE CREATED: Decemeber 4, 2025
+LAST MODIFIED: Decemeber 4, 2025
+
+PURPOSE:
+The purpose of this program is to centralize and standardize review moderation workflows.
+It enables admins to review reported content, delete inappropriate reviews, dismiss false reports, and notify users about moderation actions.
+This ensures consistent enforcement of community guidelines and provides an audit trail for all moderation activities.
+
+DATA STRUCTURES:
+- $db (Database): Database instance for executing queries.
+- $logService (AdminLogService): Service for logging admin moderation actions.
+- $review (array): Single review record from the database.
+- $report (array): Single report record associated with a review.
+- $groupedReports (array): Pending reports grouped by review.
+- $result (array): Final formatted array of pending reports including individual report details.
+- Email content variables:
+  - $subject (string): Email subject line.
+  - $body (string): HTML content of the notification email.
+
+ALGORITHM / LOGIC:
+1. reportReview():
+   a. Verify the review exists and the reporter is not the review owner.
+   b. Check for existing reports and prevent duplicate pending reports.
+   c. Insert or update review_reports record with 'pending' status.
+2. getPendingReports():
+   a. Fetch all pending reports grouped by review ID.
+   b. Retrieve individual reports for each review.
+   c. Combine and return structured array of review + reports.
+3. deleteReview():
+   a. Fetch review details for logging and notification.
+   b. Begin database transaction.
+   c. Mark associated pending reports as 'reviewed'.
+   d. Insert moderation record to review_moderations table.
+   e. Delete review reactions, then the review itself.
+   f. Commit transaction.
+   g. Log admin action and send notification email to review owner.
+4. dismissReports():
+   a. Update all pending reports for a review to 'dismissed'.
+   b. Log the dismissal action with notes.
+5. sendDeletedNotification():
+   a. Compose HTML email notifying user about deleted review.
+   b. Use EmailService to send the message.
+   c. Handle exceptions and log failures if sending fails.
+6. getReportStats():
+   a. Count total pending reports.
+   b. Count total hidden reviews.
+   c. Return summary statistics.
+
+NOTES:
+- All public methods ensure proper checks for review existence and report status.
+- Transaction management is used in deleteReview() to maintain data integrity.
+- Notifications are sent for deleted reviews to keep users informed.
+- Future enhancements may include automatic report escalation, batch moderation tools, or analytics dashboards.
+*/
 
 namespace BuzzarFeed\Services;
 
