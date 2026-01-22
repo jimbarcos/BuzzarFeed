@@ -1,140 +1,194 @@
-/**
- * BuzzarFeed - Modal Component Styles
- * 
- * Modular modal/dialog styles
- * Following ISO 9241: Accessibility and Consistency
- * 
- * @package BuzzarFeed
- * @version 2.0
- */
+/*
+PROGRAM NAME: BuzzarFeed – Modal Component Stylesheet
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This CSS file defines the styling for the reusable modal/dialog component
+used throughout the BuzzarFeed platform. The modal component supports
+user interactions such as confirmations, form inputs, alerts, and
+contextual information display without requiring page navigation.
+
+The design follows ISO 9241 usability principles, emphasizing accessibility,
+visual clarity, consistency, and predictable interaction behavior across
+all supported devices.
+
+DATE CREATED: November 26, 2025
+LAST MODIFIED: December 6, 2025
+
+PURPOSE:
+- Provide a reusable and centralized modal dialog styling system.
+- Create a visually distinct overlay that maintains user focus.
+- Ensure clear separation between modal header, body, and footer.
+- Support multiple modal sizes for varied content requirements.
+- Apply smooth entrance animations to improve perceived usability.
+- Maintain accessibility and responsive behavior on smaller screens.
+
+DATA STRUCTURES / CLASSES:
+- Modal Container:
+  - .modal, .modal.show
+- Overlay:
+  - .modal-backdrop
+- Content Wrapper:
+  - .modal-content
+- Modal Sizes:
+  - .modal-sm, .modal-lg
+- Structural Sections:
+  - .modal-header
+  - .modal-body
+  - .modal-footer
+- Controls:
+  - .modal-title
+  - .modal-close
+- Animations:
+  - @keyframes modalSlideIn
+- Responsive Rules:
+  - Media queries for 768px breakpoint
+
+ALGORITHM / LOGIC:
+1. Hide modal by default to prevent unintended rendering.
+2. Activate modal visibility using a `.show` state class.
+3. Overlay a semi-transparent backdrop to block background interaction.
+4. Center modal content using flexbox alignment.
+5. Animate modal entrance to guide user attention.
+6. Constrain modal height and enable scrolling for long content.
+7. Adjust padding, layout, and button alignment for mobile devices.
+
+NOTES:
+- Relies on global CSS variables for colors, spacing, shadows, and z-index.
+- Intended to be controlled via JavaScript or framework-based state toggling.
+- Designed to be reusable across authentication, dashboard, and system pages.
+- Footer button stacking improves usability on smaller screens.
+- Backdrop and modal layers respect z-index hierarchy for visual clarity.
+*/
 
 /* Modal Overlay */
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: var(--z-modal);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: var(--spacing-md);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: var(--z-modal);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--spacing-md);
 }
 
 .modal.show {
-    display: flex;
+  display: flex;
 }
 
 /* Modal Backdrop */
 .modal-backdrop {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: var(--z-modal-backdrop);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: var(--z-modal-backdrop);
 }
 
 /* Modal Content */
 .modal-content {
-    position: relative;
-    background-color: var(--color-white);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-lg);
-    max-width: 600px;
-    width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    z-index: var(--z-modal);
-    animation: modalSlideIn var(--transition-normal);
+  position: relative;
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  z-index: var(--z-modal);
+  animation: modalSlideIn var(--transition-normal);
 }
 
 @keyframes modalSlideIn {
-    from {
-        opacity: 0;
-        transform: translateY(-50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+  from {
+    opacity: 0;
+    transform: translateY(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Modal Sizes */
 .modal-sm .modal-content {
-    max-width: 400px;
+  max-width: 400px;
 }
 
 .modal-lg .modal-content {
-    max-width: 800px;
+  max-width: 800px;
 }
 
 /* Modal Header */
 .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: var(--spacing-md);
-    border-bottom: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-md);
+  border-bottom: 1px solid var(--color-border);
 }
 
 .modal-title {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    margin: 0;
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin: 0;
 }
 
 .modal-close {
-    background: none;
-    border: none;
-    font-size: var(--font-size-xl);
-    color: var(--color-text-light);
-    cursor: pointer;
-    padding: var(--spacing-xs);
-    transition: color var(--transition-fast);
+  background: none;
+  border: none;
+  font-size: var(--font-size-xl);
+  color: var(--color-text-light);
+  cursor: pointer;
+  padding: var(--spacing-xs);
+  transition: color var(--transition-fast);
 }
 
 .modal-close:hover {
-    color: var(--color-text);
+  color: var(--color-text);
 }
 
 /* Modal Body */
 .modal-body {
-    padding: var(--spacing-md);
+  padding: var(--spacing-md);
 }
 
 /* Modal Footer */
 .modal-footer {
-    display: flex;
-    justify-content: flex-end;
-    gap: var(--spacing-sm);
-    padding: var(--spacing-md);
-    border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--spacing-sm);
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .modal {
-        padding: var(--spacing-sm);
-    }
-    
-    .modal-content {
-        max-height: 95vh;
-    }
-    
-    .modal-header,
-    .modal-body,
-    .modal-footer {
-        padding: var(--spacing-sm);
-    }
-    
-    .modal-footer {
-        flex-direction: column;
-    }
-    
-    .modal-footer .btn {
-        width: 100%;
-    }
+  .modal {
+    padding: var(--spacing-sm);
+  }
+
+  .modal-content {
+    max-height: 95vh;
+  }
+
+  .modal-header,
+  .modal-body,
+  .modal-footer {
+    padding: var(--spacing-sm);
+  }
+
+  .modal-footer {
+    flex-direction: column;
+  }
+
+  .modal-footer .btn {
+    width: 100%;
+  }
 }

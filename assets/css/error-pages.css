@@ -1,99 +1,141 @@
-/* Error Pages Styles (400, 401, 403, 404, 500, 503) */
+/*
+PROGRAM NAME: BuzzarFeed - Error Pages Stylesheet
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This CSS file defines the visual styling for BuzzarFeed system error pages,
+including HTTP error responses such as 400, 401, 403, 404, 500, and 503.
+It provides a consistent, user-friendly error experience by clearly presenting
+error codes, messages, icons, and recovery actions while maintaining brand identity.
+
+DATE CREATED: November 22, 2025
+LAST MODIFIED: December 6, 2025
+
+PURPOSE:
+- Center and structure error page content vertically and horizontally.
+- Visually emphasize error codes for quick user recognition.
+- Display clear titles and explanatory messages for different error types.
+- Provide primary action buttons for navigation or recovery.
+- Offer helpful suggestions to guide users after encountering an error.
+- Maintain consistent branding through colors, typography, and spacing.
+- Ensure responsive layout across desktop and mobile devices.
+
+DATA STRUCTURES / CLASSES:
+- Layout: body, main, .error-container, .error-card
+- Error Content: .error-code, .error-title, .error-message, .error-icon
+- Actions: .btn-primary
+- Suggestions: .error-suggestions, h3, ul, li
+
+ALGORITHM / LOGIC:
+1. Use a flex-based layout to center error content within the viewport.
+2. Wrap error information inside a card component for clarity and focus.
+3. Highlight the HTTP error code with large typography and brand colors.
+4. Display descriptive titles and messages to explain the error.
+5. Provide a primary call-to-action button for navigation or retry.
+6. Optionally list suggestions to help users recover from the error.
+
+NOTES:
+- Designed to be reused across multiple HTTP error status pages.
+- Color palette aligns with BuzzarFeed branding (orange, beige, dark gray).
+- Accessible typography and spacing improve readability under error states.
+- Easily extensible for additional error types or localized messaging.
+*/
 
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    background: #FEEED5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  background: #feeed5;
 }
 
 main {
-    flex: 1 0 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 40px 20px;
+  flex: 1 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
 }
 
 .error-container {
-    max-width: 600px;
-    width: 100%;
-    text-align: center;
+  max-width: 600px;
+  width: 100%;
+  text-align: center;
 }
 
 .error-card {
-    background: white;
-    border-radius: 12px;
-    padding: 60px 40px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  background: white;
+  border-radius: 12px;
+  padding: 60px 40px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .error-code {
-    font-size: 120px;
-    font-weight: 700;
-    color: #ED6027;
-    margin: 0;
-    line-height: 1;
+  font-size: 120px;
+  font-weight: 700;
+  color: #ed6027;
+  margin: 0;
+  line-height: 1;
 }
 
 .error-title {
-    font-size: 32px;
-    font-weight: 700;
-    color: #2C2C2C;
-    margin: 20px 0 15px 0;
+  font-size: 32px;
+  font-weight: 700;
+  color: #2c2c2c;
+  margin: 20px 0 15px 0;
 }
 
 .error-message {
-    font-size: 16px;
-    color: #666;
-    margin: 0 0 30px 0;
-    line-height: 1.6;
+  font-size: 16px;
+  color: #666;
+  margin: 0 0 30px 0;
+  line-height: 1.6;
 }
 
 .error-icon {
-    font-size: 80px;
-    color: #ED6027;
-    margin-bottom: 20px;
+  font-size: 80px;
+  color: #ed6027;
+  margin-bottom: 20px;
 }
 
 .btn-primary {
-    background: #ED6027;
-    color: white;
-    padding: 14px 30px;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: 600;
-    text-decoration: none;
-    display: inline-block;
-    transition: background 0.3s ease;
+  background: #ed6027;
+  color: white;
+  padding: 14px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  text-decoration: none;
+  display: inline-block;
+  transition: background 0.3s ease;
 }
 
 .btn-primary:hover {
-    background: #d55520;
+  background: #d55520;
 }
 
 .error-suggestions {
-    text-align: left;
-    margin-top: 30px;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 8px;
+  text-align: left;
+  margin-top: 30px;
+  padding: 20px;
+  background: #f8f9fa;
+  border-radius: 8px;
 }
 
 .error-suggestions h3 {
-    font-size: 16px;
-    font-weight: 600;
-    color: #2C2C2C;
-    margin: 0 0 15px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2c2c2c;
+  margin: 0 0 15px 0;
 }
 
 .error-suggestions ul {
-    margin: 0;
-    padding-left: 20px;
+  margin: 0;
+  padding-left: 20px;
 }
 
 .error-suggestions li {
-    margin-bottom: 8px;
-    color: #666;
+  margin-bottom: 8px;
+  color: #666;
 }

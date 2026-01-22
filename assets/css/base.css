@@ -1,121 +1,208 @@
-/**
- * BuzzarFeed - Base Styles
- * 
- * Base reset and typography styles
- * Following ISO 9241: Consistency
- * 
- * @package BuzzarFeed
- * @version 2.0
- */
+/*
+PROGRAM NAME: BuzzarFeed - Base Stylesheet
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This CSS file defines the foundational styling rules for the BuzzarFeed platform.
+It includes a global CSS reset, base typography, layout containers, and utility
+classes that establish visual consistency, readability, and accessibility
+across all pages and components of the system.
+
+The stylesheet follows ISO 9241 principles, emphasizing consistency,
+predictability, and user-centered interface design.
+
+DATE CREATED: November 18, 2025
+LAST MODIFIED: December 6, 2025
+
+PURPOSE:
+- Normalize default browser styles using a global CSS reset.
+- Establish base typography, font hierarchy, and readable line spacing.
+- Define core layout elements such as the responsive container.
+- Provide reusable utility classes for spacing, alignment, and visibility.
+- Improve accessibility through screen-reader-only utilities.
+- Ensure consistent design behavior across devices and screen sizes.
+
+DATA STRUCTURES / CLASSES:
+- Global Reset: *, html, body
+- Typography: h1–h6, p, a
+- Media Elements: img
+- Lists & Controls: ul, ol, button
+- Layout: .container
+- Utilities:
+  - Text Alignment: .text-center, .text-left, .text-right
+  - Spacing: .mt-sm, .mt-md, .mt-lg, .mb-sm, .mb-md, .mb-lg
+  - Visibility: .hidden, .sr-only
+- Responsive Rules: media queries for 768px breakpoint
+
+ALGORITHM / LOGIC:
+1. Reset default margins, paddings, and box models for consistency.
+2. Define root font sizing and smooth scrolling behavior.
+3. Apply global font families, colors, and background styles.
+4. Standardize heading hierarchy and spacing.
+5. Create flexible container widths for responsive layouts.
+6. Adjust typography scale on smaller screens.
+7. Provide utility classes to reduce repetitive CSS across components.
+
+NOTES:
+- Relies on CSS variables defined in the design token configuration.
+- Intended to be loaded before all component-level stylesheets.
+- Utility classes are designed for rapid layout adjustments.
+- Serves as the foundation for all BuzzarFeed UI styling.
+*/
 
 /* CSS Reset */
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-    scroll-behavior: smooth;
-    font-size: 16px;
+  scroll-behavior: smooth;
+  font-size: 16px;
 }
 
 body {
-    font-family: var(--font-primary);
-    font-weight: var(--font-weight-normal);
-    color: var(--color-text);
-    background-color: var(--color-primary-beige);
-    line-height: 1.6;
-    overflow-x: hidden;
+  font-family: var(--font-primary);
+  font-weight: var(--font-weight-normal);
+  color: var(--color-text);
+  background-color: var(--color-primary-beige);
+  line-height: 1.6;
+  overflow-x: hidden;
 }
 
 /* Typography */
-h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-heading);
-    font-weight: var(--font-weight-bold);
-    line-height: 1.2;
-    margin-bottom: var(--spacing-md);
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-heading);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+  margin-bottom: var(--spacing-md);
 }
 
-h1 { font-size: var(--font-size-4xl); }
-h2 { font-size: var(--font-size-3xl); }
-h3 { font-size: var(--font-size-2xl); }
-h4 { font-size: var(--font-size-xl); }
-h5 { font-size: var(--font-size-lg); }
-h6 { font-size: var(--font-size-md); }
+h1 {
+  font-size: var(--font-size-4xl);
+}
+h2 {
+  font-size: var(--font-size-3xl);
+}
+h3 {
+  font-size: var(--font-size-2xl);
+}
+h4 {
+  font-size: var(--font-size-xl);
+}
+h5 {
+  font-size: var(--font-size-lg);
+}
+h6 {
+  font-size: var(--font-size-md);
+}
 
 p {
-    margin-bottom: var(--spacing-sm);
+  margin-bottom: var(--spacing-sm);
 }
 
 a {
-    text-decoration: none;
-    color: inherit;
-    transition: var(--transition-fast);
+  text-decoration: none;
+  color: inherit;
+  transition: var(--transition-fast);
 }
 
 a:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 img {
-    max-width: 100%;
-    height: auto;
-    display: block;
+  max-width: 100%;
+  height: auto;
+  display: block;
 }
 
-ul, ol {
-    list-style: none;
+ul,
+ol {
+  list-style: none;
 }
 
 button {
-    font-family: inherit;
-    cursor: pointer;
-    border: none;
-    background: none;
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
 }
 
 /* Container */
 .container {
-    width: 100%;
-    max-width: var(--container-xl);
-    margin: 0 auto;
-    padding: 0 var(--spacing-md);
+  width: 100%;
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding: 0 var(--spacing-md);
 }
 
 /* Responsive Typography */
 @media (max-width: 768px) {
-    html {
-        font-size: 14px;
-    }
-    
-    h1 { font-size: var(--font-size-3xl); }
-    h2 { font-size: var(--font-size-2xl); }
-    h3 { font-size: var(--font-size-xl); }
+  html {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: var(--font-size-3xl);
+  }
+  h2 {
+    font-size: var(--font-size-2xl);
+  }
+  h3 {
+    font-size: var(--font-size-xl);
+  }
 }
 
 /* Utility Classes */
-.text-center { text-align: center; }
-.text-left { text-align: left; }
-.text-right { text-align: right; }
+.text-center {
+  text-align: center;
+}
+.text-left {
+  text-align: left;
+}
+.text-right {
+  text-align: right;
+}
 
-.mt-sm { margin-top: var(--spacing-sm); }
-.mt-md { margin-top: var(--spacing-md); }
-.mt-lg { margin-top: var(--spacing-lg); }
+.mt-sm {
+  margin-top: var(--spacing-sm);
+}
+.mt-md {
+  margin-top: var(--spacing-md);
+}
+.mt-lg {
+  margin-top: var(--spacing-lg);
+}
 
-.mb-sm { margin-bottom: var(--spacing-sm); }
-.mb-md { margin-bottom: var(--spacing-md); }
-.mb-lg { margin-bottom: var(--spacing-lg); }
+.mb-sm {
+  margin-bottom: var(--spacing-sm);
+}
+.mb-md {
+  margin-bottom: var(--spacing-md);
+}
+.mb-lg {
+  margin-bottom: var(--spacing-lg);
+}
 
-.hidden { display: none !important; }
+.hidden {
+  display: none !important;
+}
 .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }

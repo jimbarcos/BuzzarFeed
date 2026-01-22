@@ -1,111 +1,152 @@
-/**
- * BuzzarFeed - Card Component Styles
- * 
- * Modular card styles
- * Following ISO 9241: Reusability
- * 
- * @package BuzzarFeed
- * @version 2.0
- */
+/*
+PROGRAM NAME: BuzzarFeed – Card Component Stylesheet
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This CSS file defines the visual styling for card components used throughout
+the BuzzarFeed application. Cards can display content such as images, text, 
+titles, subtitles, and action buttons, and support interactive hover effects.
+
+DATE CREATED: January 22, 2026
+LAST MODIFIED: January 22, 2026
+
+PURPOSE:
+- Provide modular and reusable card styles for content presentation.
+- Support hover effects for interactive feedback.
+- Style card sections: image, body, footer, and action elements.
+- Ensure text readability and spacing consistency.
+- Allow card variants for specific use cases: stall, review, join.
+- Enable responsive behavior for mobile devices.
+
+DATA STRUCTURES / CLASSES:
+- Base Card:
+  - .card, .card-hoverable
+- Card Image:
+  - .card-image, .card-image img
+- Card Body:
+  - .card-body, .card-title, .card-subtitle, .card-content
+- Card Footer & Actions:
+  - .card-footer, .card-actions
+- Card Variants:
+  - .card-stall, .card-review, .card-join
+
+ALGORITHM / LOGIC:
+1. Hover Effects:
+   - .card-hoverable moves slightly upward and applies a shadow.
+   - Card images scale up on hover for visual emphasis.
+2. Layout:
+   - Card body uses consistent padding for content spacing.
+   - Footer aligns action buttons and text horizontally, switching to vertical on smaller screens.
+3. Responsive Behavior:
+   - Cards adjust padding and footer layout on screens narrower than 768px.
+   - Action buttons stack vertically on mobile for usability.
+
+NOTES:
+- Uses CSS variables for colors, spacing, font sizes, and shadows.
+- Cards are designed for modular reuse in multiple parts of the application.
+- Supports image-rich cards and text-based content.
+- Can be extended with variant-specific styles as needed.
+*/
 
 /* Base Card */
 .card {
-    background-color: var(--color-white);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-card);
-    overflow: hidden;
-    transition: all var(--transition-normal);
+  background-color: var(--color-white);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  transition: all var(--transition-normal);
 }
 
 .card-hoverable:hover {
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-hover);
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
 }
 
 /* Card Image */
 .card-image {
-    width: 100%;
-    overflow: hidden;
+  width: 100%;
+  overflow: hidden;
 }
 
 .card-image img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    transition: transform var(--transition-normal);
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  transition: transform var(--transition-normal);
 }
 
 .card-hoverable:hover .card-image img {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 /* Card Body */
 .card-body {
-    padding: var(--spacing-md);
+  padding: var(--spacing-md);
 }
 
 .card-title {
-    font-size: var(--font-size-xl);
-    font-weight: var(--font-weight-bold);
-    margin-bottom: var(--spacing-sm);
-    color: var(--color-text);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-text);
 }
 
 .card-subtitle {
-    font-size: var(--font-size-sm);
-    color: var(--color-text-light);
-    margin-bottom: var(--spacing-sm);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-light);
+  margin-bottom: var(--spacing-sm);
 }
 
 .card-content {
-    font-size: var(--font-size-base);
-    color: var(--color-text);
-    line-height: 1.6;
+  font-size: var(--font-size-base);
+  color: var(--color-text);
+  line-height: 1.6;
 }
 
 /* Card Footer */
 .card-footer {
-    padding: var(--spacing-md);
-    border-top: 1px solid var(--color-border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  padding: var(--spacing-md);
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .card-actions {
-    display: flex;
-    gap: var(--spacing-sm);
-    align-items: center;
+  display: flex;
+  gap: var(--spacing-sm);
+  align-items: center;
 }
 
 /* Card Variants */
 .card-stall {
-    /* Specific styles for stall cards */
+  /* Specific styles for stall cards */
 }
 
 .card-review {
-    /* Specific styles for review cards */
+  /* Specific styles for review cards */
 }
 
 .card-join {
-    /* Specific styles for join cards */
+  /* Specific styles for join cards */
 }
 
 /* Responsive */
 @media (max-width: 768px) {
-    .card-body {
-        padding: var(--spacing-sm);
-    }
-    
-    .card-footer {
-        padding: var(--spacing-sm);
-        flex-direction: column;
-        gap: var(--spacing-sm);
-        align-items: stretch;
-    }
-    
-    .card-actions {
-        width: 100%;
-        flex-direction: column;
-    }
+  .card-body {
+    padding: var(--spacing-sm);
+  }
+
+  .card-footer {
+    padding: var(--spacing-sm);
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    align-items: stretch;
+  }
+
+  .card-actions {
+    width: 100%;
+    flex-direction: column;
+  }
 }

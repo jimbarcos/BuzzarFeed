@@ -1,11 +1,57 @@
-/**
- * BuzzarFeed - Manage Stall Page Styles
- * 
- * Styles for the stall management dashboard with tabs
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: BuzzarFeed - Manage Stall Page Stylesheet
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This CSS file defines the visual styling for the Stall Management dashboard of the BuzzarFeed platform.
+It supports stall owners and administrators in managing stall information, menus, locations, reviews,
+and related actions through a tab-based interface. The stylesheet ensures clarity, usability, and
+brand consistency across management workflows.
+
+DATE CREATED: November 28, 2025
+LAST MODIFIED: December 6, 2025
+
+PURPOSE:
+- Style the page header with branded gradients, typography, and layout.
+- Implement tab navigation for switching between stall details, menus, and reviews.
+- Define structured content cards for forms, summaries, and information displays.
+- Style interactive map pinning for stall location selection and display.
+- Provide form styles for stall details, menu items, file uploads, and categories.
+- Present reviews, ratings, and pagination with clear visual hierarchy.
+- Support modal dialogs for editing, deleting, and confirming actions.
+- Ensure responsive behavior across desktop, tablet, and mobile devices.
+
+DATA STRUCTURES / CLASSES:
+- Page Header: .page-header, h1, p
+- Tabs Navigation: .tabs-section, .tabs, .tab-btn, .tab-btn.active
+- Content Layout: .tab-content-section, .content-card, .content-title
+- Forms: .stall-form, .menu-form, .form-group, .form-label, .form-input, .form-textarea
+- Map Section: .map-section-wrapper, .map-container, .map-image, .map-pin, .map-location-display
+- Categories: .categories-grid, .category-checkbox, .category-badge
+- File Upload: .file-upload-wrapper, .file-upload-label, .file-input, .file-name-display
+- Buttons: .submit-btn, .btn-edit, .btn-delete, .btn-primary
+- Reviews: .reviews-summary, .rating-bars, .average-rating-box, .reviews-list, .review-card
+- Menu Items: .menu-items-grid, .menu-item-card, .menu-item-details, .menu-item-actions
+- Modals: .modal, .modal-content, .modal-header, .modal-body, .modal-footer
+- Responsive Utilities: media queries for tablets and mobile screens
+
+ALGORITHM / LOGIC:
+1. Apply consistent layout spacing and typography for the management dashboard.
+2. Display header and tabs for intuitive navigation between management sections.
+3. Render forms with clear labels, focus states, and validation-friendly spacing.
+4. Enable map-based stall location selection with interactive pin feedback.
+5. Organize reviews with rating bars, averages, and paginated lists.
+6. Display menu items in responsive card grids with hover interactions.
+7. Use modal dialogs for CRUD actions with animated transitions.
+8. Adjust layout, grids, and font sizes for smaller screen breakpoints.
+
+NOTES:
+- Uses BuzzarFeed brand colors (green, orange, beige, dark gray).
+- Designed for admin and stall-owner usability and clarity.
+- Fully compatible with dashboard JS logic for tabs, modals, and map interaction.
+- Easily extensible for future features such as analytics, promotions, or role-based access.
+*/
 
 /* Page Header */
 .page-header {
