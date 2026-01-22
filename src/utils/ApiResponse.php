@@ -13,8 +13,8 @@ throughout the application. It is used by all API controllers to send formatted 
 This utility standardizes the JSON response format for both successful operations and error conditions,
 making it easier for frontend clients to parse and handle API responses predictably.
 
-DATE CREATED: January 23, 2026
-LAST MODIFIED: January 23, 2026
+DATE CREATED: December 23, 2025
+LAST MODIFIED: December 23, 2025
 
 PURPOSE:
 The purpose of this program is to provide a centralized, reusable mechanism for generating API responses.

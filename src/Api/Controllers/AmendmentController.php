@@ -15,8 +15,8 @@ store proposed changes, and facilitate the approval/rejection process.
 This controller serves stall owners requesting changes and administrators managing the
 amendment review process.
 
-DATE CREATED: January 23, 2026
-LAST MODIFIED: January 23, 2026
+DATE CREATED: December 23, 2025
+LAST MODIFIED: December 23, 2025
 
 PURPOSE:
 The purpose of this program is to provide API endpoints for the stall amendment workflow.

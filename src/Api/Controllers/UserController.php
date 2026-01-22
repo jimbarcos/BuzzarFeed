@@ -15,8 +15,8 @@ they have admin privileges.
 This controller serves both regular users managing their own profiles and administrators
 managing all user accounts.
 
-DATE CREATED: January 23, 2026
-LAST MODIFIED: January 23, 2026
+DATE CREATED: December 23, 2025
+LAST MODIFIED: December 23, 2025
 
 PURPOSE:
 The purpose of this program is to provide API endpoints for user account management.
