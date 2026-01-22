@@ -1,3 +1,71 @@
+/*
+PROGRAM NAME: BuzzarFeed – About Page Stylesheet
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This CSS file defines the visual presentation for the BuzzarFeed About page.
+It communicates the platform’s identity, purpose, and team composition through
+a combination of hero sections, informational cards, team profiles, and
+call-to-action components. The design emphasizes brand storytelling, visual
+hierarchy, and emotional engagement while maintaining usability and accessibility.
+
+The stylesheet follows ISO 9241 usability principles, focusing on clarity,
+aesthetic integrity, consistency, and user-centered information presentation.
+
+DATE CREATED: November 24, 2025
+LAST MODIFIED: December 6, 2025
+
+PURPOSE:
+- Present BuzzarFeed’s mission, values, and identity through structured sections.
+- Create a visually engaging hero section with decorative elements.
+- Display key platform features and principles using informational cards.
+- Introduce team members in a clear, organized, and human-centered layout.
+- Encourage user engagement through a prominent call-to-action section.
+- Ensure responsive behavior across desktop, tablet, and mobile devices.
+
+DATA STRUCTURES / CLASSES:
+- Page Layout: body, main
+- Hero Section:
+  - Containers: .hero-section, .hero-content
+  - Typography: .hero-title, .hero-subtitle
+  - Decorations: .deco-shape, .hero-left, .hero-right
+- About Section:
+  - Layout: .about-section, .about-header, .about-content
+  - Typography: .about-title, .about-description
+  - Cards: .about-grid, .about-card, .card-icon, .card-title, .card-text
+  - Decorations: .orange-star
+- Team Section:
+  - Containers: .team-section, .team-container
+  - Team Members: .team-member, .member-photo, .member-info
+  - Text: .member-name, .member-position
+  - Title Elements: .team-title-box, .team-title
+  - Decorative Assets: .team-star-1, .team-star-2
+- Call-to-Action Section:
+  - Containers: .cta-section, .cta-buttons
+  - Typography: .cta-title, .cta-text
+  - Actions: .cta-btn
+- Dividers: .section-divider
+- Responsive Rules: media queries for desktop, laptop, tablet, and mobile breakpoints
+
+ALGORITHM / LOGIC:
+1. Establish a full-height page layout to maintain footer positioning.
+2. Center hero content while layering decorative elements behind it.
+3. Use flexible grid and flexbox layouts for the About and Team sections.
+4. Apply strong visual hierarchy through typography scaling and spacing.
+5. Organize informational content into cards for scannability.
+6. Display team members using grid-based alignment for visual consistency.
+7. Adapt layouts and typography across multiple screen sizes using media queries.
+8. Simplify visual elements on smaller screens to reduce cognitive load.
+
+NOTES:
+- Relies on custom fonts (Sora, Geist, Poppins) and brand color palette.
+- Decorative elements are non-interactive and disabled on smaller devices.
+- Intended to be loaded after base styles and before page-specific overrides.
+- Optimized for storytelling, branding, and user trust-building.
+- Designed for public-facing informational use rather than data interaction.
+*/
+
 body {
   display: flex;
   flex-direction: column;
@@ -536,7 +604,9 @@ main {
   color: #feeed5;
   text-decoration: none;
   cursor: pointer;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.1s ease;
 }
 
 .cta-btn:hover {
@@ -568,7 +638,7 @@ main {
   .about-title {
     font-size: 80px;
   }
-  
+
   .team-container {
     box-sizing: border-box;
     column-gap: 0px;
@@ -874,7 +944,7 @@ main {
   .team-title-box {
     order: -1;
     margin-left: 0;
-    justify-self: center; 
+    justify-self: center;
     text-align: center;
   }
 
@@ -950,7 +1020,7 @@ main {
   .about-section {
     padding: 40px 20px;
     gap: 40px;
-    align-items: center; 
+    align-items: center;
     text-align: center;
   }
 
@@ -959,9 +1029,9 @@ main {
   }
 
   .about-card {
-    width: 300px; 
-    max-width: 100%; 
-    height: 300px; 
+    width: 300px;
+    max-width: 100%;
+    height: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1029,17 +1099,17 @@ main {
 
   .team-container {
     display: grid;
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
     column-gap: 20px;
     row-gap: 50px;
-    
+
     margin-left: 0;
     margin-right: 0;
-    padding: 0 20px; 
-    
-    width: 100%; 
+    padding: 0 20px;
+
+    width: 100%;
     box-sizing: border-box;
-    justify-items: center; 
+    justify-items: center;
   }
 
   /* 2. Center the Title Box */
@@ -1050,9 +1120,9 @@ main {
     max-width: 100%;
     height: 100px;
     margin-bottom: 30px;
-    
-    justify-self: center; 
-    
+
+    justify-self: center;
+
     text-align: center;
     margin-left: 0;
   }
@@ -1072,7 +1142,7 @@ main {
     margin: 0 auto;
     justify-self: center;
     width: 100%;
-    max-width: 250px; 
+    max-width: 250px;
   }
 
   .cta-section {

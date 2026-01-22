@@ -1,14 +1,60 @@
 <?php
-/**
- * BuzzarFeed - Header Component
- *
- * Reusable header navigation component for all pages
- * Includes logo, main navigation, and user authentication links
- *
- * @package BuzzarFeed
- * @version 1.0
- * @author BuzzarFeed Development Team
- */
+/*
+PROGRAM NAME: Header Navigation Component (header.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It serves as a global header component included across all public, authenticated, and administrative pages.
+The header manages primary navigation, branding, user authentication states, and role-based actions.
+It integrates with the session and database layers to ensure accurate, up-to-date user information is reflected in the interface.
+
+DATE CREATED: October 5, 2025
+LAST MODIFIED: November 29, 2025
+
+PURPOSE:
+The purpose of this program is to render a consistent and responsive header navigation bar for the BuzzarFeed platform.
+It provides access to core site pages, user account actions, and role-specific controls such as stall management and administrative tools.
+The header dynamically adapts based on authentication status and user role to improve usability, clarity, and security.
+
+DATA STRUCTURES:
+- Session (class): Handles session state, authentication checks, and user data retrieval.
+- Database (class): Used to refresh user role and stall/application status from persistent storage.
+- $isLoggedIn (boolean): Indicates whether a user is authenticated.
+- $userName (string): Display name of the logged-in user.
+- $userType (string): Role of the current user (e.g., admin, food_stall_owner).
+- $hasApprovedStall (boolean): Indicates if a stall owner has an approved stall.
+- $hasPendingApplication (boolean): Indicates if a stall owner has a pending application.
+- Constants:
+  - BASE_URL
+  - IMAGES_URL
+  - JS_URL
+
+ALGORITHM / LOGIC:
+1. Detect whether the current page is an error page.
+2. Determine the user’s authentication status via the session handler.
+3. If logged in:
+   a. Retrieve the latest user role and stall/application status from the database.
+   b. Update session values if changes are detected.
+4. Determine which navigation buttons to display based on user role and status:
+   a. Admin Panel access for administrators.
+   b. Stall management or registration actions for stall owners.
+5. Render the header layout:
+   a. Platform logo and primary navigation links.
+   b. Role-based action buttons.
+   c. User dropdown menu for authenticated users.
+   d. Login and sign-up buttons for guests.
+6. Load client-side dropdown behavior when a user is logged in.
+
+NOTES:
+- This component is included on nearly all pages and must remain lightweight and reliable.
+- Session::isLoggedIn() safely handles session initialization.
+- Database checks ensure role and permission changes are reflected immediately.
+- HTML output adapts dynamically to improve user experience and prevent invalid actions.
+- Accessibility considerations include keyboard navigation and ARIA labels.
+- Future enhancements may include notification badges, profile avatars, or role-based menus.
+*/
 
 use BuzzarFeed\Utils\Session;
 use BuzzarFeed\Utils\Database;

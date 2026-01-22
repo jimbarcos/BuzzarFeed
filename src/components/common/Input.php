@@ -1,13 +1,60 @@
 <?php
-/**
- * BuzzarFeed - Input Component
- * 
- * Reusable form input component
- * Following ISO 9241: Reusability and Accessibility
- * 
- * @package BuzzarFeed\Components\Common
- * @version 1.0
- */
+/*
+PROGRAM NAME: Input Component (Input.php)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed UI Components library.
+It provides a reusable form input component for text, email, password, number, tel, URL, date, and textarea fields.
+
+DATE CREATED: Decemeber 4, 2025
+LAST MODIFIED: Decemeber 4, 2025
+
+PURPOSE:
+The purpose of this program is to:
+- Render a flexible, reusable input or textarea field with optional label, help text, and error message.
+- Support input types including text, email, password (with optional toggle), number, tel, URL, date, and textarea.
+- Maintain accessibility standards (label association, ARIA-friendly attributes).
+- Follow ISO 9241 principles: Reusability and Accessibility.
+
+DATA STRUCTURES:
+- $type (string): Input type (text, email, password, number, tel, URL, date, textarea).
+- $name (string): Input name attribute.
+- $value (string): Current value of the input.
+- $placeholder (string): Placeholder text.
+- $label (string|null): Optional label text.
+- $required (bool): Whether the input is required.
+- $disabled (bool): Whether the input is disabled.
+- $error (string|null): Error message for validation feedback.
+- $help (string|null): Help text for guidance.
+- $showPasswordToggle (bool): Whether to show password visibility toggle.
+- $id (string): Input DOM ID.
+- $classes (string): Custom CSS classes.
+- $attributes (array): Optional HTML attributes.
+
+ALGORITHM / LOGIC:
+1. initialize():
+   - Extracts and sets component properties from $props.
+   - Ensures backward compatibility for 'showToggle' and 'showPasswordToggle'.
+   - Auto-generates ID if needed for password toggle functionality.
+2. render():
+   - Builds HTML for label, input/textarea, password toggle, error message, and help text.
+3. renderInput():
+   - Generates HTML for standard input elements with proper attributes.
+4. renderTextarea():
+   - Generates HTML for textarea elements with proper attributes.
+5. renderLabel():
+   - Generates HTML for associated label element.
+6. renderPasswordToggle():
+   - Generates button HTML for toggling password visibility.
+
+NOTES:
+- Designed to be reusable across all BuzzarFeed forms.
+- Supports dynamic customization through props and attributes.
+- Complies with ISO 9241 accessibility and usability guidelines.
+- Can be extended for specialized input types or validation behaviors.
+*/
 
 namespace BuzzarFeed\Components\Common;
 

@@ -1,107 +1,144 @@
-/**
- * BuzzarFeed - CSS Variables
- * 
- * Centralized CSS custom properties for maintainability
- * Following ISO 9241: Consistency and Reusability
- * 
- * @package BuzzarFeed
- * @version 2.0
- */
+/*
+PROGRAM NAME: CSS Variables Module (variables.css)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform and serves as the centralized location for defining CSS custom properties (variables).
+It promotes consistency, maintainability, and reusability across all components, pages, and modules of the platform.
+Variables include colors, typography, spacing, border radius, shadows, transitions, z-index layers, container widths, and breakpoints.
+Following ISO 9241 principles, this module ensures visual consistency and simplifies theming and future updates.
+
+DATE CREATED: November 20, 2025
+LAST MODIFIED: November 20, 2025
+
+PURPOSE:
+- Centralize all reusable design tokens for consistent styling
+- Facilitate rapid updates to colors, fonts, spacing, and layout
+- Provide shorthand aliases for common colors and spacing
+- Support responsive design through breakpoints and container widths
+- Prepare for future enhancements such as dark mode
+
+DATA STRUCTURES:
+- CSS custom properties defined under :root
+  - Color palette (primary, secondary, alerts, text)
+  - Typography (fonts, weights, sizes)
+  - Spacing scales
+  - Border radius scales
+  - Shadow definitions
+  - Transition durations and easing
+  - Z-index layers for stacking context
+  - Container widths and responsive breakpoints
+
+ALGORITHM / LOGIC:
+1. Define root-level CSS variables for all core design tokens.
+2. Provide semantic names for colors, spacing, typography, and other UI elements.
+3. Include shorthand aliases for commonly used colors.
+4. Set breakpoints and container widths for responsive layouts.
+5. Include placeholder media query for future dark mode support.
+
+NOTES:
+- This file does not include component-specific styling; it is purely a design token repository.
+- All components and modules reference these variables to maintain visual consistency.
+- Future enhancements may include dark mode variables and theme toggles.
+*/
 
 :root {
-    /* Color Variables */
-    --color-primary-beige: #FEEED5;
-    --color-orange: #ED6027;
-    --color-green: #489A44;
-    --color-dark: #2C2C2C;
-    --color-dark-footer: #3A3A3A;
-    --color-text: #333333;
-    --color-text-light: #666666;
-    --color-white: #FFFFFF;
-    --color-light-gray: #F5F5F5;
-    --color-border: #DDDDDD;
-    --color-error: #E8663E;
-    --color-success: #4A8B4F;
-    
-    /* Shorthand aliases for common use */
-    --beige: #FEEED5;
-    --primary-orange: #ED6027;
-    --primary-green: #489A44;
-    --dark-gray: #2C2C2C;
-    
-    /* Typography */
-    --font-primary: 'Geist', 'Sora', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-heading: 'Sora', 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --font-weight-normal: 400;
-    --font-weight-medium: 500;
-    --font-weight-semibold: 600;
-    --font-weight-bold: 700;
-    --font-weight-extrabold: 800;
-    
-    /* Font Sizes */
-    --font-size-xs: 0.75rem;    /* 12px */
-    --font-size-sm: 0.875rem;   /* 14px */
-    --font-size-base: 1rem;     /* 16px */
-    --font-size-md: 1.125rem;   /* 18px */
-    --font-size-lg: 1.25rem;    /* 20px */
-    --font-size-xl: 1.5rem;     /* 24px */
-    --font-size-2xl: 2rem;      /* 32px */
-    --font-size-3xl: 2.5rem;    /* 40px */
-    --font-size-4xl: 3rem;      /* 48px */
-    
-    /* Spacing */
-    --spacing-xs: 0.5rem;   /* 8px */
-    --spacing-sm: 1rem;     /* 16px */
-    --spacing-md: 1.5rem;   /* 24px */
-    --spacing-lg: 2rem;     /* 32px */
-    --spacing-xl: 3rem;     /* 48px */
-    --spacing-xxl: 4rem;    /* 64px */
-    
-    /* Border Radius */
-    --radius-sm: 4px;
-    --radius-md: 8px;
-    --radius-lg: 12px;
-    --radius-xl: 16px;
-    --radius-full: 9999px;
-    
-    /* Shadows */
-    --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.15);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.2);
-    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.25);
-    --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.18);
-    --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.3);
-    
-    /* Transitions */
-    --transition-fast: 0.2s ease;
-    --transition-normal: 0.3s ease;
-    --transition-slow: 0.5s ease;
-    
-    /* Z-index Layers */
-    --z-dropdown: 1000;
-    --z-sticky: 1020;
-    --z-fixed: 1030;
-    --z-modal-backdrop: 1040;
-    --z-modal: 1050;
-    --z-tooltip: 1070;
-    
-    /* Container Widths */
-    --container-sm: 540px;
-    --container-md: 720px;
-    --container-lg: 960px;
-    --container-xl: 1140px;
-    --container-xxl: 1320px;
-    
-    /* Breakpoints (for reference in media queries) */
-    --breakpoint-sm: 576px;
-    --breakpoint-md: 768px;
-    --breakpoint-lg: 992px;
-    --breakpoint-xl: 1200px;
-    --breakpoint-xxl: 1400px;
+  /* Color Variables */
+  --color-primary-beige: #feeed5;
+  --color-orange: #ed6027;
+  --color-green: #489a44;
+  --color-dark: #2c2c2c;
+  --color-dark-footer: #3a3a3a;
+  --color-text: #333333;
+  --color-text-light: #666666;
+  --color-white: #ffffff;
+  --color-light-gray: #f5f5f5;
+  --color-border: #dddddd;
+  --color-error: #e8663e;
+  --color-success: #4a8b4f;
+
+  /* Shorthand aliases for common use */
+  --beige: #feeed5;
+  --primary-orange: #ed6027;
+  --primary-green: #489a44;
+  --dark-gray: #2c2c2c;
+
+  /* Typography */
+  --font-primary: "Geist", "Sora", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --font-heading: "Sora", "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+
+  /* Font Sizes */
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-base: 1rem; /* 16px */
+  --font-size-md: 1.125rem; /* 18px */
+  --font-size-lg: 1.25rem; /* 20px */
+  --font-size-xl: 1.5rem; /* 24px */
+  --font-size-2xl: 2rem; /* 32px */
+  --font-size-3xl: 2.5rem; /* 40px */
+  --font-size-4xl: 3rem; /* 48px */
+
+  /* Spacing */
+  --spacing-xs: 0.5rem; /* 8px */
+  --spacing-sm: 1rem; /* 16px */
+  --spacing-md: 1.5rem; /* 24px */
+  --spacing-lg: 2rem; /* 32px */
+  --spacing-xl: 3rem; /* 48px */
+  --spacing-xxl: 4rem; /* 64px */
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.15);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.2);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.25);
+  --shadow-card: 0 6px 20px rgba(0, 0, 0, 0.18);
+  --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.3);
+
+  /* Transitions */
+  --transition-fast: 0.2s ease;
+  --transition-normal: 0.3s ease;
+  --transition-slow: 0.5s ease;
+
+  /* Z-index Layers */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-tooltip: 1070;
+
+  /* Container Widths */
+  --container-sm: 540px;
+  --container-md: 720px;
+  --container-lg: 960px;
+  --container-xl: 1140px;
+  --container-xxl: 1320px;
+
+  /* Breakpoints (for reference in media queries) */
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --breakpoint-xxl: 1400px;
 }
 
 /* Dark mode support (future enhancement) */
 @media (prefers-color-scheme: dark) {
-    :root {
-        /* Can add dark mode variables here */
-    }
+  :root {
+    /* Can add dark mode variables here */
+  }
 }

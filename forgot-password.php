@@ -1,12 +1,80 @@
 <?php
-/**
- * BuzzarFeed - Forgot Password Page
- *
- * Request password reset via email
- *
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: Forgot Password Page (forgot-password.php)
+
+PROGRAMMER: Frontend and Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It provides a secure interface for users to request a password reset via email. 
+The system validates the email, generates a secure reset token, saves it in the database, and sends a password reset link to the user. 
+It follows modular architecture using components and services for maintainability and reusability.
+
+DATE CREATED: November 28, 2025
+LAST MODIFIED: December 1, 2025
+
+PURPOSE:
+The purpose of this program is to allow users who have forgotten their password to securely reset it. 
+Users provide their registered email address, and the system validates the input, generates a time-limited token, and sends a password reset email with instructions. 
+The page ensures security by not revealing whether an email exists in the system and by logging requests for monitoring. 
+It also provides user feedback via success or error messages and guides users back to the login page if needed.
+
+DATA STRUCTURES:
+- Session (class): Manages user sessions (start, check login status).
+- Helpers (class): Provides utility functions like sanitize, escape, validateEmail, and isPost.
+- Database (class): Handles database connections and queries.
+- EmailService (class): Handles sending password reset emails.
+- Button, Input (components): Reusable UI components for rendering forms and buttons.
+- Variables:
+  - $errors (array): Stores validation or runtime error messages.
+  - $success (string): Stores success message for feedback to the user.
+  - $email (string): User-provided email address.
+  - $user (array|null): User record fetched from database.
+  - $token (string): Secure random token for password reset.
+  - $expiresAt (string): Expiration timestamp for the token.
+  - $ipAddress, $userAgent (string|null): Client information stored for security/audit.
+
+ALGORITHM / LOGIC:
+1. Enable error reporting for development/debugging.
+2. Include system bootstrap for configurations, autoloading, and utilities.
+3. Start a session using Session::start().
+4. Redirect logged-in users to the homepage to prevent unnecessary password reset requests.
+5. Set page metadata: $pageTitle and $pageDescription.
+6. On form submission (POST request):
+   - Sanitize and validate the email input.
+   - If validation fails, populate $errors.
+   - If valid:
+     a. Query the database to check if the user exists.
+     b. If user exists:
+         i. Generate a secure 32-byte token.
+         ii. Set expiration time (1 hour from request).
+         iii. Capture IP address and user agent.
+         iv. Insert token into `password_reset_tokens` table.
+         v. Construct a password reset link with token.
+         vi. Send password reset email using EmailService.
+         vii. Log success or failure of email sending.
+     c. If user does not exist:
+         - Do not reveal non-existence for security.
+         - Set generic success message and log attempt.
+7. Render HTML page:
+   - Include header.
+   - Display form inside a styled card.
+   - Show error messages or success messages as appropriate.
+   - Include back-to-login link.
+   - Include footer.
+8. Include external resources:
+   - Google Fonts, Font Awesome, modular CSS files.
+   - JavaScript for modular frontend interactions.
+
+NOTES:
+- Token is time-limited (1 hour) and securely stored to prevent misuse.
+- User feedback is displayed dynamically based on success or errors.
+- Security best practices are applied:
+   - Do not reveal whether email exists.
+   - Log all reset attempts for monitoring.
+- Page uses modular components for input and button for maintainable UI.
+- Future improvements could include rate-limiting requests or CAPTCHA to prevent abuse.
+*/
 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);

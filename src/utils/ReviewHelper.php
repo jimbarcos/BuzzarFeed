@@ -1,13 +1,85 @@
 <?php
-/**
- * BuzzarFeed - Review Helper
- * 
- * Handles review-related operations including rating calculations
- * Replaces database triggers for InfinityFree compatibility
- * 
- * @package BuzzarFeed\Utils
- * @version 1.0
- */
+/*
+PROGRAM NAME: Review Helper Utility (ReviewHelper.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It provides centralized helper functions for managing user reviews and stall ratings within the system.
+The ReviewHelper class replaces database-level triggers to ensure compatibility with shared hosting environments such as InfinityFree.
+It is used by controllers and services responsible for creating, updating, deleting, moderating, and retrieving reviews, as well as maintaining accurate stall rating statistics.
+
+DATE CREATED: December 2, 2025
+LAST MODIFIED: December 2, 2025
+
+PURPOSE:
+The purpose of this program is to handle all review-related business logic in the application layer.
+It ensures that stall ratings and review counts remain consistent whenever reviews are added, updated, deleted, or moderated.
+By moving this logic out of database triggers and into PHP, the system gains better portability, debuggability, and maintainability.
+
+DATA STRUCTURES:
+- Database (class): Singleton database handler used for PDO connections.
+- PDO / PDOStatement: Used for executing parameterized SQL queries.
+- reviews (table):
+  - review_id (int): Primary key.
+  - stall_id (int): Associated food stall.
+  - user_id (int): Reviewer’s user ID.
+  - rating (int): Numeric rating (1–5).
+  - comment (string): Review text.
+  - is_anonymous (bool): Indicates anonymous review.
+  - is_hidden (bool): Moderation flag.
+  - created_at / updated_at (timestamp): Audit fields.
+- food_stalls (table):
+  - average_rating (decimal): Computed average rating.
+  - total_reviews (int): Count of visible reviews.
+- review_moderations (table):
+  - review_id (int): Moderated review.
+  - moderator_id (int): Moderator user ID.
+  - reason (string): Moderation reason.
+  - is_hidden (bool): Visibility status.
+
+ALGORITHM / LOGIC:
+1. Retrieve a singleton database instance when needed.
+2. For rating updates:
+   a. Calculate the average rating and total visible reviews for a stall.
+   b. Update the corresponding record in the food_stalls table.
+3. When adding a review:
+   a. Begin a database transaction.
+   b. Insert the review record.
+   c. Recalculate and update the stall rating.
+   d. Commit the transaction.
+4. When updating a review:
+   a. Retrieve the associated stall ID.
+   b. Begin a transaction.
+   c. Update the review fields.
+   d. Recalculate the stall rating.
+   e. Commit the transaction.
+5. When deleting a review:
+   a. Retrieve the associated stall ID.
+   b. Begin a transaction.
+   c. Delete the review record.
+   d. Recalculate the stall rating.
+   e. Commit the transaction.
+6. When moderating a review:
+   a. Record moderation details in the review_moderations table.
+   b. Update the review’s hidden status.
+   c. Recalculate the stall rating, excluding hidden reviews.
+7. Provide helper queries to:
+   a. Check if a user has already reviewed a stall.
+   b. Retrieve paginated lists of reviews, optionally including hidden entries.
+8. Use transactions to ensure data consistency and rollback on failure.
+9. Log errors using error_log() for debugging and monitoring.
+
+NOTES:
+- This class replaces MySQL triggers to maintain compatibility with hosting environments that restrict trigger usage.
+- All write operations use transactions to prevent partial updates and maintain referential consistency.
+- Hidden reviews are excluded from rating calculations by default.
+- Anonymous reviews mask the reviewer’s name while still linking to a valid user ID.
+- Parameterized queries are used throughout to prevent SQL injection.
+- This utility centralizes review logic, reducing duplication across controllers.
+- Future enhancements may include rating weight adjustments, soft deletes, or caching of frequently accessed review data.
+*/
 
 namespace BuzzarFeed\Utils;
 

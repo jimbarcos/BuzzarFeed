@@ -1,256 +1,292 @@
-/* Stalls Page Styles */
+/*
+PROGRAM NAME: BuzzarFeed Stalls Page Stylesheet (stalls.css)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This CSS file is part of the BuzzarFeed platform and handles the styling of the Stalls page.
+It defines the layout, components, interactive elements, and responsive behavior specifically for displaying
+stalls, search/filter interfaces, categories, and empty states.
+The stylesheet leverages CSS variables from the main theme for colors, typography, spacing, borders, shadows,
+and transitions, following ISO 9241 principles for usability, consistency, and maintainability.
+
+DATE CREATED: November 22, 2025
+LAST MODIFIED: November 23, 2025
+
+PURPOSE:
+- Style the Stalls page hero section, search bar, category filters, and stalls grid.
+- Implement interactive hover and active states for buttons, cards, and category tags.
+- Support responsive design for desktops, tablets, and mobile devices.
+- Provide consistent spacing, typography, and color usage aligned with the BuzzarFeed brand.
+- Handle empty state display when no stalls match search or filter criteria.
+
+DATA STRUCTURES / CLASSES:
+- Hero Section: .hero-section, .hero-section h1, .search-bar-container, .search-input-wrapper, .search-input, .search-icon, .filter-btn
+- Category Filters: .category-filters, .category-btn, .category-btn.active
+- Stalls Grid: .stalls-container, .stalls-grid, .stall-card, .stall-image, .stall-content, .stall-categories, .category-tag, .stall-name, .stall-rating, .stars, .rating-text, .stall-hours, .clock-icon, .stall-description
+- Buttons: .btn-see-more (commented out for future use)
+- Empty State: .empty-state, .empty-state i, .empty-state h3, .empty-state p
+- Utility: Responsive adjustments via @media queries for screens <768px
+
+ALGORITHM / LOGIC:
+1. Use flexbox for page structure to allow footer to remain at the bottom and main content to expand.
+2. Style the hero section with gradient background, large heading, and centered search bar.
+3. Implement search bar with icon overlay and filter button styled via CSS gradients.
+4. Display category filters with active state and hover interactions.
+5. Use CSS Grid to layout stall cards responsively with hover elevation effects.
+6. Truncate stall descriptions to 3 lines using -webkit-line-clamp for consistent card height.
+7. Provide empty state styling for when no stalls are found.
+8. Implement responsive adjustments for tablets and mobile screens via media queries.
+
+NOTES:
+- Works in conjunction with JS modules for filtering, search, and interactive stall cards.
+- Colors, borders, and shadows are aligned with the BuzzarFeed theme.
+- Can be extended to include additional interactive elements or dark mode support.
+*/
 
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 main {
-    flex: 1 0 auto;
+  flex: 1 0 auto;
 }
 
 /* Hero Section */
 .hero-section {
-    background: linear-gradient(135deg, #ED6027 0%, #E8663E 100%);
-    padding: 60px 20px;
-    text-align: center;
-    color: #FEEED5;
-    border-bottom: 5px solid #3B3B3B;
-    border-top: 5px solid #3B3B3B;
+  background: linear-gradient(135deg, #ed6027 0%, #e8663e 100%);
+  padding: 60px 20px;
+  text-align: center;
+  color: #feeed5;
+  border-bottom: 5px solid #3b3b3b;
+  border-top: 5px solid #3b3b3b;
 }
 
 .hero-section h1 {
-    font-size: 48px;
-    font-weight: 700;
-    margin: 0 0 40px 0;
-    color: #FEEED5;
+  font-size: 48px;
+  font-weight: 700;
+  margin: 0 0 40px 0;
+  color: #feeed5;
 }
 
 .search-bar-container {
-    max-width: 900px;
-    margin: 0 auto;
-    display: flex;
-    gap: 10px;
-    align-items: stretch;
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
 }
 
 .search-input-wrapper {
-    flex: 1;
-    position: relative;
+  flex: 1;
+  position: relative;
 }
 
 .search-input {
-    width: 100%;
-    padding: 15px 20px 15px 50px;
-    border: 3px solid #3B3B3B;
-    border-radius: 10px;
-    font-size: 16px;
-    background: #FEEED5;
-    color: #3B3B3B;
-    box-sizing: border-box;
-    box-shadow: 0px 3px 0px rgba(59, 59, 59, 1);
+  width: 100%;
+  padding: 15px 20px 15px 50px;
+  border: 3px solid #3b3b3b;
+  border-radius: 10px;
+  font-size: 16px;
+  background: #feeed5;
+  color: #3b3b3b;
+  box-sizing: border-box;
+  box-shadow: 0px 3px 0px rgba(59, 59, 59, 1);
 }
 
 .search-icon {
-    position: absolute;
-    left: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #3B3B3B;
-    font-size: 20px;
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #3b3b3b;
+  font-size: 20px;
 }
 
 .filter-btn {
-    display: flex;
-    padding: 15px 25px;
-    /* Equal padding on all sides */
-    align-items: center;
-    justify-content: center;
-    background: #FEEED5;
-    border: 3px solid #3B3B3B;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    color: #3B3B3B;
-    box-shadow: 0px 3px 0px rgba(59, 59, 59, 1);
-    transition: all 0.2s ease;
-    position: relative;
+  display: flex;
+  padding: 15px 25px;
+  /* Equal padding on all sides */
+  align-items: center;
+  justify-content: center;
+  background: #feeed5;
+  border: 3px solid #3b3b3b;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 18px;
+  color: #3b3b3b;
+  box-shadow: 0px 3px 0px rgba(59, 59, 59, 1);
+  transition: all 0.2s ease;
+  position: relative;
 
-    /* filter icon drawing */
-    background-image:
-        linear-gradient(#3B3B3B, #3B3B3B),
-        linear-gradient(#3B3B3B, #3B3B3B),
-        linear-gradient(#3B3B3B, #3B3B3B);
-    background-repeat: no-repeat;
-    background-size:
-        28px 4px,
-        22px 4px,
-        16px 4px;
-    background-position:
-        center calc(50% - 8px),
-        center 50%,
-        center calc(50% + 8px);
+  /* filter icon drawing */
+  background-image: linear-gradient(#3b3b3b, #3b3b3b),
+    linear-gradient(#3b3b3b, #3b3b3b), linear-gradient(#3b3b3b, #3b3b3b);
+  background-repeat: no-repeat;
+  background-size: 28px 4px, 22px 4px, 16px 4px;
+  background-position: center calc(50% - 8px), center 50%,
+    center calc(50% + 8px);
 }
 
-
 .category-filters {
-    display: flex;
-    gap: 15px;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-top: 50px;
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 50px;
 }
 
 .category-btn {
-    padding: 10px 24px;
-    border-radius: 25px;
-    border: 3px solid #3B3B3B;
-    border-radius: 10px;
-    background: #FEEED5;
-    color: #3b3b3b;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s ease;
+  padding: 10px 24px;
+  border-radius: 25px;
+  border: 3px solid #3b3b3b;
+  border-radius: 10px;
+  background: #feeed5;
+  color: #3b3b3b;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .category-btn.active {
-    background: #489A44;
-    color: white;
+  background: #489a44;
+  color: white;
 }
 
 .category-btn:hover {
-    background: #489A44;
-    color: white;
+  background: #489a44;
+  color: white;
 }
 
 /* Stalls Grid */
 .stalls-container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 60px 20px;
-    background-color: #FEEED5;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 20px;
+  background-color: #feeed5;
 }
 
 .stalls-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 20px;
-    margin-top: 40px;
-    justify-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  margin-top: 40px;
+  justify-items: center;
 }
 
 .stall-card {
-    box-sizing: border-box;
-    width: 100%;
-    max-width: 420px;
-    background: #FEEED5;
-    border-radius: 10px;
-    border: 4px solid #3B3B3B;
-    box-shadow: 6px 6px 0px #3b3b3b;
-    overflow: hidden;
-    cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.2s ease;
-    height: 430px;
-    display: flex;
-    flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 420px;
+  background: #feeed5;
+  border-radius: 10px;
+  border: 4px solid #3b3b3b;
+  box-shadow: 6px 6px 0px #3b3b3b;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.2s ease;
+  height: 430px;
+  display: flex;
+  flex-direction: column;
 }
 
 .stall-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-5px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .stall-image {
-    width: 100%;
-    height: 150px;
-    object-fit: cover;
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
 }
 
 .stall-content {
-    padding: 16px 18px;
-    background: #FEEED5;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+  padding: 16px 18px;
+  background: #feeed5;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .stall-categories {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    margin-bottom: 16px;
-    min-height: unset;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+  min-height: unset;
 }
 
 .category-tag {
-    background-color: transparent;
-    padding: 2px 10px;
-    border-radius: 20px;
-    font-size: 13px;
-    color: #3b3b3b;
-    border: 1px solid #3b3b3b;
+  background-color: transparent;
+  padding: 2px 10px;
+  border-radius: 20px;
+  font-size: 13px;
+  color: #3b3b3b;
+  border: 1px solid #3b3b3b;
 }
 
 .stall-name {
-    font-size: 32px;
-    font-weight: 700;
-    color: #3b3b3b;
-    margin-bottom: 8px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #3b3b3b;
+  margin-bottom: 8px;
 }
 
 .stall-rating {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
 }
 
 .star {
-    font-size: 15px;
-    /* size */
-    color: #FFB800;
-    /* fill color */
-    -webkit-text-stroke: 1px #000;
-    /* border color + thickness */
+  font-size: 15px;
+  /* size */
+  color: #ffb800;
+  /* fill color */
+  -webkit-text-stroke: 1px #000;
+  /* border color + thickness */
 }
 
 .stars .empty {
-    color: #d4d4d4;
+  color: #d4d4d4;
 }
 
 .rating-text {
-    color: #3b3b3b;
-    font-size: 14px;
+  color: #3b3b3b;
+  font-size: 14px;
 }
 
 .stall-hours {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: #3b3b3b;
-    font-size: 14px;
-    margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #3b3b3b;
+  font-size: 14px;
+  margin-bottom: 12px;
 }
 
 .stall-description {
-    color: #3b3b3b;
-    font-size: 14px;
-    line-height: 1.5;
-    margin-bottom: 15px;
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  color: #3b3b3b;
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 15px;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .clock-icon {
-    width: 20px;
-    height: 20px;
-    border: 2px solid #3b3b3b;
-    border-radius: 50%;
-    position: relative;
-    flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #3b3b3b;
+  border-radius: 50%;
+  position: relative;
+  flex-shrink: 0;
 }
 
 /* 
@@ -286,38 +322,38 @@ main {
 */
 
 .empty-state {
-    text-align: center;
-    padding: 60px 20px;
+  text-align: center;
+  padding: 60px 20px;
 }
 
 .empty-state i {
-    font-size: 64px;
-    color: #E0E0E0;
-    margin-bottom: 20px;
+  font-size: 64px;
+  color: #e0e0e0;
+  margin-bottom: 20px;
 }
 
 .empty-state h3 {
-    font-size: 24px;
-    color: #666;
-    margin: 0 0 10px 0;
+  font-size: 24px;
+  color: #666;
+  margin: 0 0 10px 0;
 }
 
 .empty-state p {
-    font-size: 14px;
-    color: #999;
-    margin: 0;
+  font-size: 14px;
+  color: #999;
+  margin: 0;
 }
 
 @media (max-width: 768px) {
-    .hero-section h1 {
-        font-size: 32px;
-    }
+  .hero-section h1 {
+    font-size: 32px;
+  }
 
-    .search-bar-container {
-        flex-direction: column;
-    }
+  .search-bar-container {
+    flex-direction: column;
+  }
 
-    .stalls-grid {
-        grid-template-columns: 1fr;
-    }
+  .stalls-grid {
+    grid-template-columns: 1fr;
+  }
 }

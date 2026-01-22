@@ -1,13 +1,48 @@
 <?php
-/**
- * BuzzarFeed - Hero Section Component
- *
- * Reusable hero section for homepage
- * Following ISO 9241: Reusability and Modularity
- *
- * @package BuzzarFeed\Sections\Home
- * @version 1.0
- */
+/*
+PROGRAM NAME: Hero Section Component (HeroSection.php)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It is a reusable hero section component primarily used on the Home page to introduce the platform and highlight the BGC Night Market experience.
+The component follows a component-based architecture and extends the BaseComponent class, ensuring modularity, consistency, and reusability across the system.
+It integrates reusable UI components such as buttons and utilizes helper utilities for safe rendering of dynamic content.
+
+DATE CREATED: November 23, 2025
+LAST MODIFIED: November 28, 2025
+
+PURPOSE:
+The purpose of this program is to render a visually engaging hero section that serves as the main entry point of the homepage.
+It presents a prominent title, descriptive tagline, and a call-to-action button that encourages users to explore featured food stalls.
+The hero section enhances first impressions, guides user navigation, and establishes the overall theme of the BuzzarFeed platform.
+
+DATA STRUCTURES:
+- $title (string): The main hero heading, supporting HTML for styled highlights.
+- $description (string): Short descriptive text explaining the platform’s purpose.
+- $ctaText (string|null): Text displayed on the call-to-action button.
+- $ctaLink (string|null): URL or anchor link triggered by the CTA button.
+- Button (component): Reusable button component used for the CTA.
+- Helpers (class): Provides escape() for safe HTML output.
+
+ALGORITHM / LOGIC:
+1. Initialize the component and load properties using default fallback values.
+2. Set the hero title, description, and CTA button configuration.
+3. Create a reusable Button instance using provided properties.
+4. Render the hero section layout:
+   a. Display the hero title and description.
+   b. Render the CTA button.
+   c. Render decorative hero imagery elements.
+5. Return the fully composed HTML output.
+
+NOTES:
+- This component does not fetch or manage data; all values are injected via props.
+- Helpers::escape() is applied to user-facing text where necessary to prevent XSS.
+- The title supports inline HTML for highlighted text styling.
+- Visual elements (polaroid images) are styled via CSS and contain no business logic.
+- Future enhancements may include background animations, dynamic images, or personalized CTA behavior.
+*/
 
 namespace BuzzarFeed\Sections\Home;
 

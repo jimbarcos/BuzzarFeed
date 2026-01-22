@@ -1,14 +1,51 @@
 <?php
-/**
- * BuzzarFeed - Footer Component
- * 
- * Reusable footer component for all pages
- * Includes site links, social media, and copyright information
- * 
- * @package BuzzarFeed
- * @version 1.0
- * @author BuzzarFeed Development Team
- */
+/*
+PROGRAM NAME: Footer Component (footer.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It functions as a reusable footer included on all pages to provide consistent navigation, branding, and informational links.
+The component also includes social media links, copyright information, and placeholders for interactive elements such as back-to-top buttons, loading overlays, and toast notifications.
+
+DATE CREATED: October 5, 2025
+LAST MODIFIED: December 4, 2025
+
+PURPOSE:
+The purpose of this program is to render a consistent footer for the BuzzarFeed platform, enabling users to:
+- Navigate to key site areas (Stalls, Map, About)
+- Access account-related actions (Login, Sign Up, My Account, My Stall)
+- Connect with BuzzarFeed via social media
+- View current copyright information and legal links
+
+DATA STRUCTURES:
+- $currentYear (string): Dynamically fetches the current year for copyright display.
+- $_SESSION: Used to determine user authentication status and display account-specific links.
+- Constants:
+  - BASE_URL
+  - IMAGES_URL
+
+ALGORITHM / LOGIC:
+1. Fetch the current year dynamically for copyright.
+2. Render the footer structure:
+   a. About section with logo and description.
+   b. Discover section with links to All Stalls and Bazaar Map.
+   c. Account section with conditional links based on authentication state:
+      - Logged in: My Profile, My Reviews, My Stall (if owner), Logout
+      - Guest: Log In, Sign Up, Register Stall
+3. Render footer bottom with copyright and legal links.
+4. Render social media icons linking to external platforms.
+5. Include CSS for back-to-top button, loading overlay, and toast notifications for future interactive features.
+6. Responsive adjustments for mobile devices.
+
+NOTES:
+- This component is purely presentational and uses minimal PHP logic for user authentication-based link display.
+- CSS for interactive elements (back-to-top, spinner, toast) is embedded for simplicity; may be moved to separate stylesheet for optimization.
+- Future enhancements may include dynamic toast notifications, AJAX loaders, and additional footer links or widgets.
+- Accessibility is considered with ARIA labels on social links.
+*/
+
 
 $currentYear = date('Y');
 ?>

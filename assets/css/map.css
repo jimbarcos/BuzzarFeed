@@ -1,3 +1,53 @@
+/*
+PROGRAM NAME: BuzzarFeed - Stalls & Explore Page Stylesheet (map.css)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This CSS file manages styling for the Stalls and Explore sections of the BuzzarFeed platform.
+It covers the hero section, category filters, interactive map, stall cards, tooltips, and explore grids.
+The stylesheet ensures consistent design, responsiveness, and visual cues for stall discovery and navigation.
+
+DATE CREATED: November 21, 2025
+LAST MODIFIED: December 4, 2025
+
+PURPOSE:
+- Style the hero section with brand colors, typography, and layout.
+- Implement category filters with responsive scrollable buttons and color-coded icons.
+- Style interactive map pins and stall tooltips for visual clarity and hover interactions.
+- Define explore section layout with stall cards, images, categories, ratings, hours, and descriptions.
+- Provide responsive adjustments for large screens, tablets, and mobile devices.
+- Handle empty states for stalls or searches gracefully.
+- Ensure brand consistency with colors, fonts, and interactive feedback.
+
+DATA STRUCTURES / CLASSES:
+- General Layout: html, body, main
+- Hero Section: .hero-section, h1, p
+- Filters Section: .filters-section, .category-filters, .filter-btn, .filter-icon, .filter-btn.active
+- Map Section: .map-section, .map-container-wrapper, .map-container, .map-image, .map-pin
+- Stall Tooltip: .stall-tooltip, .tooltip-name, .tooltip-categories, .tooltip-cat, .tooltip-rating, .tooltip-stars, .tooltip-desc, .tooltip-view-btn
+- Explore Section: .explore-section, .explore-title, .explore-grid
+- Stall Cards: .stall-card, .stall-image, .stall-image-placeholder, .stall-content, .stall-categories, .category-tag, .stall-name, .stall-rating, .stars, .star, .rating-text, .stall-hours, .stall-description
+- Empty State: .empty-state
+
+ALGORITHM / LOGIC:
+1. Apply smooth scrolling behavior and flex column layout for body and main.
+2. Hero section: set background, text alignment, typography, and spacing.
+3. Filters section: display category buttons horizontally with scroll overflow; highlight active button; assign colors per category.
+4. Map section: display map with pins color-coded by category; hover effects enlarge pins.
+5. Tooltip logic: show stall details above pins on hover, include categories, ratings, description, and CTA button.
+6. Explore section: display stall cards in grid layout; hover effects raise cards and add shadow.
+7. Stall cards: display images, name, categories, ratings, hours, description; truncate descriptions with line-clamp.
+8. Responsive adjustments: grid columns, padding, font sizes, and map/pin sizes for 1440px, 1024px, 768px breakpoints.
+9. Empty states: center icon and message for no stalls available.
+
+NOTES:
+- Color palette aligns with BuzzarFeed branding (green, orange, beige, dark gray).
+- Designed for interactivity: hover effects, responsive scrolling, and dynamic map pins.
+- Fully compatible with explore-page templates and JS modules for filtering and map interactivity.
+- Extensible for future features such as dark mode, additional categories, or new stall card layouts.
+*/
+
 html {
   scroll-behavior: smooth;
 }
@@ -98,8 +148,8 @@ main {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 14px; 
-  line-height: 1; 
+  font-size: 14px;
+  line-height: 1;
 }
 
 /* Category color icons */

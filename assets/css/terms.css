@@ -1,203 +1,249 @@
-/* Terms and Services Page Styles */
+/*
+PROGRAM NAME: Terms and Services Page Styles (terms.css)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform and provides all styling related to the Terms and Services page.
+It ensures a clean, readable layout with a sidebar navigation and content area, responsive behavior, and consistent design tokens.
+It integrates with the global CSS variables defined in variables.css for colors, typography, spacing, and borders, following ISO 9241 principles for consistency and usability.
+
+DATE CREATED: December 10, 2025
+LAST MODIFIED: December 10, 2025
+
+PURPOSE:
+- Style the Terms and Services page with a sidebar navigation and main content area.
+- Provide visually distinct sections, info boxes, and warning boxes.
+- Maintain responsive design for mobile devices.
+- Ensure readable typography and consistent spacing using CSS variables.
+- Support highlighting active sidebar links and content sections.
+
+DATA STRUCTURES:
+- .terms-page: Main page container.
+- .terms-container: Main content wrapper.
+- .terms-header: Header section with title and description.
+- .terms-layout: Grid layout for sidebar and content.
+- .terms-sidebar: Sidebar navigation container.
+- .terms-nav: List of sidebar links.
+- .terms-content: Main content container for terms sections.
+- .content-section: Individual term sections, toggled via active class.
+- .info-box / .warning-box: Highlighted callout sections.
+- .last-updated: Footer note with last updated date.
+- Media queries for responsive behavior at max-width 768px.
+
+ALGORITHM / LOGIC:
+1. Layout page using flexbox for full-height design.
+2. Use CSS grid for sidebar and content area layout.
+3. Style sidebar links with hover and active states.
+4. Toggle visibility of content sections via .active class.
+5. Apply consistent spacing, typography, and color using CSS variables.
+6. Style callout boxes (info and warning) with border and background highlights.
+7. Adjust layout for mobile screens, stacking sidebar above content.
+
+NOTES:
+- Relies on CSS variables from variables.css for maintainability.
+- Designed to integrate with JS for active link highlighting and content section toggling.
+- Future enhancements may include collapsible sections or dark mode support.
+*/
 
 body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    margin: 0;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  margin: 0;
 }
 
 .terms-page {
-    background-color: var(--color-primary-beige);
+  background-color: var(--color-primary-beige);
 }
 
 main.terms-container {
-    flex: 1 0 auto;
-    width: 100%;
+  flex: 1 0 auto;
+  width: 100%;
 }
 
 .terms-container {
-    max-width: 1000px;
-    margin: 0 auto;
-    padding: 3rem 1.25rem;
-    width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 3rem 1.25rem;
+  width: 100%;
 }
 
 .terms-header {
-    margin-bottom: 1.5rem;
-    padding-top: 0;
+  margin-bottom: 1.5rem;
+  padding-top: 0;
 }
 
 .terms-header h1 {
-    margin-top: 0;
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
+  margin-top: 0;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
 }
 
 .terms-header p {
-    color: var(--color-text-light);
-    font-size: 0.95rem;
+  color: var(--color-text-light);
+  font-size: 0.95rem;
 }
 
 .terms-layout {
-    display: grid;
-    grid-template-columns: 320px 1fr;
-    gap: 1.75rem;
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 1.75rem;
 }
 
 .terms-sidebar {
-    background: transparent;
-    border: 3px solid #2C2C2C;
-    border-radius: 0;
-    padding: 1rem;
-    height: fit-content;
-    box-shadow: none;
+  background: transparent;
+  border: 3px solid #2c2c2c;
+  border-radius: 0;
+  padding: 1rem;
+  height: fit-content;
+  box-shadow: none;
 }
 
 .terms-nav {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .terms-nav li {
-    margin-bottom: 0.35rem;
+  margin-bottom: 0.35rem;
 }
 
 .terms-nav .nav-link {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 0.75rem;
-    color: var(--color-dark);
-    text-decoration: none;
-    border-radius: 0;
-    border: 3px solid #2C2C2C;
-    background: transparent;
-    transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0.75rem;
+  color: var(--color-dark);
+  text-decoration: none;
+  border-radius: 0;
+  border: 3px solid #2c2c2c;
+  background: transparent;
+  transition: all 0.2s;
 }
 
 .terms-nav .nav-link:hover {
-    background-color: rgba(0, 0, 0, 0.05);
+  background-color: rgba(0, 0, 0, 0.05);
 }
 
 .terms-nav .nav-link.active {
-    background-color: #4A9A4A;
-    color: white;
+  background-color: #4a9a4a;
+  color: white;
 }
 
 .terms-content {
-    background: transparent;
-    border: 3px solid #2C2C2C;
-    border-radius: 0;
-    padding: 1.5rem;
-    box-shadow: none;
+  background: transparent;
+  border: 3px solid #2c2c2c;
+  border-radius: 0;
+  padding: 1.5rem;
+  box-shadow: none;
 }
 
 .content-section {
-    display: none;
+  display: none;
 }
 
 .content-section.active {
-    display: block;
+  display: block;
 }
 
 .section-title {
-    font-size: 1.4rem;
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 3px solid var(--color-border);
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 3px solid var(--color-border);
 }
 
 .terms-content h2 {
-    font-size: 1.3rem;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    color: var(--color-dark);
+  font-size: 1.3rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--color-dark);
 }
 
 .terms-content h2:first-of-type {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 .terms-content h3 {
-    font-size: 1.1rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0.75rem;
-    color: var(--color-dark);
+  font-size: 1.1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-dark);
 }
 
 .terms-content p {
-    margin-bottom: 1rem;
-    line-height: 1.7;
-    color: var(--color-text);
+  margin-bottom: 1rem;
+  line-height: 1.7;
+  color: var(--color-text);
 }
 
 .terms-content ul,
 .terms-content ol {
-    margin-bottom: 1rem;
-    padding-left: 2rem;
-    line-height: 1.7;
-    color: var(--color-text);
+  margin-bottom: 1rem;
+  padding-left: 2rem;
+  line-height: 1.7;
+  color: var(--color-text);
 }
 
 .terms-content li {
-    margin-bottom: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 
 .terms-content strong {
-    color: var(--color-dark);
-    font-weight: 600;
+  color: var(--color-dark);
+  font-weight: 600;
 }
 
 .info-box {
-    background-color: rgba(74, 154, 74, 0.1);
-    border: 2px solid #4A9A4A;
-    border-radius: 8px;
-    padding: 1rem;
-    margin: 1.5rem 0;
+  background-color: rgba(74, 154, 74, 0.1);
+  border: 2px solid #4a9a4a;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1.5rem 0;
 }
 
 .info-box h4 {
-    color: #4A9A4A;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
+  color: #4a9a4a;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
 }
 
 .warning-box {
-    background-color: rgba(237, 96, 39, 0.1);
-    border: 2px solid #ED6027;
-    border-radius: 8px;
-    padding: 1rem;
-    margin: 1.5rem 0;
+  background-color: rgba(237, 96, 39, 0.1);
+  border: 2px solid #ed6027;
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1.5rem 0;
 }
 
 .warning-box h4 {
-    color: #ED6027;
-    margin-top: 0;
-    margin-bottom: 0.5rem;
+  color: #ed6027;
+  margin-top: 0;
+  margin-bottom: 0.5rem;
 }
 
 .last-updated {
-    font-size: 0.875rem;
-    color: var(--color-text-light);
-    margin-top: 2rem;
-    padding-top: 1rem;
-    border-top: 2px solid var(--color-border);
+  font-size: 0.875rem;
+  color: var(--color-text-light);
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 2px solid var(--color-border);
 }
 
 @media (max-width: 768px) {
-    .terms-layout {
-        grid-template-columns: 1fr;
-    }
+  .terms-layout {
+    grid-template-columns: 1fr;
+  }
 
-    .terms-sidebar {
-        order: -1;
-    }
+  .terms-sidebar {
+    order: -1;
+  }
 
-    .terms-nav {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-        gap: 0.5rem;
-    }
+  .terms-nav {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 0.5rem;
+  }
 }

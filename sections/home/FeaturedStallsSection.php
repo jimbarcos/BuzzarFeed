@@ -1,13 +1,57 @@
 <?php
-/**
- * BuzzarFeed - Featured Stalls Section Component
- *
- * Reusable featured stalls section
- * Following ISO 9241: Reusability and Modularity
- *
- * @package BuzzarFeed\Sections\Home
- * @version 1.0
- */
+/*
+PROGRAM NAME: Featured Stalls Section Component (FeaturedStallsSection.php)
+
+PROGRAMMER: Frontend Team
+
+SYSTEM CONTEXT:
+This module is part of the BuzzarFeed platform.
+It is a reusable home page component designed to highlight selected or recommended food stalls within the BGC Night Market.
+The component extends the BaseComponent class and follows a component-based architecture to ensure modularity, consistency, and ease of reuse across the system.
+It integrates common UI components such as buttons and cards, and relies on helper utilities for secure content rendering.
+
+DATE CREATED: November 23, 2025
+LAST MODIFIED: November 29, 2025
+
+PURPOSE:
+The purpose of this program is to display a curated set of featured food stalls in a visually engaging grid layout.
+It provides users with quick access to key stall information such as name, operating hours, description, and imagery.
+The section also includes a call-to-action that allows users to browse all available stalls, encouraging deeper exploration of the platform.
+
+DATA STRUCTURES:
+- $stalls (array of associative arrays): Collection of featured stall data containing:
+  - id
+  - name
+  - image (logo path)
+  - description
+  - hours
+- $title (string): Section title displayed at the top of the component.
+- $location (string): Location subtitle indicating the market area.
+- Button (component): Used for "Browse" and "View details" actions.
+- Helpers (class): Provides escape() for secure HTML output.
+
+ALGORITHM / LOGIC:
+1. Initialize the component and retrieve props with default fallback values.
+2. Set the section title and market location.
+3. Create a reusable "Browse" button for navigation to the stalls listing page.
+4. Render the section header including title, location, and browse button.
+5. Check if featured stalls data is empty:
+   a. If empty, render placeholder stall cards.
+   b. If not empty, loop through and render each featured stall card.
+6. For each stall card:
+   a. Determine the correct image source or display a placeholder.
+   b. Render stall name, operating hours, and short description.
+   c. Render a "View details" button linking to the stall detail page.
+7. Return the composed HTML output.
+
+NOTES:
+- This component does not perform database queries or API calls.
+- All stall data is injected via component props.
+- Helpers::escape() is used to prevent XSS vulnerabilities.
+- Image paths are resolved using BASE_URL and fallback placeholders when unavailable.
+- Debug logging is present to assist with image path validation during development.
+- Future enhancements may include carousel support, dynamic ranking, or lazy-loaded images.
+*/
 
 namespace BuzzarFeed\Sections\Home;
 

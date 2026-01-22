@@ -1,12 +1,55 @@
 <?php
-/**
- * BuzzarFeed - 403 Forbidden Error Page
- * 
- * Custom error page for forbidden access
- * 
- * @package BuzzarFeed
- * @version 1.0
- */
+/*
+PROGRAM NAME: 403 Forbidden Error Page (403.php)
+
+PROGRAMMER: Backend Team
+
+SYSTEM CONTEXT:
+This page is part of the BuzzarFeed platform and serves as the custom error page for HTTP 403 (Forbidden) responses.
+It is displayed to users when they attempt to access a page or resource for which they do not have permission.
+The page integrates the standard header and footer components for consistent branding and navigation.
+
+DATE CREATED: December 2, 2025
+LAST MODIFIED: December 2, 2025
+
+PURPOSE:
+To inform users that they do not have permission to access the requested resource and provide alternative navigation options.
+Key features include:
+- Display of 403 error code and descriptive message
+- Explanation of potential causes (insufficient permissions, restricted content)
+- Action buttons to homepage or go back
+- Inclusion of header and footer for consistent navigation
+- Logging of request details for debugging and monitoring purposes
+
+DATA STRUCTURES:
+- $pageTitle (string): Title of the error page
+- $pageDescription (string): Meta description for SEO
+- $errorDetails (array): Contains request information for logging
+- $_SERVER: Used to capture request URI, method, query string, referrer, user agent, IP, and server name
+- Constants:
+  - IMAGES_URL, CSS_URL, JS_URL, BASE_URL
+- Session: Used to preserve user authentication state on error pages
+
+ALGORITHM / LOGIC:
+1. Define `IS_ERROR_PAGE` constant to allow session initialization in header.
+2. Include bootstrap file for configuration, autoloading, and helpers.
+3. Start PHP session before sending HTTP headers.
+4. Send HTTP 403 status code.
+5. Log detailed request information to error log for monitoring.
+6. Define page title and meta description.
+7. Render HTML structure:
+   a. Include modular CSS and external resources (Google Fonts, Font Awesome).
+   b. Apply inline styles specific to error page layout and responsiveness.
+   c. Include header and footer partials.
+   d. Display 403 error code, icon, descriptive message, and explanation of why access is forbidden.
+   e. Provide action buttons to homepage or go back.
+8. Include main JavaScript module for interactive behaviors.
+
+NOTES:
+- This error page is fully responsive and accessible.
+- Future enhancements may include role-specific messages or redirect suggestions based on user type.
+- Logging ensures developers can track unauthorized access attempts and improve platform security.
+*/
 
 // Define this as an error page to allow session initialization in header
 define('IS_ERROR_PAGE', true);
