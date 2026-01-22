@@ -14,8 +14,8 @@ across all specific resource controllers (auth, users, stalls, reviews, etc.).
 All API controllers extend this base class to inherit its shared functionality and
 must implement the handleRequest method to define their specific routing logic.
 
-DATE CREATED: January 23, 2026
-LAST MODIFIED: January 23, 2026
+DATE CREATED: December 23, 2025
+LAST MODIFIED: December 23, 2025
 
 PURPOSE:
 The purpose of this program is to provide a reusable foundation for all API controllers.

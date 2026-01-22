@@ -15,8 +15,8 @@ validate closure eligibility, and facilitate the approval/rejection process.
 This controller serves users requesting account deletion and administrators managing the
 account closure review process.
 
-DATE CREATED: January 23, 2026
-LAST MODIFIED: January 23, 2026
+DATE CREATED: December 23, 2025
+LAST MODIFIED: December 23, 2025
 
 PURPOSE:
 The purpose of this program is to provide API endpoints for the account closure workflow.

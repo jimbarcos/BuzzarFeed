@@ -14,8 +14,8 @@ store application data, and facilitate the approval/rejection process.
 This controller serves vendors submitting applications and administrators managing the
 application review process.
 
-DATE CREATED: January 23, 2026
-LAST MODIFIED: January 23, 2026
+DATE CREATED: December 23, 2025
+LAST MODIFIED: December 23, 2025
 
 PURPOSE:
 The purpose of this program is to provide API endpoints for the stall application workflow.

@@ -14,8 +14,8 @@ to authenticated users and administrators.
 
 This controller serves both public users browsing stalls and vendors managing their stall listings.
 
-DATE CREATED: January 23, 2026
-LAST MODIFIED: January 23, 2026
+DATE CREATED: December 23, 2025
+LAST MODIFIED: December 23, 2025
 
 PURPOSE:
 The purpose of this program is to provide API endpoints for food stall discovery and management.
