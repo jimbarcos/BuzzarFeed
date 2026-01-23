@@ -21,7 +21,7 @@ A comprehensive web-based platform for discovering and reviewing food stalls at 
 BuzzarFeed is a night market discovery platform designed specifically for the BGC (Bonifacio Global City) Night Market Bazaar. The application follows ISO 9241 principles emphasizing maintainability, reusability, and extensibility through a modular architecture.
 
 **Version:** 2.0  
-**Created:** November 2025  
+**Last Updated:** January 2026  
 **PHP Version Required:** >= 7.4
 
 ## Features
@@ -54,8 +54,7 @@ BuzzarFeed is a night market discovery platform designed specifically for the BG
 ### Backend
 - **PHP** (>= 7.4) - Server-side scripting
 - **MySQL** - Database management
-- **Composer** - Dependency management
-- **PHPMailer** (^6.9) - Email functionality
+- **PHPMailer** - Email functionality (if configured)
 
 ### Frontend
 - **HTML5** - Structure
@@ -64,26 +63,28 @@ BuzzarFeed is a night market discovery platform designed specifically for the BG
 - **Modular JS** - Component-based JavaScript architecture
 
 ### Architecture
-- **PSR-4 Autoloading** - Standard PHP autoloading
 - **MVC Pattern** - Model-View-Controller separation
 - **Service Layer** - Business logic encapsulation
 - **Component-based UI** - Reusable UI components
+- **RESTful API** - Centralized API endpoints
 
 ## Project Structure
 
 ```
-htdocs/
-├── assets/                 # Static assets (CSS, JS, images)
-├── config/                 # Configuration files
-├── database/              # Database schema and migrations
+BuzzarFeed/
+├── api/                   # API router and endpoints
+├── assets/                # Static assets (CSS, JS, images)
+├── config/                # Configuration files
 ├── error/                 # Error page templates
 ├── includes/              # Reusable page components (header, footer)
 ├── sections/              # Page-specific sections
 ├── src/                   # Application source code
-├── uploads/               # User-uploaded files
+│   ├── Api/              # API controllers
+│   ├── components/       # UI components
+│   ├── Services/         # Business logic services
+│   └── utils/            # Utility classes
 ├── *.php                  # Main application pages
 ├── bootstrap.php          # Application initialization
-├── composer.json          # PHP dependencies
 └── README.md             # This file
 ```
 
@@ -92,88 +93,55 @@ htdocs/
 ### Prerequisites
 - PHP 7.4 or higher
 - MySQL 5.7 or higher
-- Composer
-- Web server (Apache/Nginx)
+- Web server (Apache/Nginx with mod_rewrite enabled)
 
 ### Steps
 
 1. **Clone or download the repository**
    ```bash
    git clone <repository-url>
-   cd htdocs
+   cd BuzzarFeed
    ```
 
-2. **Install dependencies**
+2. **Configure database connection**
+   Edit `config/config.php` with your database credentials:
+   ```php
+   define('DB_HOST', 'localhost');
+   define('DB_NAME', 'your_database_name');
+   define('DB_USER', 'your_username');
+   define('DB_PASS', 'your_password');
+   ```
+
+3. **Import database**
+   - Create a MySQL database
+   - Import the database schema (contact administrator for schema file)
+
+4. **Configure web server**
+   - Point document root to the BuzzarFeed folder
+   - Ensure `.htaccess` is enabled for Apache (mod_rewrite)
+   - Verify PHP version >= 7.4
+
+5. **Set up file permissions** (Linux/Mac)
    ```bash
-   composer install
-   ```
-
-3. **Create environment file**
-   ```bash
-   cp .env.example .env
-   ```
-
-4. **Configure environment variables**
-   Edit `.env` file with your database credentials and settings:
-   ```
-   APP_ENV=development
-   APP_DEBUG=true
-   DB_HOST=localhost
-   DB_NAME=_db_buzzarfeed
-   DB_USER=your_username
-   DB_PASS=your_password
-   SMTP_HOST=your_smtp_host
-   SMTP_USER=your_email
-   SMTP_PASS=your_password
-   ```
-
-5. **Import database schema**
-   ```bash
-   mysql -u your_username -p < database/schema.sql
-   ```
-
-6. **Run database migrations**
-   ```bash
-   mysql -u your_username -p db_buzzarfeed < database/migrations/create_password_reset_tokens.sql
-   mysql -u your_username -p db_buzzarfeed < database/migrations/add_review_reactions.sql
-   mysql -u your_username -p db_buzzarfeed < database/migrations/add_title_to_reviews.sql
-   mysql -u your_username -p db_buzzarfeed < database/migrations/create_review_reports.sql
-   mysql -u your_username -p db_buzzarfeed < database/migrations/add_food_categories_to_food_stalls.sql
-   mysql -u your_username -p db_buzzarfeed < database/migrations/add_map_coordinates_to_applications.sql
-   ```
-
-7. **Set proper permissions**
-   ```bash
-   chmod -R 755 uploads/
    chmod -R 755 assets/
    ```
 
-8. **Configure web server**
-   - Point document root to `htdocs/`
-   - Enable `.htaccess` for Apache (mod_rewrite)
-
 ## Configuration
 
-### Environment Variables
-The application uses environment variables for configuration. Key settings include:
+Configuration is managed in `config/config.php`. Key settings include:
 
-- `APP_ENV` - Application environment (development/production)
-- `APP_DEBUG` - Enable debug mode
-- `DB_HOST` - Database host
+### Database Configuration
+- `DB_HOST` - Database host (default: localhost)
 - `DB_NAME` - Database name
 - `DB_USER` - Database username
 - `DB_PASS` - Database password
-- `SMTP_HOST` - SMTP server for emails
-- `SMTP_USER` - SMTP username
-- `SMTP_PASS` - SMTP password
 
-### File Configuration
-Additional configuration is available in `config/config.php` for:
+### Application Settings
 - Site URL and paths
-- Upload directories
-- Session settings
+- Session configuration
 - Error handling
-- Email templates
+- API endpoint routing
+- Security settings
 
 ## Database Schema
 
@@ -274,19 +242,12 @@ Application configuration
 |------|---------|
 | `config.php` | Central configuration file with database, paths, and app settings |
 
-#### `/database/`
-Database structure and migrations
+#### `/api/`
+RESTful API router and endpoints
 
-| File/Folder | Purpose |
-|-------------|---------|
-| `schema.sql` | Complete database schema definition |
-| `migrations/` | Database migration files for schema updates |
-| `migrations/create_password_reset_tokens.sql` | Password reset functionality |
-| `migrations/add_review_reactions.sql` | Review reaction system |
-| `migrations/add_title_to_reviews.sql` | Review title field addition |
-| `migrations/create_review_reports.sql` | Review reporting system |
-| `migrations/add_food_categories_to_food_stalls.sql` | Category system for stalls |
-| `migrations/add_map_coordinates_to_applications.sql` | Geolocation support |
+| File | Purpose |
+|------|---------|
+| `index.php` | API router - routes all /api/* requests to appropriate controllers |
 
 #### `/error/`
 HTTP error page templates
@@ -353,24 +314,23 @@ Application source code (PSR-4 structure)
 | `Database.php` | PDO database connection wrapper |
 | `Session.php` | Session management and flash messages |
 | `Helpers.php` | General helper functions (redirects, sanitization) |
-| `Env.php` | Environment variable loading and management |
-| `EmailService.php` | Email sending via PHPMailer |
 | `ApplicationHelper.php` | Application-specific helper functions |
 | `ReviewHelper.php` | Review-related helper functions |
+| `ApiResponse.php` | Standardized JSON API responses |
 
-**`/src/libs/`** - Third-party libraries
-- `phpmailer/` - PHPMailer email library
+**`/src/Api/`** - RESTful API Controllers
 
-#### `/uploads/`
-User-uploaded content
-
-| Folder | Purpose |
-|--------|---------|
-| `applications/` | Stall application documents and images |
-| `stalls/` | Approved stall images |
-| `menu_items/` | Menu item photos |
-
-Each application creates a subdirectory named with the pattern: `stallname_timestamp/`
+| File | Purpose |
+|------|---------|
+| `BaseController.php` | Base controller with common API functionality |
+| `AuthController.php` | Authentication endpoints (login, register, logout) |
+| `StallController.php` | Stall browsing and management endpoints |
+| `ReviewController.php` | Review CRUD and reaction endpoints |
+| `UserController.php` | User profile and account management |
+| `ApplicationController.php` | Stall application workflow |
+| `AmendmentController.php` | Amendment request handling |
+| `ClosureController.php` | Account closure requests |
+| `AdminController.php` | Admin dashboard and statistics |
 
 ## Development
 
@@ -390,28 +350,33 @@ The application follows ISO 9241 guidelines:
 ### Adding New Features
 
 1. **Database Changes**
-   - Create migration file in `database/migrations/`
-   - Update `schema.sql` for fresh installations
+   - Modify database schema as needed
+   - Document changes in configuration
 
 2. **Business Logic**
    - Add service class in `src/Services/`
    - Follow existing service patterns
 
-3. **UI Components**
+3. **API Endpoints**
+   - Add methods to existing controllers in `src/Api/Controllers/`
+   - Or create new controller extending `BaseController`
+   - Update API client in `assets/js/api-client.js`
+
+4. **UI Components**
    - Create component in `src/components/`
    - Add corresponding CSS in `assets/css/components/`
 
-4. **New Pages**
+5. **New Pages**
    - Create PHP file in root directory
    - Create corresponding CSS in `assets/css/`
    - Add section components in `sections/` if needed
 
 ### Testing
 - Test all features in development environment first
-- Verify database migrations run successfully
-- Check file upload functionality
-- Test email sending capabilities
+- Verify API endpoints return correct responses
+- Test authentication and authorization
 - Validate form inputs and security measures
+- Check cross-browser compatibility
 
 ## Security Considerations
 
@@ -432,17 +397,18 @@ The application follows ISO 9241 guidelines:
 
 ## License
 
-Copyright 2025 BuzzarFeed Development Team. All rights reserved.
+Copyright 2026 BuzzarFeed Development Team. All rights reserved.
 
 ## Contact
 
 For support or inquiries, please contact the BuzzarFeed Development Team.
 
+---
 
-# BuzzarFeed API Documentation
+# API Documentation
 
-## Overview
-The BuzzarFeed system now uses a RESTful API architecture with centralized endpoints. All API requests are routed through `/api/` and handled by dedicated controllers.
+## API Overview
+BuzzarFeed features a RESTful API architecture with centralized endpoints. All API requests are routed through `/api/` and handled by dedicated controllers.
 
 ## Architecture
 
@@ -822,14 +788,8 @@ All controllers provide RESTful endpoints for their respective resources:
 ### 3. JavaScript API Client
 - **[assets/js/api-client.js](assets/js/api-client.js)** - Complete client library for making API calls from JavaScript
 
-### 4. Documentation & Examples
-- **[API_DOCUMENTATION.md](API_DOCUMENTATION.md)** - Comprehensive API documentation
-- **[examples/stalls-api-example.php](examples/stalls-api-example.php)** - Browse stalls using API
-- **[examples/login-api-example.php](examples/login-api-example.php)** - Login page using API
-- **[examples/my-reviews-api-example.php](examples/my-reviews-api-example.php)** - Review management using API
-
-### 5. Updated Configuration
-- **[.htaccess](.htaccess)** - Added routing rules for /api/* endpoints
+### 4. Updated Configuration
+- **[.htaccess](.htaccess)** - Routing rules for /api/* endpoints
 
 ## API Endpoints Summary
 
@@ -896,27 +856,24 @@ $stalls = $stallService->getAllActiveStalls();
 5. **Error Handling** - Standardized error responses with HTTP codes
 6. **Flexibility** - Can build SPAs, mobile apps, or keep traditional architecture
 
-## Migration Path
+## Usage Patterns
 
-You have two options:
+The application supports both server-side and client-side data loading:
 
-### Option 1: Gradual Migration (Recommended)
-Keep existing PHP pages and gradually refactor them to use API calls from JavaScript. The service classes continue to work, so no breaking changes.
+### Server-Side Rendering (Traditional)
+PHP pages can use service classes directly for server-side rendering:
+```php
+use BuzzarFeed\Services\StallService;
+$stallService = new StallService();
+$stalls = $stallService->getAllActiveStalls();
+```
 
-### Option 2: Full API Architecture
-Convert all pages to use the API client for data loading. Examples are provided in the `examples/` folder showing how to:
-- Load and display stalls dynamically
-- Handle authentication
-- Manage user reviews
-- Implement pagination
-
-## Next Steps
-
-1. **Test the API endpoints** using tools like Postman or curl
-2. **Choose pages to migrate** - Start with less critical pages
-3. **Use the examples** as templates for refactoring
-4. **Update JavaScript** to use the api-client.js
-5. **Maintain backward compatibility** by keeping service classes
+### Client-Side API Calls (Modern)
+JavaScript can fetch data via the API for dynamic loading:
+```javascript
+const response = await api.getStalls({ category: 'Fast Food' });
+console.log(response.data);
+```
 
 ## Testing API
 
@@ -935,13 +892,11 @@ curl http://localhost/api/admin/dashboard
 
 ## Important Notes
 
-- All existing code continues to work
-- Services are reused by API controllers
-- Session-based authentication is maintained
-- CORS headers are included for flexibility
-- .htaccess routes /api/* to the API router
-- Examples show best practices for frontend integration
+- Services are reused by API controllers for consistency
+- Session-based authentication is maintained across both traditional and API endpoints
+- .htaccess routes all /api/* requests to the API router
+- API responses follow a standardized JSON format
 
 ---
 
-**Note:** This is a prototype/educational project designed for the BGC Night Market Bazaar food stall discovery platform.
+**Note:** This is an educational project designed for the BGC Night Market Bazaar food stall discovery platform.
